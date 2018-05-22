@@ -1,5 +1,7 @@
 <template>
-  <div :id='_uid' class='flowyChart'></div>
+  <div 
+    :id="_uid" 
+    class="flowyChart"/>
 </template>
 
 <script>
@@ -20,7 +22,6 @@ export default {
   },
   watch: {
     'chart.elements': function(newVal, oldVal) {
-      console.log('rendering chart')
       this.chart.render(this.chartElement)
     }
   },
@@ -49,4 +50,3 @@ export default {
   }
 }
 </style>
-

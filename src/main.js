@@ -9,4 +9,4 @@ const plugin = {
 
 VueFlowy.install = plugin.install
 
-export default {VueFlowy, FlowChart}
+export default { VueFlowy, FlowChart }

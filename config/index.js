@@ -19,7 +19,7 @@ module.exports = {
     showEslintErrorsInOverlay: true,
     devtool: '#source-map',
     cacheBusting: true,
-    cssSourceMap: false,
+    cssSourceMap: false
   },
 
   bundle: {
