@@ -422,6 +422,7 @@ class Shape_Shape {
   constructor(shapeType, bbox, options) {
     /** @type {GraphSvg} */
     this.shape = this[shapeType](bbox, options)
+    console.log('inside bbox', this.shape.node.getBBox())
   }
   /**
    * 
@@ -429,6 +430,7 @@ class Shape_Shape {
    * @param {Object} options 
    */
   rect(bbox, options) {
+    console.log('bbox', bbox)
     return new GraphSvg('rect')
       .attr('rx', options.rx)
       .attr('ry', options.ry)
@@ -461,49 +463,58 @@ class Label_GraphLabel {
 
 
 class Renderer_Renderer {
-
   constructor(graph) {
     this.graph = graph
   }
 
   render(svg) {
-    
     // TODO: remove all children of svg
 
     const edgePathsGroup = this.createOrSelectGroup(svg, 'edgePaths')
-    const edgeLabels = this.createEdgeLabels(this.createOrSelectGroup(svg, 'edgeLabels'), this.graph)
-    const nodes = this.createNodes(this.createOrSelectGroup(svg, 'nodes'), this.graph)
+    const edgeLabels = this.createEdgeLabels(
+      this.createOrSelectGroup(svg, 'edgeLabels'),
+      this.graph
+    )
+    const nodes = this.createNodes(
+      this.createOrSelectGroup(svg, 'nodes'),
+      this.graph
+    )
 
     // graph.layout()
   }
 
   /**
-   * 
-   * @param {HTMLElement} selection 
+   *
+   * @param {HTMLElement} selection
    * @param {Graph} graph
    */
   createNodes(selection, graph) {
     console.log('createNodes selection is', selection, 'graph is', graph)
-    const simpleNodes = graph.nodeIds.filter((id) => {
+    const simpleNodes = graph.nodeIds.filter(id => {
       return !graph.isSubgraph(id)
     })
 
     // we have to append all simpleNodes to the graph now
-    graph.nodes.forEach((graphNode) => {
-      console.log('adding node', graphNode)
-      const labelGroup = new GraphSvg('g').addClass('label')
-      const label = labelGroup.append(new Label_GraphLabel({label: graphNode.label}).group)
-      const labelBBox = label.node.getBBox()
-      
+    graph.nodes.forEach(graphNode => {
       const nodeGroup = selection.append('g').addClass('node')
+
+      console.log('adding node', graphNode)
+      const labelGroup = nodeGroup.append('g').addClass('label')
+      const label = labelGroup.append(
+        new Label_GraphLabel({ label: graphNode.label }).group
+      )
+      const labelBBox = label.node.getBBox()
+      console.log('label', label, 'labelGroup', labelGroup)
+      
       // nodeGroup.node.style.opacity = 0
 
-      const shape = nodeGroup.append(new Shape_Shape(graphNode.shape, labelBBox, graphNode).shape)
-      nodeGroup.append(labelGroup)      
+      const shape = nodeGroup.append(
+        new Shape_Shape(graphNode.shape, labelBBox, graphNode).shape
+      )
+      nodeGroup.append(labelGroup)
     })
     // let svgNodes = selection.querySelectorAll('g.node')
     // svgNodes.forEach((svgNode) => {
-      
 
     //   svgNode.classList.add('update')
     // })
@@ -513,19 +524,17 @@ class Renderer_Renderer {
     // }
   }
 
-  createLabel(selection) {
-    
-  }
+  createLabel(selection) {}
 
   /**
-   * 
-   * @param {GraphSvg} selection 
-   * @param {Graph} g 
+   *
+   * @param {GraphSvg} selection
+   * @param {Graph} g
    */
   createEdgeLabels(selection, g) {
     let svgEdgeLabels = selection.selectAll('g.edgeLabel')
     console.log(svgEdgeLabels)
-    svgEdgeLabels.forEach((n) => {
+    svgEdgeLabels.forEach(n => {
       const groupElement = SvgGenerator.create('g')
       groupElement.classList.add('edgeLabel')
       // groupElement.style.opacity = 0
@@ -535,14 +544,15 @@ class Renderer_Renderer {
   }
 
   /**
-   * 
-   * @param {GraphSvg} root 
-   * @param {string} name 
+   *
+   * @param {GraphSvg} root
+   * @param {string} name
    */
   createOrSelectGroup(root, name) {
     return root.select('g.' + name) || root.append('g').addClass(name)
   }
 }
+
 // CONCATENATED MODULE: ./src/FlowElement.js
 class FlowElement {
   constructor(id, options) {
