@@ -4,6 +4,7 @@
 import Graph from './Graph'
 import Renderer from './Renderer'
 import FlowElement from './FlowElement'
+import GraphSvg from './graph/Svg';
 
 export default class FlowChart {
   constructor(options) {
@@ -17,45 +18,25 @@ export default class FlowChart {
   }
 
   render(element) {
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-    svg.setAttribute('id', 'f' + element.id)
-    element.appendChild(svg)
-    const group = document.createElementNS('http://www.w3.org/2000/svg', 'g')
-    svg.appendChild(group)
+    const svg = new GraphSvg('svg')
+    svg.node.id = 'f' + element.id
+    element.appendChild(svg.node)
+    const group = svg.append('g')
 
-    // d3
-    //   .select(element)
-    //   .append("svg")
-    //   .attr("id", )
-    //   .attr("xmlns", "http://www.w3.org/2000/svg")
-
-    // Create the input mermaid.graph
-    const g = new Graph({
+    // Create the input graph
+    const graph = new Graph({
       multiGraph: true,
       compound: true
-    })
-
-    g.setGraph({
-      rankdir: 'LR',
-      marginx: 20,
-      marginy: 20
     })
 
     // first create all nodes
     for (const i in this.elements) {
       const el = this.elements[i]
-      const elData = {}
-
-      elData.label = el.id
-
-      if (el.options && el.options.label) {
-        elData.label = el.options.label
-      }
-      g.setNode(el.id, elData)
+      graph.setNode(el.id, el.options)
     }
 
     // now apply some styles to all nodes
-    for (const node of g.nodes) {
+    for (const node of graph.nodes) {
       node.rx = node.ry = 5
     }
 
@@ -64,23 +45,18 @@ export default class FlowChart {
       const el = this.elements[i]
       for (const k in el.edges) {
         const edge = el.edges[k]
-        const edgeData = {}
 
-        if (edge.options && edge.options.label) {
-          edgeData.label = edge.options.label
-        }
-
-        g.setEdge(el.id, edge.otherId, edgeData)
+        graph.setEdge(el.id, edge.otherId, edge.options)
       }
     }
 
-    const renderer = new Renderer() // eslint-disable-line new-cap
+    const renderer = new Renderer(graph)
 
-    const e = svg.querySelector('g')
-    renderer.render(e, g)
-    const svgElement = document.getElementById('f' + element.id)
-    const groupElement = svgElement.querySelector('g')
-    svgElement.style.width = groupElement.getBoundingClientRect().width + 40
-    svgElement.style.height = groupElement.getBoundingClientRect().height + 40
+    renderer.render(group)
+
+    // const svgElement = document.getElementById('f' + element.id)
+    // const groupElement = svgElement.querySelector('g')
+    // svgElement.style.width = groupElement.getBoundingClientRect().width + 40
+    // svgElement.style.height = groupElement.getBoundingClientRect().height + 40
   }
 }

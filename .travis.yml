@@ -9,3 +9,6 @@ script:
   - yarn run lint
   - yarn run test
   - yarn run report-coverage
+
+ notifications:
+  slack: team-averi:qJ3y39qa3Ibga9yaySZc5aha

@@ -88,28 +88,147 @@ var staticRenderFns = []
 
 // CONCATENATED MODULE: ./src/VueFlowy.vue?vue&type=template&id=6244c0f8
 
-// CONCATENATED MODULE: ./src/Graph.js
-const GRAPH_NODE = '\x00'
+// CONCATENATED MODULE: ./src/graph/Node.js
+class GraphNode {
+  constructor(id, options) {
+    this.defaults = {
+      paddingLeft: 10,
+      paddingRight: 10,
+      paddingTop: 10,
+      paddingBottom: 10,
+      rx: 0,
+      ry: 0,
+      shape: 'rect'
+    }
+
+    this.id = id
+    this.setOptions(options)
+  }
+
+  setOptions(options = {}) {
+    if (!options.label) {
+      options.label = this.id
+    }
+
+    Object.assign(this, this.defaults, options)
+  }
+
+  setDefaults() {
+
+  }
+}
+
+// CONCATENATED MODULE: ./src/graph/Layout.js
+
+
+class Layout {
+  /**
+   * 
+   * @param {Graph} graph 
+   */
+  constructor(graph) {
+    /** @type {Graph} */
+    this.graph = graph
+    this.runLayout()
+    console.log('new layout for graph', graph)
+  }
+
+  runLayout() {
+    // this.makeSpaceForEdgeLabels()
+    this.position()
+  }
+
+  makeSpaceForEdgeLabels() {
+    this.graph.rankSep /= 2
+    this.graph.edges.forEach((edge) => {
+      edge.minLen *= 2
+
+      if (edge.labelPos.toLowerCase() === 'c') {
+        return
+      }
+
+      if (this.graph.rankDir === 'TB' || this.graph.rankDir === 'BT') {
+        edge.width += edge.labelOffset
+      } else {
+        edge.height += edge.labelOffset
+      }
+    })
+  }
+
+  position() {
+    this.positionY()
+  }
+
+  positionY() {
+    const layering = this.buildLayerMatrix()
+  }
+
+  buildLayerMatrix() {
+    const max = Math.max(...this.graph.nodes.map((node) => {
+      const rank = node.rank
+      if (rank) {
+        return rank
+      }
+    }))
+    console.log('max', max)
+    // const layering = 
+  }
+}
+// CONCATENATED MODULE: ./src/graph/Edge.js
 const DEFAULT_EDGE_NAME = '\x00'
 const EDGE_KEY_DELIM = '\x01'
 
-function edgeArgsToId(directed, v, w, name) {
-  if (!directed && v > w) {
-    const tmp = v
-    v = w
-    w = tmp
+const defaults = {}
+
+class Edge {
+  constructor(id, from, to, options) {
+    this.id = id
+    this.from = from
+    this.to = to
+    this.setOptions(options)
   }
-  return v + EDGE_KEY_DELIM + w + EDGE_KEY_DELIM + (name || DEFAULT_EDGE_NAME)
+
+  static generateId(from, to, directed = false) {
+    if (!directed && from > to) {
+      const tmp = from
+      from = to
+      to = tmp
+    }
+    return from + EDGE_KEY_DELIM + to + EDGE_KEY_DELIM + DEFAULT_EDGE_NAME
+  }
+
+  setOptions(options) {
+    Object.assign(this, defaults, options)
+  }
 }
+// CONCATENATED MODULE: ./src/Graph.js
 
-class Graph {
-  constructor(options) {
-    this.directed = options.directed || true
-    this.multiGraph = options.multiGraph || false
-    this.compound = options.compound || false
 
-    // v -> label
+
+
+const GRAPH_NODE = '\x00'
+
+class Graph_Graph {
+  constructor({
+      directed: directed = true,
+      multiGraph: multiGraph = false,
+      compound: compound = false,
+      rankDir: rankdir = 'LR',
+      marginX: marginX = 20,
+      marginY: marginY = 20
+    }) {
+    this.defaultNodeData = {
+      paddingLeft: 10,
+      paddingRight: 10,
+      paddingTop: 10,
+      paddingBottom: 10,
+      rx: 0,
+      ry: 0,
+      shape: 'rect'
+    }
+
     this._nodes = {}
+    this._edges = {}
 
     if (this.compound === true) {
       this.parent = {}
@@ -131,373 +250,297 @@ class Graph {
 
     // e -> edgeObj
     this.edgeObjs = {}
-
-    // e -> label
-    this.edgeLabels = {}
   }
 
-  setGraph(label) {
-    this.label = label
-  }
-
-  setNode(v, value) {
-    if (this._nodes[v]) {
-      if (value) {
-        this._nodes[v] = value
+  setNode(id, options) {
+    console.log('setting node', id, options)
+    if (this._nodes[id]) {
+      if (options) {
+        this._nodes[id].setOptions(options)
       }
       return this
     }
 
-    this._nodes[v] = value || null
+    this._nodes[id] = new GraphNode(id, options)
 
     if (this.compound === true) {
-      this.parent[v] = GRAPH_NODE
-      this.children[v] = {}
-      this.children[GRAPH_NODE][v] = true
+      this.parent[id] = GRAPH_NODE
+      this.children[id] = {}
+      this.children[GRAPH_NODE][id] = true
     }
-    this.in[v] = {}
-    this.preds[v] = {}
-    this.out[v] = {}
-    this.sucs[v] = {}
-    this.nodeCount++
+
+    this.in[id] = {}
+    this.preds[id] = {}
+    this.out[id] = {}
+    this.sucs[id] = {}
     return this
   }
 
   setEdge(from, to, options) {
-    this.setNode(from)
-    this.setNode(to)
+    console.log('setting edge', from, to, options)
 
-    const e = edgeArgsToId(this.directed, from, to, name)
+    const edgeId = Edge.generateId(from, to, this.directed)
 
-    if (this.edgeLabels[e]) {
+    if (this._edges[edgeId]) {
       if (options) {
-        this.edgeLabels[e] = options
+        this._edges[edgeId].setOptions(options)
       }
       return this
     }
 
-    this.out[from]
-    this.in[to]
-    this.edgeCount++
+    // first ensure the nodes exist
+    this.setNode(from)
+    this.setNode(to)
+
+    const edge = new Edge(edgeId, from, to, options)
+
+    this._edges[edgeId] = edge
+
+    this.out[from][edgeId] = edge
+    this.in[to][edgeId] = edge
+    return this
   }
 
   getNode(id) {
     return this._nodes[id]
   }
 
+  getChildren(id) {
+    if (!id) {
+      id = GRAPH_NODE
+    }
+
+    if (this.compound) {
+      const childArray = this.children[id]
+      if (childArray) {
+        return Object.keys(childArray)
+      }
+    } else if (id === GRAPH_NODE) {
+      return this.nodes
+    } else {
+      return []
+    }
+  }
+
+  isSubgraph(id) {
+    return this.getChildren(id).length !== 0
+  }
+
+  layout() {
+    console.log('layouting graph')
+    const layoutGraph = new Layout(this)
+  }
+
+  /**
+   * @returns {Array<{label: string}>} all nodes of the graph
+   */
   get nodes() {
     return Object.values(this._nodes)
   }
+
+  /**
+   * @returns {Array<string>} array of all node IDs
+   */
+  get nodeIds() {
+    return Object.keys(this._nodes)
+  }
 }
 
-// CONCATENATED MODULE: ./node_modules/dagre-d3-renderer/lib/intersect/intersect-rect.js
-function intersectRect (node, point) {
-  const x = node.x
-  const y = node.y
+// CONCATENATED MODULE: ./src/graph/Svg.js
+class GraphSvg {
 
-  // Rectangle intersection algorithm from:
-  // http://math.stackexchange.com/questions/108113/find-edge-between-two-boxes
-  const dx = point.x - x
-  const dy = point.y - y
-  let w = node.width / 2
-  let h = node.height / 2
+  constructor(tag) {
+    /**
+     * @type {HTMLElement}
+     */
+    this.node = document.createElementNS('http://www.w3.org/2000/svg', tag)
+  }
 
-  let sx, sy
-  if (Math.abs(dy) * w > Math.abs(dx) * h) {
-    // Intersection is top or bottom of rect.
-    if (dy < 0) {
-      h = -h
+  /**
+   * 
+   * @param {string|GraphSvg} tag 
+   * @returns {GraphSvg}
+   */
+  append(el) {
+    if (!(el instanceof GraphSvg)) {
+      console.log('creating element out of', el)
+      el = new GraphSvg(el)
     }
-    sx = dy === 0 ? 0 : h * dx / dy
-    sy = h
-  } else {
-    // Intersection is left or right of rect.
-    if (dx < 0) {
-      w = -w
+    this.node.appendChild(el.node)
+    return el
+  }
+
+  attr(attribute, value) {
+    this.node.setAttribute(attribute, value)
+    return this
+  }
+
+  select(selector) {
+    const res = this.node.querySelector(selector)
+    if (res) {
+      return new GraphSvg(res)
     }
-    sx = w
-    sy = dx === 0 ? 0 : w * dy / dx
+
+    return null
   }
 
-  return {x: x + sx, y: y + sy}
-}
-
-/* harmony default export */ var intersect_rect = (intersectRect);
-
-// CONCATENATED MODULE: ./node_modules/dagre-d3-renderer/lib/intersect/intersect-ellipse.js
-function intersectEllipse (node, rx, ry, point) {
-  // Formulae from: http://mathworld.wolfram.com/Ellipse-LineIntersection.html
-
-  const cx = node.x
-  const cy = node.y
-
-  const px = cx - point.x
-  const py = cy - point.y
-
-  const det = Math.sqrt(rx * rx * py * py + ry * ry * px * px)
-
-  let dx = Math.abs(rx * ry * px / det)
-  if (point.x < cx) {
-    dx = -dx
-  }
-  let dy = Math.abs(rx * ry * py / det)
-  if (point.y < cy) {
-    dy = -dy
-  }
-
-  return {x: cx + dx, y: cy + dy}
-}
-
-/* harmony default export */ var intersect_ellipse = (intersectEllipse);
-
-// CONCATENATED MODULE: ./node_modules/dagre-d3-renderer/lib/intersect/intersect-circle.js
-
-
-function intersectCircle (node, rx, point) {
-  return intersect_ellipse(node, rx, rx, point)
-}
-
-/* harmony default export */ var intersect_circle = (intersectCircle);
-
-// CONCATENATED MODULE: ./node_modules/dagre-d3-renderer/lib/intersect/intersect-line.js
-/*
- * Returns the point at which two lines, p and q, intersect or returns
- * undefined if they do not intersect.
- */
-function intersectLine (p1, p2, q1, q2) {
-  // Algorithm from J. Avro, (ed.) Graphics Gems, No 2, Morgan Kaufmann, 1994,
-  // p7 and p473.
-
-  // Compute a1, b1, c1, where line joining points 1 and 2 is F(x,y) = a1 x +
-  // b1 y + c1 = 0.
-  const a1 = p2.y - p1.y
-  const b1 = p1.x - p2.x
-  const c1 = (p2.x * p1.y) - (p1.x * p2.y)
-
-  // Compute r3 and r4.
-  const r3 = ((a1 * q1.x) + (b1 * q1.y) + c1)
-  const r4 = ((a1 * q2.x) + (b1 * q2.y) + c1)
-
-  // Check signs of r3 and r4. If both point 3 and point 4 lie on
-  // same side of line 1, the line segments do not intersect.
-  if ((r3 !== 0) && (r4 !== 0) && sameSign(r3, r4)) {
-    return /* DONT_INTERSECT */
-  }
-
-  // Compute a2, b2, c2 where line joining points 3 and 4 is G(x,y) = a2 x + b2 y + c2 = 0
-  const a2 = q2.y - q1.y
-  const b2 = q1.x - q2.x
-  const c2 = (q2.x * q1.y) - (q1.x * q2.y)
-
-  // Compute r1 and r2
-  const r1 = (a2 * p1.x) + (b2 * p1.y) + c2
-  const r2 = (a2 * p2.x) + (b2 * p2.y) + c2
-
-  // Check signs of r1 and r2. If both point 1 and point 2 lie
-  // on same side of second line segment, the line segments do
-  // not intersect.
-  if ((r1 !== 0) && (r2 !== 0) && (sameSign(r1, r2))) {
-    return /* DONT_INTERSECT */
-  }
-
-  // Line segments intersect: compute intersection point.
-  const denom = (a1 * b2) - (a2 * b1)
-  if (denom === 0) {
-    return /* COLLINEAR */
-  }
-
-  const offset = Math.abs(denom / 2)
-
-  // The denom/2 is to get rounding instead of truncating. It
-  // is added or subtracted to the numerator, depending upon the
-  // sign of the numerator.
-  let num = (b1 * c2) - (b2 * c1)
-  const x = (num < 0) ? ((num - offset) / denom) : ((num + offset) / denom)
-
-  num = (a2 * c1) - (a1 * c2)
-  const y = (num < 0) ? ((num - offset) / denom) : ((num + offset) / denom)
-
-  return { x, y }
-}
-
-function sameSign (r1, r2) {
-  return r1 * r2 > 0
-}
-
-/* harmony default export */ var intersect_line = (intersectLine);
-
-// CONCATENATED MODULE: ./node_modules/dagre-d3-renderer/lib/intersect/intersect-polygon.js
-
-
-/*
- * Returns the point ({x, y}) at which the point argument intersects with the
- * node argument assuming that it has the shape specified by polygon.
- */
-function intersectPolygon (node, polyPoints, point) {
-  const x1 = node.x
-  const y1 = node.y
-
-  const intersections = []
-
-  let minX = Number.POSITIVE_INFINITY
-  let minY = Number.POSITIVE_INFINITY
-  polyPoints.forEach(function (entry) {
-    minX = Math.min(minX, entry.x)
-    minY = Math.min(minY, entry.y)
-  })
-
-  const left = x1 - node.width / 2 - minX
-  const top = y1 - node.height / 2 - minY
-
-  for (let i = 0; i < polyPoints.length; i += 1) {
-    const p1 = polyPoints[i]
-    const p2 = polyPoints[i < polyPoints.length - 1 ? i + 1 : 0]
-    const intersect = intersect_line(node, point,
-      {x: left + p1.x, y: top + p1.y}, {x: left + p2.x, y: top + p2.y})
-    if (intersect) {
-      intersections.push(intersect)
+  selectAll(selector) {
+    const res = this.node.querySelectorAll(selector)
+    if (res) {
+      return Array.from(res).map((node) => new GraphSvg(node))
     }
+
+    return null
   }
 
-  if (!intersections.length) {
-    console.log('NO INTERSECTION FOUND, RETURN NODE CENTER', node)
-    return node
+  text(s) {
+    const el = document.createTextNode(s)
+    this.node.appendChild(el)
+    return this
   }
 
-  if (intersections.length > 1) {
-    // More intersections, find the one nearest to edge end point
-    intersections.sort(function (p, q) {
-      const pdx = p.x - point.x
-      const pdy = p.y - point.y
-      const distp = Math.sqrt(pdx * pdx + pdy * pdy)
-
-      const qdx = q.x - point.x
-      const qdy = q.y - point.y
-      const distq = Math.sqrt(qdx * qdx + qdy * qdy)
-
-      return (distp < distq) ? -1 : (distp === distq ? 0 : 1)
-    })
+  /**
+   * 
+   * @param {string} c 
+   */
+  addClass(c) {
+    this.node.classList.add(c)
+    return this
   }
-  return intersections[0]
 }
-
-/* harmony default export */ var intersect_polygon = (intersectPolygon);
-
-// CONCATENATED MODULE: ./node_modules/dagre-d3-renderer/lib/shapes.js
+// CONCATENATED MODULE: ./src/graph/Shape.js
 
 
+class Shape_Shape {
+
+  /**
+   * 
+   * @param {string} shapeType 
+   * @param {Object} bbox 
+   * @param {Object} options 
+   */
+  constructor(shapeType, bbox, options) {
+    /** @type {GraphSvg} */
+    this.shape = this[shapeType](bbox, options)
+  }
+  /**
+   * 
+   * @param {Object} bbox 
+   * @param {Object} options 
+   */
+  rect(bbox, options) {
+    return new GraphSvg('rect')
+      .attr('rx', options.rx)
+      .attr('ry', options.ry)
+      .attr('x', -bbox.width / 2)
+      .attr('y', -bbox.height / 2)
+      .attr('width', bbox.width)
+      .attr('height', bbox.height)
+      .attr('rx', options.rx)
+  }
+}
+// CONCATENATED MODULE: ./src/graph/Label.js
 
 
+class Label_GraphLabel {
+  constructor(labelData) {
+    this.group = new GraphSvg('g')
+    this.labelData = labelData
 
-function rect (parent, bbox, node) {
-  const shapeSvg = parent.insert('rect', ':first-child')
-    .attr('rx', node.rx)
-    .attr('ry', node.ry)
-    .attr('x', -bbox.width / 2)
-    .attr('y', -bbox.height / 2)
-    .attr('width', bbox.width)
-    .attr('height', bbox.height)
-
-  node.intersect = function (point) {
-    return intersect_rect(node, point)
+    this.textLabel()
   }
 
-  return shapeSvg
-}
-
-function ellipse (parent, bbox, node) {
-  const rx = bbox.width / 2
-  const ry = bbox.height / 2
-  const shapeSvg = parent.insert('ellipse', ':first-child')
-    .attr('x', -bbox.width / 2)
-    .attr('y', -bbox.height / 2)
-    .attr('rx', rx)
-    .attr('ry', ry)
-
-  node.intersect = function (point) {
-    return intersect_ellipse(node, rx, ry, point)
+  textLabel() {
+    const text = this.group.append('text').text(this.labelData.label)
   }
-
-  return shapeSvg
 }
-
-function circle (parent, bbox, node) {
-  const r = Math.max(bbox.width, bbox.height) / 2
-  const shapeSvg = parent.insert('circle', ':first-child')
-    .attr('x', -bbox.width / 2)
-    .attr('y', -bbox.height / 2)
-    .attr('r', r)
-
-  node.intersect = function (point) {
-    return intersect_circle(node, r, point)
-  }
-
-  return shapeSvg
-}
-
-// Circumscribe an ellipse for the bounding box with a diamond shape. I derived
-// the function to calculate the diamond shape from:
-// http://mathforum.org/kb/message.jspa?messageID=3750236
-function diamond (parent, bbox, node) {
-  const w = (bbox.width * Math.SQRT2) / 2
-  const h = (bbox.height * Math.SQRT2) / 2
-  const points = [
-    { x: 0, y: -h },
-    { x: -w, y: 0 },
-    { x: 0, y: h },
-    { x: w, y: 0 }
-  ]
-  const shapeSvg = parent.insert('polygon', ':first-child')
-    .attr('points', points.map(function (p) { return p.x + ',' + p.y }).join(' '))
-
-  node.intersect = function (p) {
-    return intersect_polygon(node, points, p)
-  }
-
-  return shapeSvg
-}
-
-/* harmony default export */ var shapes = ({
-  rect,
-  ellipse,
-  circle,
-  diamond
-});
-
 // CONCATENATED MODULE: ./src/Renderer.js
+
+
+
 
 
 class Renderer_Renderer {
 
-  constructor() {
-    // this.shapes = 
+  constructor(graph) {
+    this.graph = graph
   }
 
-  render(svg, g) {
-    console.log(svg)
-    const outputGroup = this.createOrSelectGroup(svg, 'output')
-    const edgePathsGroup = this.createOrSelectGroup(outputGroup, 'edgePaths')
-    const edgeLabels = this.createEdgeLabels(this.createOrSelectGroup(outputGroup, 'edgeLabels'), g)
-    const nodes = this.createNodes(this.createOrSelectGroup(outputGroup, 'nodes'), g)
+  render(svg) {
+    
+    // TODO: remove all children of svg
+
+    const edgePathsGroup = this.createOrSelectGroup(svg, 'edgePaths')
+    const edgeLabels = this.createEdgeLabels(this.createOrSelectGroup(svg, 'edgeLabels'), this.graph)
+    const nodes = this.createNodes(this.createOrSelectGroup(svg, 'nodes'), this.graph)
+
+    // graph.layout()
   }
 
-  createNodes(selection, g) {
-    const simpleNodes = g.nodes().filter(function(v) {return !util.isSubgraph(g, v)})
-    let svgNodes = selection.selectAll('g.node')
+  /**
+   * 
+   * @param {HTMLElement} selection 
+   * @param {Graph} graph
+   */
+  createNodes(selection, graph) {
+    console.log('createNodes selection is', selection, 'graph is', graph)
+    const simpleNodes = graph.nodeIds.filter((id) => {
+      return !graph.isSubgraph(id)
+    })
 
-    for (const node of nodes) {
-      const shape = shapes[node.shape]
-    }
+    // we have to append all simpleNodes to the graph now
+    graph.nodes.forEach((graphNode) => {
+      console.log('adding node', graphNode)
+      const labelGroup = new GraphSvg('g').addClass('label')
+      const label = labelGroup.append(new Label_GraphLabel({label: graphNode.label}).group)
+      const labelBBox = label.node.getBBox()
+      
+      const nodeGroup = selection.append('g').addClass('node')
+      // nodeGroup.node.style.opacity = 0
+
+      const shape = nodeGroup.append(new Shape_Shape(graphNode.shape, labelBBox, graphNode).shape)
+      nodeGroup.append(labelGroup)      
+    })
+    // let svgNodes = selection.querySelectorAll('g.node')
+    // svgNodes.forEach((svgNode) => {
+      
+
+    //   svgNode.classList.add('update')
+    // })
+
+    // for (const node of nodes) {
+    //   const shape = shapes[node.shape]
+    // }
   }
 
+  createLabel(selection) {
+    
+  }
+
+  /**
+   * 
+   * @param {GraphSvg} selection 
+   * @param {Graph} g 
+   */
+  createEdgeLabels(selection, g) {
+    let svgEdgeLabels = selection.selectAll('g.edgeLabel')
+    console.log(svgEdgeLabels)
+    svgEdgeLabels.forEach((n) => {
+      const groupElement = SvgGenerator.create('g')
+      groupElement.classList.add('edgeLabel')
+      // groupElement.style.opacity = 0
+      n.classList.add('update')
+      n.appendChild(groupElement)
+    })
+  }
+
+  /**
+   * 
+   * @param {GraphSvg} root 
+   * @param {string} name 
+   */
   createOrSelectGroup(root, name) {
-    let selection = root.querySelector('g.' + name)
-    if (!selection) {
-      selection = document.createElementNS('http://www.w3.org/2000/svg', 'g')
-      selection.classList.add(name)
-      root.appendChild(selection)
-    }
-    return selection
+    return root.select('g.' + name) || root.append('g').addClass(name)
   }
 }
 // CONCATENATED MODULE: ./src/FlowElement.js
@@ -522,6 +565,7 @@ class FlowElement {
 
 
 
+
 class FlowChart_FlowChart {
   constructor(options) {
     this.elements = []
@@ -534,45 +578,25 @@ class FlowChart_FlowChart {
   }
 
   render(element) {
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-    svg.setAttribute('id', 'f' + element.id)
-    element.appendChild(svg)
-    const group = document.createElementNS('http://www.w3.org/2000/svg', 'g')
-    svg.appendChild(group)
+    const svg = new GraphSvg('svg')
+    svg.node.id = 'f' + element.id
+    element.appendChild(svg.node)
+    const group = svg.append('g')
 
-    // d3
-    //   .select(element)
-    //   .append("svg")
-    //   .attr("id", )
-    //   .attr("xmlns", "http://www.w3.org/2000/svg")
-
-    // Create the input mermaid.graph
-    const g = new Graph({
+    // Create the input graph
+    const graph = new Graph_Graph({
       multiGraph: true,
       compound: true
-    })
-
-    g.setGraph({
-      rankdir: 'LR',
-      marginx: 20,
-      marginy: 20
     })
 
     // first create all nodes
     for (const i in this.elements) {
       const el = this.elements[i]
-      const elData = {}
-
-      elData.label = el.id
-
-      if (el.options && el.options.label) {
-        elData.label = el.options.label
-      }
-      g.setNode(el.id, elData)
+      graph.setNode(el.id, el.options)
     }
 
     // now apply some styles to all nodes
-    for (const node of g.nodes) {
+    for (const node of graph.nodes) {
       node.rx = node.ry = 5
     }
 
@@ -581,24 +605,19 @@ class FlowChart_FlowChart {
       const el = this.elements[i]
       for (const k in el.edges) {
         const edge = el.edges[k]
-        const edgeData = {}
 
-        if (edge.options && edge.options.label) {
-          edgeData.label = edge.options.label
-        }
-
-        g.setEdge(el.id, edge.otherId, edgeData)
+        graph.setEdge(el.id, edge.otherId, edge.options)
       }
     }
 
-    const renderer = new Renderer_Renderer() // eslint-disable-line new-cap
+    const renderer = new Renderer_Renderer(graph)
 
-    const e = svg.querySelector('g')
-    renderer.render(e, g)
-    const svgElement = document.getElementById('f' + element.id)
-    const groupElement = svgElement.querySelector('g')
-    svgElement.style.width = groupElement.getBoundingClientRect().width + 40
-    svgElement.style.height = groupElement.getBoundingClientRect().height + 40
+    renderer.render(group)
+
+    // const svgElement = document.getElementById('f' + element.id)
+    // const groupElement = svgElement.querySelector('g')
+    // svgElement.style.width = groupElement.getBoundingClientRect().width + 40
+    // svgElement.style.height = groupElement.getBoundingClientRect().height + 40
   }
 }
 

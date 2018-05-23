@@ -1,24 +1,30 @@
-const GRAPH_NODE = '\x00'
-const DEFAULT_EDGE_NAME = '\x00'
-const EDGE_KEY_DELIM = '\x01'
+import GraphNode from "./graph/Node";
+import Layout from "./graph/Layout";
+import Edge from "./graph/Edge";
 
-function edgeArgsToId(directed, v, w, name) {
-  if (!directed && v > w) {
-    const tmp = v
-    v = w
-    w = tmp
-  }
-  return v + EDGE_KEY_DELIM + w + EDGE_KEY_DELIM + (name || DEFAULT_EDGE_NAME)
-}
+const GRAPH_NODE = '\x00'
 
 export default class Graph {
-  constructor(options) {
-    this.directed = options.directed || true
-    this.multiGraph = options.multiGraph || false
-    this.compound = options.compound || false
+  constructor({
+      directed: directed = true,
+      multiGraph: multiGraph = false,
+      compound: compound = false,
+      rankDir: rankdir = 'LR',
+      marginX: marginX = 20,
+      marginY: marginY = 20
+    }) {
+    this.defaultNodeData = {
+      paddingLeft: 10,
+      paddingRight: 10,
+      paddingTop: 10,
+      paddingBottom: 10,
+      rx: 0,
+      ry: 0,
+      shape: 'rect'
+    }
 
-    // v -> label
     this._nodes = {}
+    this._edges = {}
 
     if (this.compound === true) {
       this.parent = {}
@@ -40,61 +46,98 @@ export default class Graph {
 
     // e -> edgeObj
     this.edgeObjs = {}
-
-    // e -> label
-    this.edgeLabels = {}
   }
 
-  setGraph(label) {
-    this.label = label
-  }
-
-  setNode(v, value) {
-    if (this._nodes[v]) {
-      if (value) {
-        this._nodes[v] = value
+  setNode(id, options) {
+    console.log('setting node', id, options)
+    if (this._nodes[id]) {
+      if (options) {
+        this._nodes[id].setOptions(options)
       }
       return this
     }
 
-    this._nodes[v] = value || null
+    this._nodes[id] = new GraphNode(id, options)
 
     if (this.compound === true) {
-      this.parent[v] = GRAPH_NODE
-      this.children[v] = {}
-      this.children[GRAPH_NODE][v] = true
+      this.parent[id] = GRAPH_NODE
+      this.children[id] = {}
+      this.children[GRAPH_NODE][id] = true
     }
-    this.in[v] = {}
-    this.preds[v] = {}
-    this.out[v] = {}
-    this.sucs[v] = {}
-    this.nodeCount++
+
+    this.in[id] = {}
+    this.preds[id] = {}
+    this.out[id] = {}
+    this.sucs[id] = {}
     return this
   }
 
   setEdge(from, to, options) {
-    this.setNode(from)
-    this.setNode(to)
+    console.log('setting edge', from, to, options)
 
-    const e = edgeArgsToId(this.directed, from, to, name)
+    const edgeId = Edge.generateId(from, to, this.directed)
 
-    if (this.edgeLabels[e]) {
+    if (this._edges[edgeId]) {
       if (options) {
-        this.edgeLabels[e] = options
+        this._edges[edgeId].setOptions(options)
       }
       return this
     }
 
-    this.out[from]
-    this.in[to]
-    this.edgeCount++
+    // first ensure the nodes exist
+    this.setNode(from)
+    this.setNode(to)
+
+    const edge = new Edge(edgeId, from, to, options)
+
+    this._edges[edgeId] = edge
+
+    this.out[from][edgeId] = edge
+    this.in[to][edgeId] = edge
+    return this
   }
 
   getNode(id) {
     return this._nodes[id]
   }
 
+  getChildren(id) {
+    if (!id) {
+      id = GRAPH_NODE
+    }
+
+    if (this.compound) {
+      const childArray = this.children[id]
+      if (childArray) {
+        return Object.keys(childArray)
+      }
+    } else if (id === GRAPH_NODE) {
+      return this.nodes
+    } else {
+      return []
+    }
+  }
+
+  isSubgraph(id) {
+    return this.getChildren(id).length !== 0
+  }
+
+  layout() {
+    console.log('layouting graph')
+    const layoutGraph = new Layout(this)
+  }
+
+  /**
+   * @returns {Array<{label: string}>} all nodes of the graph
+   */
   get nodes() {
     return Object.values(this._nodes)
+  }
+
+  /**
+   * @returns {Array<string>} array of all node IDs
+   */
+  get nodeIds() {
+    return Object.keys(this._nodes)
   }
 }
