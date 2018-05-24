@@ -26,7 +26,10 @@ export default class FlowChart {
     // Create the input graph
     const graph = new Graph({
       multiGraph: true,
-      compound: true
+      compound: true,
+      rankDir: 'LR',
+      marginX: 20,
+      marginY: 20
     })
 
     // first create all nodes

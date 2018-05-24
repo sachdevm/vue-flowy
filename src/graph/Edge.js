@@ -1,7 +1,14 @@
 const DEFAULT_EDGE_NAME = '\x00'
 const EDGE_KEY_DELIM = '\x01'
 
-const defaults = {}
+const defaults = {
+  minLen: 1,
+  weight: 1,
+  width: 0,
+  height: 0,
+  labelOffset: 10,
+  labelPos: 'r'
+}
 
 export default class Edge {
   constructor(id, from, to, options) {

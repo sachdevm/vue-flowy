@@ -5,11 +5,14 @@ const defaults = {
   paddingBottom: 10,
   rx: 0,
   ry: 0,
-  shape: 'rect'
+  shape: 'rect',
+  width: 0,
+  height: 0
 }
 
 export default class GraphNode {
   constructor(id, options) {
+    /** @type {string} */
     this.id = id
     this.setOptions(options)
   }

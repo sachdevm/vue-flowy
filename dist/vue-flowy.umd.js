@@ -98,18 +98,21 @@ var staticRenderFns = []
 // CONCATENATED MODULE: ./src/VueFlowy.vue?vue&type=template&id=6244c0f8
 
 // CONCATENATED MODULE: ./src/graph/Node.js
+const defaults = {
+  paddingLeft: 10,
+  paddingRight: 10,
+  paddingTop: 10,
+  paddingBottom: 10,
+  rx: 0,
+  ry: 0,
+  shape: 'rect',
+  width: 0,
+  height: 0
+}
+
 class GraphNode {
   constructor(id, options) {
-    this.defaults = {
-      paddingLeft: 10,
-      paddingRight: 10,
-      paddingTop: 10,
-      paddingBottom: 10,
-      rx: 0,
-      ry: 0,
-      shape: 'rect'
-    }
-
+    /** @type {string} */
     this.id = id
     this.setOptions(options)
   }
@@ -119,7 +122,7 @@ class GraphNode {
       options.label = this.id
     }
 
-    Object.assign(this, this.defaults, options)
+    Object.assign(this, defaults, options)
   }
 
   setDefaults() {
@@ -128,6 +131,7 @@ class GraphNode {
 }
 
 // CONCATENATED MODULE: ./src/graph/Layout.js
+
 
 
 class Layout {
@@ -143,13 +147,18 @@ class Layout {
   }
 
   runLayout() {
-    // this.makeSpaceForEdgeLabels()
+    this.makeSpaceForEdgeLabels()
+    this.createNestingGraph()
+    this.rank()
+    this.cleanupNestingGraph()
     this.position()
   }
 
   makeSpaceForEdgeLabels() {
     this.graph.rankSep /= 2
-    this.graph.edges.forEach((edge) => {
+    console.log(this.graph)
+    this.graph.edges.forEach(edge => {
+      console.log('making space for edge', edge)
       edge.minLen *= 2
 
       if (edge.labelPos.toLowerCase() === 'c') {
@@ -164,30 +173,174 @@ class Layout {
     })
   }
 
+  createNestingGraph() {
+    console.log('creating nesting graph')
+    this.graph.root = this.graph.setNode('_root', {dummy: 'root'})
+    const depths = this.treeDepths()
+    console.log('depths', depths)
+    const height = Math.max(...Object.values(depths)) - 1
+    const nodeSep = 2 * height + 1
+
+    // multiply minLen by nodeSep to align nodes on non-border ranks
+    this.graph.edges.forEach(edge => {
+      edge.minLen *= nodeSep
+    })
+
+    // calculate a weight that is sufficient to keep subgraphs vertically compact
+    const weight = this.graph.edges.reduce((prevVal, edge) => prevVal + edge.weight, 0)
+
+    // create border nodes and link them up
+    this.graph.getChildren().forEach(child => {
+      this.dfs(this.graph.root, nodeSep, weight, height, depths, child)
+    })
+
+    this.graph.nodeRankFactor = nodeSep
+  }
+
+  cleanupNestingGraph() {
+    this.graph.removeNode(this.graph.root.id)
+    this.graph.root = null
+    this.graph.edges.forEach(edge => {
+      if (edge.nestingEdge) {
+        this.graph.removeEdge(edge.id)
+      }
+    })
+  }
+
+  treeDepths() {
+    const depths = {}
+    const layout = this
+
+    function dfs(node, depth = 1) {
+      const children = layout.graph.getChildren(node.id)
+      if (children && children.length) {
+        children.forEach(child => {
+          dfs(child, depth + 1)
+        })
+      }
+      depths[node.id] = depth
+    }
+    this.graph.getChildren().forEach(dfs)
+    return depths
+  }
+
+  /**
+   * 
+   * @param {GraphNode} root 
+   * @param {*} nodeSep 
+   * @param {*} weight 
+   * @param {*} height 
+   * @param {*} depths 
+   * @param {GraphNode} node 
+   */
+  dfs(root, nodeSep, weight, height, depths, node) {
+    const children = this.graph.getChildren(node.id)
+    console.log('children of', node, children)
+    if (!children.length) {
+      if (node.id !== root.id) {
+        this.graph.setEdge(root.id, node.id, {weight: 0, minLen: nodeSep})
+      }
+      return
+    }
+
+    console.log('not returning, patcher: code further!')
+  }
+
+  rank() {
+    switch (this.graph.ranker) {
+      case 'network-simplex':
+        this.networkSimplexRanker()
+        break
+      case 'tight-tree':
+        this.tightTreeRanker()
+        break
+      case 'longest-path':
+        this.longestPathRanker()
+        break
+      default:
+        this.networkSimplexRanker()
+        break
+    }
+  }
+
   position() {
     this.positionY()
+
+  }
+
+  positionX() {
+    const layering = this.buildLayerMatrix()
   }
 
   positionY() {
     const layering = this.buildLayerMatrix()
+    console.log('layering', layering)
+    const rankSep = this.graph.rankSep
+    let prevY = 0
+    layering.forEach(layer => {
+      const maxHeight = Math.max(layer.map(node => {
+        return node.height
+      }))
+      console.log('maxHeight of nodes layer', maxHeight)
+      layer.forEach(node => {
+        node.y = prevY + maxHeight / 2
+      })
+      prevY += maxHeight + rankSep
+    })
   }
 
   buildLayerMatrix() {
-    const max = Math.max(...this.graph.nodes.map((node) => {
-      const rank = node.rank
-      if (rank) {
-        return rank
+    const layering = []
+    this.graph.nodes.forEach(node => {
+      if (node.rank) {
+        if (!layering[node.rank]) {
+          layering[node.rank] = []
+        }
+        layering[node.rank][node.order] = node
       }
-    }))
-    console.log('max', max)
-    // const layering = 
+    })
+
+    return layering
+  }
+
+  networkSimplexRanker() {
+    this.longestPath()
+  }
+
+  longestPath() {
+    const layout = this
+    const visited = {}
+
+    function _longestPath(node) {
+      console.log('visting node', node)
+      if (visited[node.id]) {
+        return node.rank
+      }
+      visited[node.id] = true
+  
+      const rank = Math.min(layout.graph.outEdges(node).map(outEdge => {
+        return _longestPath(outEdge.to) - outEdge.minLen
+      })) || 0
+  
+      return (node.rank = rank)
+    }
+
+    console.log('sources', this.graph.sources)
+    this.graph.sources.forEach(_longestPath)
   }
 }
 // CONCATENATED MODULE: ./src/graph/Edge.js
 const DEFAULT_EDGE_NAME = '\x00'
 const EDGE_KEY_DELIM = '\x01'
 
-const defaults = {}
+const Edge_defaults = {
+  minLen: 1,
+  weight: 1,
+  width: 0,
+  height: 0,
+  labelOffset: 10,
+  labelPos: 'r'
+}
 
 class Edge {
   constructor(id, from, to, options) {
@@ -207,7 +360,7 @@ class Edge {
   }
 
   setOptions(options) {
-    Object.assign(this, defaults, options)
+    Object.assign(this, Edge_defaults, options)
   }
 }
 // CONCATENATED MODULE: ./src/Graph.js
@@ -222,21 +375,16 @@ class Graph_Graph {
       directed: directed = true,
       multiGraph: multiGraph = false,
       compound: compound = false,
-      rankDir: rankdir = 'LR',
+      rankDir: rankDir = 'TB',
+      rankSep: rankSep = 50,
+      edgeSep: edgeSep = 20,
+      nodeSep: nodeSep = 50,
       marginX: marginX = 20,
       marginY: marginY = 20
     }) {
-    this.defaultNodeData = {
-      paddingLeft: 10,
-      paddingRight: 10,
-      paddingTop: 10,
-      paddingBottom: 10,
-      rx: 0,
-      ry: 0,
-      shape: 'rect'
-    }
-
+    /** @type {{id: GraphNode}} */
     this._nodes = {}
+    /** @type {{id: Edge}} */
     this._edges = {}
 
     if (this.compound === true) {
@@ -244,6 +392,9 @@ class Graph_Graph {
       this.children = {}
       this.children[GRAPH_NODE] = {}
     }
+
+    /** @type {GraphNode} */
+    this.root = null
 
     // v -> edgeObj
     this.in = {}
@@ -261,14 +412,21 @@ class Graph_Graph {
     this.edgeObjs = {}
   }
 
+  /**
+   * 
+   * @param {string} id 
+   * @param {{}} options 
+   * @returns {GraphNode} node
+   */
   setNode(id, options) {
-    console.log('setting node', id, options)
     if (this._nodes[id]) {
       if (options) {
         this._nodes[id].setOptions(options)
       }
-      return this
+      return this._nodes[id]
     }
+
+    console.log('creating node', id, options)
 
     this._nodes[id] = new GraphNode(id, options)
 
@@ -282,9 +440,38 @@ class Graph_Graph {
     this.preds[id] = {}
     this.out[id] = {}
     this.sucs[id] = {}
-    return this
+    return this._nodes[id]
   }
 
+  /**
+   * 
+   * @param {string} id 
+   */
+  removeNode(id) {
+    console.log('TODO: removing not finished')
+    if (!this._nodes[id]) {
+      return
+    }
+
+    delete this._nodes[id]
+
+    if (this.compound) {
+      delete this.parent[id]
+      delete this.children[id]
+    }
+
+    delete this.in[id]
+    delete this.preds[id]
+    delete this.out[id]
+    delete this.sucs[id]
+  }
+
+  /**
+   * 
+   * @param {string} from 
+   * @param {string} to 
+   * @param {{}} options 
+   */
   setEdge(from, to, options) {
     console.log('setting edge', from, to, options)
 
@@ -298,16 +485,32 @@ class Graph_Graph {
     }
 
     // first ensure the nodes exist
-    this.setNode(from)
-    this.setNode(to)
+    const fromNode = this.setNode(from)
+    const toNode = this.setNode(to)
 
-    const edge = new Edge(edgeId, from, to, options)
+    const edge = new Edge(edgeId, fromNode, toNode, options)
 
     this._edges[edgeId] = edge
 
     this.out[from][edgeId] = edge
     this.in[to][edgeId] = edge
     return this
+  }
+
+  /**
+   * 
+   * @param {string} id 
+   */
+  removeEdge(id) {
+    console.log('TODO: removing not finished')
+    if (!this.edges[id]) {
+      return
+    }
+    /** @type {Edge} */
+    const edge = this._edges[id]
+    delete this.in[edge.from]
+    delete this.out[edge.to]
+    delete this._edges[id]
   }
 
   getNode(id) {
@@ -348,6 +551,39 @@ class Graph_Graph {
   }
 
   /**
+   * @returns {Array<{label: string}>} all edges of the graph
+   */
+  get edges() {
+    return Object.values(this._edges)
+  }
+
+  get sources() {
+    return this.nodes.filter(node => {
+      return Object.keys(this.in[node.id]).length === 0
+    })
+  }
+  
+  /**
+   * 
+   * @param {GraphNode} from 
+   * @param {GraphNode} to 
+   */
+  outEdges(from, to) {
+    console.log('outs', this.out)
+    let outTo = this.out[from.id]
+    console.log('out from', from, 'to', to, outTo)
+    if (!outTo) {
+      return
+    }
+
+    const edges = Object.values(outTo)
+    if (!to) {
+      return edges
+    }
+    return edges.filter(edge => edge.to.id === to.id)
+  }
+
+  /**
    * @returns {Array<string>} array of all node IDs
    */
   get nodeIds() {
@@ -372,7 +608,6 @@ class GraphSvg {
    */
   append(el) {
     if (!(el instanceof GraphSvg)) {
-      console.log('creating element out of', el)
       el = new GraphSvg(el)
     }
     this.node.appendChild(el.node)
@@ -472,6 +707,10 @@ class Label_GraphLabel {
 
 
 class Renderer_Renderer {
+  /**
+   * 
+   * @param {Graph} graph 
+   */
   constructor(graph) {
     this.graph = graph
   }
@@ -484,27 +723,28 @@ class Renderer_Renderer {
       this.createOrSelectGroup(svg, 'edgeLabels'),
       this.graph
     )
-    const nodes = this.createNodes(
-      this.createOrSelectGroup(svg, 'nodes'),
-      this.graph
+    this.createNodes(
+      this.createOrSelectGroup(svg, 'nodes')
     )
 
-    // graph.layout()
+    this.graph.layout()
+
+    this.positionNodes()
   }
 
   /**
    *
-   * @param {HTMLElement} selection
+   * @param {GraphSvg} selection
    * @param {Graph} graph
    */
-  createNodes(selection, graph) {
-    console.log('createNodes selection is', selection, 'graph is', graph)
-    const simpleNodes = graph.nodeIds.filter(id => {
-      return !graph.isSubgraph(id)
+  createNodes(selection) {
+    console.log('createNodes selection is', selection, 'graph is', this.graph)
+    const simpleNodes = this.graph.nodeIds.filter(id => {
+      return !this.graph.isSubgraph(id)
     })
 
     // we have to append all simpleNodes to the graph now
-    graph.nodes.forEach(graphNode => {
+    this.graph.nodes.forEach(graphNode => {
       const nodeGroup = selection.append('g').addClass('node')
 
       console.log('adding node', graphNode)
@@ -514,13 +754,25 @@ class Renderer_Renderer {
       )
       const labelBBox = label.node.getBBox()
       console.log('label', label, 'labelGroup', labelGroup)
+
+      labelBBox.width += graphNode.paddingLeft + graphNode.paddingRight
+      labelBBox.height += graphNode.paddingTop + graphNode.paddingBottom
+
+      labelGroup.attr('transform', 'translate(' +
+        ((graphNode.paddingLeft - graphNode.paddingRight) / 2) + ',' +
+        ((graphNode.paddingTop - graphNode.paddingBottom) / 2) + ')'
+      )
       
       // nodeGroup.node.style.opacity = 0
 
       const shape = nodeGroup.append(
         new Shape_Shape(graphNode.shape, labelBBox, graphNode).shape
       )
+      const shapeBBox = shape.node.getBBox()
+      graphNode.width = shapeBBox.width
+      graphNode.height = shapeBBox.height
       nodeGroup.append(labelGroup)
+      graphNode.svgGroup = nodeGroup
     })
     // let svgNodes = selection.querySelectorAll('g.node')
     // svgNodes.forEach((svgNode) => {
@@ -549,6 +801,13 @@ class Renderer_Renderer {
       // groupElement.style.opacity = 0
       n.classList.add('update')
       n.appendChild(groupElement)
+    })
+  }
+
+  positionNodes() {
+    console.log('position nodes', this.graph.nodes, 'with edges', this.graph.edges)
+    this.graph.nodes.forEach(graphNode => {
+      graphNode.svgGroup.attr('transform', 'translate(' + graphNode.x + ',' + graphNode.y + ')')
     })
   }
 
@@ -605,7 +864,10 @@ class FlowChart_FlowChart {
     // Create the input graph
     const graph = new Graph_Graph({
       multiGraph: true,
-      compound: true
+      compound: true,
+      rankDir: 'LR',
+      marginX: 20,
+      marginY: 20
     })
 
     // first create all nodes

@@ -14,7 +14,6 @@ export default class GraphSvg {
    */
   append(el) {
     if (!(el instanceof GraphSvg)) {
-      console.log('creating element out of', el)
       el = new GraphSvg(el)
     }
     this.node.appendChild(el.node)

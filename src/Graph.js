@@ -9,11 +9,16 @@ export default class Graph {
       directed: directed = true,
       multiGraph: multiGraph = false,
       compound: compound = false,
-      rankDir: rankdir = 'LR',
+      rankDir: rankDir = 'TB',
+      rankSep: rankSep = 50,
+      edgeSep: edgeSep = 20,
+      nodeSep: nodeSep = 50,
       marginX: marginX = 20,
       marginY: marginY = 20
     }) {
+    /** @type {{id: GraphNode}} */
     this._nodes = {}
+    /** @type {{id: Edge}} */
     this._edges = {}
 
     if (this.compound === true) {
@@ -21,6 +26,9 @@ export default class Graph {
       this.children = {}
       this.children[GRAPH_NODE] = {}
     }
+
+    /** @type {GraphNode} */
+    this.root = null
 
     // v -> edgeObj
     this.in = {}
@@ -38,14 +46,21 @@ export default class Graph {
     this.edgeObjs = {}
   }
 
+  /**
+   * 
+   * @param {string} id 
+   * @param {{}} options 
+   * @returns {GraphNode} node
+   */
   setNode(id, options) {
-    console.log('setting node', id, options)
     if (this._nodes[id]) {
       if (options) {
         this._nodes[id].setOptions(options)
       }
-      return this
+      return this._nodes[id]
     }
+
+    console.log('creating node', id, options)
 
     this._nodes[id] = new GraphNode(id, options)
 
@@ -59,9 +74,38 @@ export default class Graph {
     this.preds[id] = {}
     this.out[id] = {}
     this.sucs[id] = {}
-    return this
+    return this._nodes[id]
   }
 
+  /**
+   * 
+   * @param {string} id 
+   */
+  removeNode(id) {
+    console.log('TODO: removing not finished')
+    if (!this._nodes[id]) {
+      return
+    }
+
+    delete this._nodes[id]
+
+    if (this.compound) {
+      delete this.parent[id]
+      delete this.children[id]
+    }
+
+    delete this.in[id]
+    delete this.preds[id]
+    delete this.out[id]
+    delete this.sucs[id]
+  }
+
+  /**
+   * 
+   * @param {string} from 
+   * @param {string} to 
+   * @param {{}} options 
+   */
   setEdge(from, to, options) {
     console.log('setting edge', from, to, options)
 
@@ -75,16 +119,32 @@ export default class Graph {
     }
 
     // first ensure the nodes exist
-    this.setNode(from)
-    this.setNode(to)
+    const fromNode = this.setNode(from)
+    const toNode = this.setNode(to)
 
-    const edge = new Edge(edgeId, from, to, options)
+    const edge = new Edge(edgeId, fromNode, toNode, options)
 
     this._edges[edgeId] = edge
 
     this.out[from][edgeId] = edge
     this.in[to][edgeId] = edge
     return this
+  }
+
+  /**
+   * 
+   * @param {string} id 
+   */
+  removeEdge(id) {
+    console.log('TODO: removing not finished')
+    if (!this.edges[id]) {
+      return
+    }
+    /** @type {Edge} */
+    const edge = this._edges[id]
+    delete this.in[edge.from]
+    delete this.out[edge.to]
+    delete this._edges[id]
   }
 
   getNode(id) {
@@ -122,6 +182,39 @@ export default class Graph {
    */
   get nodes() {
     return Object.values(this._nodes)
+  }
+
+  /**
+   * @returns {Array<{label: string}>} all edges of the graph
+   */
+  get edges() {
+    return Object.values(this._edges)
+  }
+
+  get sources() {
+    return this.nodes.filter(node => {
+      return Object.keys(this.in[node.id]).length === 0
+    })
+  }
+  
+  /**
+   * 
+   * @param {GraphNode} from 
+   * @param {GraphNode} to 
+   */
+  outEdges(from, to) {
+    console.log('outs', this.out)
+    let outTo = this.out[from.id]
+    console.log('out from', from, 'to', to, outTo)
+    if (!outTo) {
+      return
+    }
+
+    const edges = Object.values(outTo)
+    if (!to) {
+      return edges
+    }
+    return edges.filter(edge => edge.to.id === to.id)
   }
 
   /**
