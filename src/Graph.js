@@ -13,16 +13,6 @@ export default class Graph {
       marginX: marginX = 20,
       marginY: marginY = 20
     }) {
-    this.defaultNodeData = {
-      paddingLeft: 10,
-      paddingRight: 10,
-      paddingTop: 10,
-      paddingBottom: 10,
-      rx: 0,
-      ry: 0,
-      shape: 'rect'
-    }
-
     this._nodes = {}
     this._edges = {}
 

@@ -1,15 +1,15 @@
+const defaults = {
+  paddingLeft: 10,
+  paddingRight: 10,
+  paddingTop: 10,
+  paddingBottom: 10,
+  rx: 0,
+  ry: 0,
+  shape: 'rect'
+}
+
 export default class GraphNode {
   constructor(id, options) {
-    this.defaults = {
-      paddingLeft: 10,
-      paddingRight: 10,
-      paddingTop: 10,
-      paddingBottom: 10,
-      rx: 0,
-      ry: 0,
-      shape: 'rect'
-    }
-
     this.id = id
     this.setOptions(options)
   }
@@ -19,7 +19,7 @@ export default class GraphNode {
       options.label = this.id
     }
 
-    Object.assign(this, this.defaults, options)
+    Object.assign(this, defaults, options)
   }
 
   setDefaults() {
