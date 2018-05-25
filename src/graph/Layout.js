@@ -208,11 +208,18 @@ export default class Layout {
 
     let edge
     let delta
+    let doneTimes = 0
     while (this.tightTree() < size) {
+      console.log('LOOP STARTS')
       edge = this.findMinSlackEdge()
       console.log('minslackedge is', edge)
-      delta = this.treeGraph.hasNode(edge.from) ? this.slack(edge) : -this.slack(edge)
+      delta = this.treeGraph.hasNode(edge.from.id) ? this.slack(edge) : -this.slack(edge)
       this.shiftRanks(delta)
+      doneTimes++
+      if (doneTimes > 200) {
+        throw new Error('too many loops, breaking now!')
+        break
+      }
     }
   }
 
@@ -223,11 +230,13 @@ export default class Layout {
     const layout = this
     function dfs(node) {
       layout.graph.nodeEdges(node).forEach(edge => {
+        console.log('CHECKING EDGE', edge)
         const to = (node.id === edge.from.id) ? edge.to : edge.from
         if (!layout.treeGraph.hasNode(to.id) && !layout.slack(edge)) {
+          console.log('ADDING NODE TO TIGHTTREE')
           layout.treeGraph.setNode(to.id)
-          layout.treeGraph.setEdge(edge.from.id, to.id)
-          dfs(edge.to)
+          layout.treeGraph.setEdge(node.id, to.id)
+          dfs(to)
         }
       })
     }
