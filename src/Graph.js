@@ -168,6 +168,18 @@ export default class Graph {
     }
   }
 
+  /**
+   * 
+   * @param {GraphNode} fromId 
+   * @param {GraphNode} toId 
+   */
+  nodeEdges(from, to) {
+    const inEdges = this.inEdges(from, to)
+    if (inEdges) {
+      return inEdges.concat(this.outEdges(from, to))
+    }
+  }
+
   isSubgraph(id) {
     return this.getChildren(id).length !== 0
   }
@@ -175,6 +187,14 @@ export default class Graph {
   layout() {
     console.log('layouting graph')
     const layoutGraph = new Layout(this)
+  }
+
+  /**
+   * 
+   * @param {string} id 
+   */
+  hasNode(id) {
+    return (this._nodes[id])
   }
 
   /**
@@ -196,6 +216,26 @@ export default class Graph {
       return Object.keys(this.in[node.id]).length === 0
     })
   }
+
+  /**
+   * 
+   * @param {GraphNode} from 
+   * @param {GraphNode} to 
+   */
+  inEdges(from, to) {
+    // console.log('ins', this.in)
+    let inFrom = this.in[from.id]
+    // console.log('in from', from, 'to', to, inFrom)
+    if (!inFrom) {
+      return
+    }
+
+    const edges = Object.values(inFrom)
+    if (!to) {
+      return edges
+    }
+    return edges.filter(edge => edge.from.id === to.id)
+  }
   
   /**
    * 
@@ -203,14 +243,14 @@ export default class Graph {
    * @param {GraphNode} to 
    */
   outEdges(from, to) {
-    console.log('outs', this.out)
-    let outTo = this.out[from.id]
-    console.log('out from', from, 'to', to, outTo)
-    if (!outTo) {
+    // console.log('outs', this.out)
+    let outFrom = this.out[from.id]
+    // console.log('out from', from, 'to', to, outFrom)
+    if (!outFrom) {
       return
     }
 
-    const edges = Object.values(outTo)
+    const edges = Object.values(outFrom)
     if (!to) {
       return edges
     }

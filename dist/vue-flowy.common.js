@@ -121,11 +121,46 @@ class GraphNode {
   }
 }
 
+// CONCATENATED MODULE: ./src/graph/Edge.js
+const DEFAULT_EDGE_NAME = '\x00'
+const EDGE_KEY_DELIM = '\x01'
+
+const Edge_defaults = {
+  minLen: 1,
+  weight: 1,
+  width: 0,
+  height: 0,
+  labelOffset: 10,
+  labelPos: 'r'
+}
+
+class Edge {
+  constructor(id, from, to, options) {
+    this.id = id
+    this.from = from
+    this.to = to
+    this.setOptions(options)
+  }
+
+  static generateId(from, to, directed = false) {
+    if (!directed && from > to) {
+      const tmp = from
+      from = to
+      to = tmp
+    }
+    return from + EDGE_KEY_DELIM + to + EDGE_KEY_DELIM + DEFAULT_EDGE_NAME
+  }
+
+  setOptions(options) {
+    Object.assign(this, Edge_defaults, options)
+  }
+}
 // CONCATENATED MODULE: ./src/graph/Layout.js
 
 
 
-class Layout {
+
+class Layout_Layout {
   /**
    * 
    * @param {Graph} graph 
@@ -296,6 +331,7 @@ class Layout {
 
   networkSimplexRanker() {
     this.longestPath()
+    this.feasibleTree()
   }
 
   longestPath() {
@@ -319,39 +355,78 @@ class Layout {
     console.log('sources', this.graph.sources)
     this.graph.sources.forEach(_longestPath)
   }
-}
-// CONCATENATED MODULE: ./src/graph/Edge.js
-const DEFAULT_EDGE_NAME = '\x00'
-const EDGE_KEY_DELIM = '\x01'
 
-const Edge_defaults = {
-  minLen: 1,
-  weight: 1,
-  width: 0,
-  height: 0,
-  labelOffset: 10,
-  labelPos: 'r'
-}
+  feasibleTree() {
+    this.treeGraph = new Graph_Graph({directed: false})
 
-class Edge {
-  constructor(id, from, to, options) {
-    this.id = id
-    this.from = from
-    this.to = to
-    this.setOptions(options)
-  }
+    const start = this.graph.nodeIds[0]
+    const size = this.graph.nodeIds.length
+    this.treeGraph.setNode(start)
+    console.log('size is', size)
 
-  static generateId(from, to, directed = false) {
-    if (!directed && from > to) {
-      const tmp = from
-      from = to
-      to = tmp
+    let edge
+    let delta
+    while (this.tightTree() < size) {
+      edge = this.findMinSlackEdge()
+      console.log('minslackedge is', edge)
+      delta = this.treeGraph.hasNode(edge.from) ? this.slack(edge) : -this.slack(edge)
+      this.shiftRanks(delta)
     }
-    return from + EDGE_KEY_DELIM + to + EDGE_KEY_DELIM + DEFAULT_EDGE_NAME
   }
 
-  setOptions(options) {
-    Object.assign(this, Edge_defaults, options)
+  /**
+   * Finds a maximal tree of tight edges and returns the number of nodes in the tree
+   */
+  tightTree() {
+    const layout = this
+    function dfs(node) {
+      layout.graph.nodeEdges(node).forEach(edge => {
+        if (!layout.treeGraph.hasNode(edge.to.id) && !layout.slack(edge)) {
+          layout.treeGraph.setNode(edge.to.id)
+          layout.treeGraph.setEdge(edge.from.id, edge.to.id)
+          dfs(edge.to)
+        }
+      })
+    }
+
+    this.treeGraph.nodes.forEach(dfs)
+    console.log('tightTree size is', this.treeGraph.nodeIds.length)
+    return this.treeGraph.nodeIds.length
+  }
+
+  findMinSlackEdge() {
+    let minSlackEdge
+    let minSlack = Infinity
+
+    console.log('finding min slack edge')
+
+    this.graph.edges.forEach(edge => {
+      if (this.treeGraph.hasNode(edge.from.id) !== this.treeGraph.hasNode(edge.to.id)) {
+        const slack = this.slack(edge)
+        if (slack < minSlack) {
+          minSlackEdge = edge
+          minSlack = slack
+        }
+      }
+    })
+
+    return minSlackEdge
+  }
+
+  /**
+   * Returns the amount of slack for the given edge. The slack is defined as the difference
+   * between the length of the edge and its minimum length
+   * @param {Edge} edge 
+   */
+  slack(edge) {
+    console.log('calculating slack of', edge.to.rank, edge.from.rank, edge.minLen, edge.to.rank - edge.from.rank)
+    return edge.to.rank - edge.from.rank - edge.minLen
+  }
+
+  shiftRanks(delta) {
+    this.treeGraph.nodes.forEach(node => {
+      node.rank += delta
+    })
   }
 }
 // CONCATENATED MODULE: ./src/Graph.js
@@ -525,13 +600,33 @@ class Graph_Graph {
     }
   }
 
+  /**
+   * 
+   * @param {GraphNode} fromId 
+   * @param {GraphNode} toId 
+   */
+  nodeEdges(from, to) {
+    const inEdges = this.inEdges(from, to)
+    if (inEdges) {
+      return inEdges.concat(this.outEdges(from, to))
+    }
+  }
+
   isSubgraph(id) {
     return this.getChildren(id).length !== 0
   }
 
   layout() {
     console.log('layouting graph')
-    const layoutGraph = new Layout(this)
+    const layoutGraph = new Layout_Layout(this)
+  }
+
+  /**
+   * 
+   * @param {string} id 
+   */
+  hasNode(id) {
+    return (this._nodes[id])
   }
 
   /**
@@ -553,6 +648,26 @@ class Graph_Graph {
       return Object.keys(this.in[node.id]).length === 0
     })
   }
+
+  /**
+   * 
+   * @param {GraphNode} from 
+   * @param {GraphNode} to 
+   */
+  inEdges(from, to) {
+    // console.log('ins', this.in)
+    let inFrom = this.in[from.id]
+    // console.log('in from', from, 'to', to, inFrom)
+    if (!inFrom) {
+      return
+    }
+
+    const edges = Object.values(inFrom)
+    if (!to) {
+      return edges
+    }
+    return edges.filter(edge => edge.from.id === to.id)
+  }
   
   /**
    * 
@@ -560,14 +675,14 @@ class Graph_Graph {
    * @param {GraphNode} to 
    */
   outEdges(from, to) {
-    console.log('outs', this.out)
-    let outTo = this.out[from.id]
-    console.log('out from', from, 'to', to, outTo)
-    if (!outTo) {
+    // console.log('outs', this.out)
+    let outFrom = this.out[from.id]
+    // console.log('out from', from, 'to', to, outFrom)
+    if (!outFrom) {
       return
     }
 
-    const edges = Object.values(outTo)
+    const edges = Object.values(outFrom)
     if (!to) {
       return edges
     }

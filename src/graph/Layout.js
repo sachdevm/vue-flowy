@@ -1,5 +1,6 @@
 import Graph from '../Graph';
 import GraphNode from './Node';
+import Edge from './Edge';
 
 export default class Layout {
   /**
@@ -172,6 +173,7 @@ export default class Layout {
 
   networkSimplexRanker() {
     this.longestPath()
+    this.feasibleTree()
   }
 
   longestPath() {
@@ -194,5 +196,79 @@ export default class Layout {
 
     console.log('sources', this.graph.sources)
     this.graph.sources.forEach(_longestPath)
+  }
+
+  feasibleTree() {
+    this.treeGraph = new Graph({directed: false})
+
+    const start = this.graph.nodeIds[0]
+    const size = this.graph.nodeIds.length
+    this.treeGraph.setNode(start)
+    console.log('size is', size)
+
+    let edge
+    let delta
+    while (this.tightTree() < size) {
+      edge = this.findMinSlackEdge()
+      console.log('minslackedge is', edge)
+      delta = this.treeGraph.hasNode(edge.from) ? this.slack(edge) : -this.slack(edge)
+      this.shiftRanks(delta)
+    }
+  }
+
+  /**
+   * Finds a maximal tree of tight edges and returns the number of nodes in the tree
+   */
+  tightTree() {
+    const layout = this
+    function dfs(node) {
+      layout.graph.nodeEdges(node).forEach(edge => {
+        const to = (node.id === edge.from.id) ? edge.to : edge.from
+        if (!layout.treeGraph.hasNode(to.id) && !layout.slack(edge)) {
+          layout.treeGraph.setNode(to.id)
+          layout.treeGraph.setEdge(edge.from.id, to.id)
+          dfs(edge.to)
+        }
+      })
+    }
+
+    this.treeGraph.nodes.forEach(dfs)
+    console.log('tightTree size is', this.treeGraph.nodeIds.length)
+    return this.treeGraph.nodeIds.length
+  }
+
+  findMinSlackEdge() {
+    let minSlackEdge
+    let minSlack = Infinity
+
+    console.log('finding min slack edge')
+
+    this.graph.edges.forEach(edge => {
+      if (this.treeGraph.hasNode(edge.from.id) !== this.treeGraph.hasNode(edge.to.id)) {
+        const slack = this.slack(edge)
+        if (slack < minSlack) {
+          minSlackEdge = edge
+          minSlack = slack
+        }
+      }
+    })
+
+    return minSlackEdge
+  }
+
+  /**
+   * Returns the amount of slack for the given edge. The slack is defined as the difference
+   * between the length of the edge and its minimum length
+   * @param {Edge} edge 
+   */
+  slack(edge) {
+    console.log('calculating slack of', edge.to.rank, edge.from.rank, edge.minLen, edge.to.rank - edge.from.rank)
+    return edge.to.rank - edge.from.rank - edge.minLen
+  }
+
+  shiftRanks(delta) {
+    this.treeGraph.nodes.forEach(node => {
+      node.rank += delta
+    })
   }
 }
