@@ -5,8 +5,8 @@ import GraphLabel from './graph/Label'
 
 export default class Renderer {
   /**
-   * 
-   * @param {Graph} graph 
+   *
+   * @param {Graph} graph
    */
   constructor(graph) {
     this.graph = graph
@@ -20,9 +20,7 @@ export default class Renderer {
       this.createOrSelectGroup(svg, 'edgeLabels'),
       this.graph
     )
-    this.createNodes(
-      this.createOrSelectGroup(svg, 'nodes')
-    )
+    this.createNodes(this.createOrSelectGroup(svg, 'nodes'))
 
     this.graph.layout()
 
@@ -55,11 +53,15 @@ export default class Renderer {
       labelBBox.width += graphNode.paddingLeft + graphNode.paddingRight
       labelBBox.height += graphNode.paddingTop + graphNode.paddingBottom
 
-      labelGroup.attr('transform', 'translate(' +
-        ((graphNode.paddingLeft - graphNode.paddingRight) / 2) + ',' +
-        ((graphNode.paddingTop - graphNode.paddingBottom) / 2) + ')'
+      labelGroup.attr(
+        'transform',
+        'translate(' +
+          (graphNode.paddingLeft - graphNode.paddingRight) / 2 +
+          ',' +
+          (graphNode.paddingTop - graphNode.paddingBottom) / 2 +
+          ')'
       )
-      
+
       // nodeGroup.node.style.opacity = 0
 
       const shape = nodeGroup.append(
@@ -102,9 +104,17 @@ export default class Renderer {
   }
 
   positionNodes() {
-    console.log('position nodes', this.graph.nodes, 'with edges', this.graph.edges)
+    console.log(
+      'position nodes',
+      this.graph.nodes,
+      'with edges',
+      this.graph.edges
+    )
     this.graph.nodes.forEach(graphNode => {
-      graphNode.svgGroup.attr('transform', 'translate(' + graphNode.x + ',' + graphNode.y + ')')
+      graphNode.svgGroup.attr(
+        'transform',
+        'translate(' + graphNode.x + ',' + graphNode.y + ')'
+      )
     })
   }
 

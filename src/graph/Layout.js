@@ -1,11 +1,11 @@
-import Graph from '../Graph';
-import GraphNode from './Node';
-import Edge from './Edge';
+import Graph from '../Graph'
+import GraphNode from './Node'
+import Edge from './Edge'
 
 export default class Layout {
   /**
-   * 
-   * @param {Graph} graph 
+   *
+   * @param {Graph} graph
    */
   constructor(graph) {
     /** @type {Graph} */
@@ -43,7 +43,7 @@ export default class Layout {
 
   createNestingGraph() {
     console.log('creating nesting graph')
-    this.graph.root = this.graph.setNode('_root', {dummy: 'root'})
+    this.graph.root = this.graph.setNode('_root', { dummy: 'root' })
     const depths = this.treeDepths()
     console.log('depths', depths)
     const height = Math.max(...Object.values(depths)) - 1
@@ -55,7 +55,10 @@ export default class Layout {
     })
 
     // calculate a weight that is sufficient to keep subgraphs vertically compact
-    const weight = this.graph.edges.reduce((prevVal, edge) => prevVal + edge.weight, 0)
+    const weight = this.graph.edges.reduce(
+      (prevVal, edge) => prevVal + edge.weight,
+      0
+    )
 
     // create border nodes and link them up
     this.graph.getChildren().forEach(child => {
@@ -93,20 +96,20 @@ export default class Layout {
   }
 
   /**
-   * 
-   * @param {GraphNode} root 
-   * @param {*} nodeSep 
-   * @param {*} weight 
-   * @param {*} height 
-   * @param {*} depths 
-   * @param {GraphNode} node 
+   *
+   * @param {GraphNode} root
+   * @param {*} nodeSep
+   * @param {*} weight
+   * @param {*} height
+   * @param {*} depths
+   * @param {GraphNode} node
    */
   dfs(root, nodeSep, weight, height, depths, node) {
     const children = this.graph.getChildren(node.id)
     console.log('children of', node, children)
     if (!children.length) {
       if (node.id !== root.id) {
-        this.graph.setEdge(root.id, node.id, {weight: 0, minLen: nodeSep})
+        this.graph.setEdge(root.id, node.id, { weight: 0, minLen: nodeSep })
       }
       return
     }
@@ -133,7 +136,6 @@ export default class Layout {
 
   position() {
     this.positionY()
-
   }
 
   positionX() {
@@ -146,9 +148,11 @@ export default class Layout {
     const rankSep = this.graph.rankSep
     let prevY = 0
     layering.forEach(layer => {
-      const maxHeight = Math.max(layer.map(node => {
-        return node.height
-      }))
+      const maxHeight = Math.max(
+        layer.map(node => {
+          return node.height
+        })
+      )
       console.log('maxHeight of nodes layer', maxHeight)
       layer.forEach(node => {
         node.y = prevY + maxHeight / 2
@@ -186,11 +190,14 @@ export default class Layout {
         return node.rank
       }
       visited[node.id] = true
-  
-      const rank = Math.min(layout.graph.outEdges(node).map(outEdge => {
-        return _longestPath(outEdge.to) - outEdge.minLen
-      })) || 0
-  
+
+      const rank =
+        Math.min(
+          layout.graph.outEdges(node).map(outEdge => {
+            return _longestPath(outEdge.to) - outEdge.minLen
+          })
+        ) || 0
+
       return (node.rank = rank)
     }
 
@@ -199,7 +206,7 @@ export default class Layout {
   }
 
   feasibleTree() {
-    this.treeGraph = new Graph({directed: false})
+    this.treeGraph = new Graph({ directed: false })
 
     const start = this.graph.nodeIds[0]
     const size = this.graph.nodeIds.length
@@ -213,12 +220,13 @@ export default class Layout {
       console.log('LOOP STARTS')
       edge = this.findMinSlackEdge()
       console.log('minslackedge is', edge)
-      delta = this.treeGraph.hasNode(edge.from.id) ? this.slack(edge) : -this.slack(edge)
+      delta = this.treeGraph.hasNode(edge.from.id)
+        ? this.slack(edge)
+        : -this.slack(edge)
       this.shiftRanks(delta)
       doneTimes++
       if (doneTimes > 200) {
         throw new Error('too many loops, breaking now!')
-        break
       }
     }
   }
@@ -231,7 +239,7 @@ export default class Layout {
     function dfs(node) {
       layout.graph.nodeEdges(node).forEach(edge => {
         console.log('CHECKING EDGE', edge)
-        const to = (node.id === edge.from.id) ? edge.to : edge.from
+        const to = node.id === edge.from.id ? edge.to : edge.from
         if (!layout.treeGraph.hasNode(to.id) && !layout.slack(edge)) {
           console.log('ADDING NODE TO TIGHTTREE')
           layout.treeGraph.setNode(to.id)
@@ -253,7 +261,10 @@ export default class Layout {
     console.log('finding min slack edge')
 
     this.graph.edges.forEach(edge => {
-      if (this.treeGraph.hasNode(edge.from.id) !== this.treeGraph.hasNode(edge.to.id)) {
+      if (
+        this.treeGraph.hasNode(edge.from.id) !==
+        this.treeGraph.hasNode(edge.to.id)
+      ) {
         const slack = this.slack(edge)
         if (slack < minSlack) {
           minSlackEdge = edge
@@ -268,10 +279,16 @@ export default class Layout {
   /**
    * Returns the amount of slack for the given edge. The slack is defined as the difference
    * between the length of the edge and its minimum length
-   * @param {Edge} edge 
+   * @param {Edge} edge
    */
   slack(edge) {
-    console.log('calculating slack of', edge.to.rank, edge.from.rank, edge.minLen, edge.to.rank - edge.from.rank)
+    console.log(
+      'calculating slack of',
+      edge.to.rank,
+      edge.from.rank,
+      edge.minLen,
+      edge.to.rank - edge.from.rank
+    )
     return edge.to.rank - edge.from.rank - edge.minLen
   }
 

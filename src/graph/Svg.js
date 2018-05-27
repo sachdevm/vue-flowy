@@ -1,5 +1,4 @@
 export default class GraphSvg {
-
   constructor(tag) {
     /**
      * @type {HTMLElement}
@@ -8,8 +7,8 @@ export default class GraphSvg {
   }
 
   /**
-   * 
-   * @param {string|GraphSvg} tag 
+   *
+   * @param {string|GraphSvg} tag
    * @returns {GraphSvg}
    */
   append(el) {
@@ -37,7 +36,7 @@ export default class GraphSvg {
   selectAll(selector) {
     const res = this.node.querySelectorAll(selector)
     if (res) {
-      return Array.from(res).map((node) => new GraphSvg(node))
+      return Array.from(res).map(node => new GraphSvg(node))
     }
 
     return null
@@ -50,8 +49,8 @@ export default class GraphSvg {
   }
 
   /**
-   * 
-   * @param {string} c 
+   *
+   * @param {string} c
    */
   addClass(c) {
     this.node.classList.add(c)

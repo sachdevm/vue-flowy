@@ -25,7 +25,5 @@ export default class GraphNode {
     Object.assign(this, defaults, options)
   }
 
-  setDefaults() {
-
-  }
+  setDefaults() {}
 }

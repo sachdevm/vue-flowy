@@ -1,21 +1,21 @@
-import GraphNode from "./graph/Node";
-import Layout from "./graph/Layout";
-import Edge from "./graph/Edge";
+import GraphNode from './graph/Node'
+import Layout from './graph/Layout'
+import Edge from './graph/Edge'
 
 const GRAPH_NODE = '\x00'
 
 export default class Graph {
   constructor({
-      directed: directed = true,
-      multiGraph: multiGraph = false,
-      compound: compound = false,
-      rankDir: rankDir = 'TB',
-      rankSep: rankSep = 50,
-      edgeSep: edgeSep = 20,
-      nodeSep: nodeSep = 50,
-      marginX: marginX = 20,
-      marginY: marginY = 20
-    }) {
+    directed: directed = true,
+    multiGraph: multiGraph = false,
+    compound: compound = false,
+    rankDir: rankDir = 'TB',
+    rankSep: rankSep = 50,
+    edgeSep: edgeSep = 20,
+    nodeSep: nodeSep = 50,
+    marginX: marginX = 20,
+    marginY: marginY = 20
+  }) {
     /** @type {{id: GraphNode}} */
     this._nodes = {}
     /** @type {{id: Edge}} */
@@ -47,9 +47,9 @@ export default class Graph {
   }
 
   /**
-   * 
-   * @param {string} id 
-   * @param {{}} options 
+   *
+   * @param {string} id
+   * @param {{}} options
    * @returns {GraphNode} node
    */
   setNode(id, options) {
@@ -78,8 +78,8 @@ export default class Graph {
   }
 
   /**
-   * 
-   * @param {string} id 
+   *
+   * @param {string} id
    */
   removeNode(id) {
     console.log('TODO: removing not finished')
@@ -101,10 +101,10 @@ export default class Graph {
   }
 
   /**
-   * 
-   * @param {string} from 
-   * @param {string} to 
-   * @param {{}} options 
+   *
+   * @param {string} from
+   * @param {string} to
+   * @param {{}} options
    */
   setEdge(from, to, options) {
     console.log('setting edge', from, to, options)
@@ -132,8 +132,8 @@ export default class Graph {
   }
 
   /**
-   * 
-   * @param {string} id 
+   *
+   * @param {string} id
    */
   removeEdge(id) {
     console.log('TODO: removing not finished')
@@ -169,9 +169,9 @@ export default class Graph {
   }
 
   /**
-   * 
-   * @param {GraphNode} fromId 
-   * @param {GraphNode} toId 
+   *
+   * @param {GraphNode} fromId
+   * @param {GraphNode} toId
    */
   nodeEdges(from, to) {
     const inEdges = this.inEdges(from, to)
@@ -190,11 +190,11 @@ export default class Graph {
   }
 
   /**
-   * 
-   * @param {string} id 
+   *
+   * @param {string} id
    */
   hasNode(id) {
-    return (this._nodes[id])
+    return this._nodes[id]
   }
 
   /**
@@ -218,9 +218,9 @@ export default class Graph {
   }
 
   /**
-   * 
-   * @param {GraphNode} from 
-   * @param {GraphNode} to 
+   *
+   * @param {GraphNode} from
+   * @param {GraphNode} to
    */
   inEdges(from, to) {
     // console.log('ins', this.in)
@@ -236,11 +236,11 @@ export default class Graph {
     }
     return edges.filter(edge => edge.from.id === to.id)
   }
-  
+
   /**
-   * 
-   * @param {GraphNode} from 
-   * @param {GraphNode} to 
+   *
+   * @param {GraphNode} from
+   * @param {GraphNode} to
    */
   outEdges(from, to) {
     // console.log('outs', this.out)
