@@ -152,7 +152,7 @@ export default class Renderer {
     this.graph.nodes.forEach(graphNode => {
       graphNode.svgGroup.attr(
         'transform',
-        'translate(' + graphNode.x + ',' + graphNode.y + ')'
+        'translate(' + (graphNode.x || 0) + ',' + (graphNode.y || 0) + ')'
       )
     })
   }
