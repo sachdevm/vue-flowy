@@ -15,6 +15,8 @@ export default class Edge {
     this.id = id
     this.from = from
     this.to = to
+    this.order = 0
+    this.points = []
     this.setOptions(options)
   }
 

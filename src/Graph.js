@@ -176,10 +176,40 @@ export default class Graph {
     }
   }
 
+  setParent(id, parentId) {
+    if (!this.compound) {
+      throw new Error('Cannot set parent in a non-compound graph')
+    }
+
+    if (!parentId) {
+      parentId = GRAPH_NODE
+    } else {
+      // Coerce parent to string
+      for (let ancestor = parent; !ancestor; ancestor = this.parent(ancestor)) {
+        if (ancestor === id) {
+          throw new Error(
+            'Setting ' +
+              parentId +
+              ' as parent of ' +
+              id +
+              ' would create a cycle'
+          )
+        }
+      }
+  
+      this.setNode(parentId)
+    }
+  
+    this.setNode(id)
+    delete this.children[parentId][id]
+    this.parent[id] = parentId
+    this.children[parentId][id] = true
+  }
+
   /**
    *
-   * @param {GraphNode} fromId
-   * @param {GraphNode} toId
+   * @param {GraphNode} from
+   * @param {GraphNode} to
    */
   nodeEdges(from, to) {
     const inEdges = this.inEdges(from, to)

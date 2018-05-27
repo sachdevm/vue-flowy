@@ -25,6 +25,42 @@ export default class Renderer {
 
     this.graph.layout()
 
+    let minX = 1000
+    let minY = 1000
+    let maxX = -1000
+    let maxY = -1000
+
+    this.graph.nodes.forEach(node => {
+      minX = Math.min(minX, node.x - node.width / 2)
+      minY = Math.min(minY, node.y - node.height / 2)
+      maxX = Math.max(maxX, node.x + node.width / 2)
+      maxY = Math.max(maxY, node.y + node.height / 2)
+    })
+
+    this.graph.edges.forEach(edge => {
+      if (edge.label && edge.x && edge.y) {
+        minX = Math.min(minX, edge.x - edge.width / 2)
+        minY = Math.min(minY, edge.y - edge.height / 2)
+        maxX = Math.max(maxX, edge.x + edge.width / 2)
+        maxY = Math.max(maxY, edge.y + edge.height / 2)
+      }
+      const points = edge.points.slice(1, edge.points.length - 1) // intersetion points don't matter
+      for (let i = 0; i < points.length; i++) {
+        const point = points[i]
+        minX = Math.min(minX, point.x)
+        minY = Math.min(minY, point.y)
+        maxX = Math.max(maxX, point.x)
+        maxY = Math.max(maxY, point.y)
+      }
+    })
+
+    this.graph.minX = minX
+    this.graph.minY = minY
+    this.graph.maxX = maxX
+    this.graph.maxY = maxY
+
+    console.log('GRAPH', this.graph)
+
     this.positionNodes()
   }
 
@@ -34,7 +70,6 @@ export default class Renderer {
    * @param {Graph} graph
    */
   createNodes(selection) {
-    console.log('createNodes selection is', selection, 'graph is', this.graph)
     const simpleNodes = this.graph.nodeIds.filter(id => {
       return !this.graph.isSubgraph(id)
     })
@@ -43,13 +78,11 @@ export default class Renderer {
     this.graph.nodes.forEach(graphNode => {
       const nodeGroup = selection.append('g').addClass('node')
 
-      console.log('adding node', graphNode)
       const labelGroup = nodeGroup.append('g').addClass('label')
       const label = labelGroup.append(
         new GraphLabel({ label: graphNode.label }).group
       )
       const labelBBox = label.node.getBBox()
-      console.log('label', label, 'labelGroup', labelGroup)
 
       labelBBox.width += graphNode.paddingLeft + graphNode.paddingRight
       labelBBox.height += graphNode.paddingTop + graphNode.paddingBottom
@@ -94,13 +127,18 @@ export default class Renderer {
    */
   createEdgeLabels(selection, g) {
     let svgEdgeLabels = selection.selectAll('g.edgeLabel')
-    console.log(svgEdgeLabels)
-    svgEdgeLabels.forEach(n => {
-      const groupElement = SvgGenerator.create('g')
-      groupElement.classList.add('edgeLabel')
-      // groupElement.style.opacity = 0
-      n.classList.add('update')
-      n.appendChild(groupElement)
+
+    this.graph.edges.forEach(edge => {
+      const edgeLabelGroup = selection.append('g').addClass('edgeLabel')
+
+      const labelGroup = edgeLabelGroup.append('g').addClass('label')
+      const label = labelGroup.append(
+        new GraphLabel({ label: edge.label }).group
+      )
+      const labelBBox = label.node.getBBox()
+
+      edge.width = edge.width || labelBBox.width
+      edge.height = edge.height || labelBBox.height
     })
   }
 

@@ -146,6 +146,8 @@ class Edge {
     this.id = id
     this.from = from
     this.to = to
+    this.order = 0
+    this.points = []
     this.setOptions(options)
   }
 
@@ -184,7 +186,9 @@ class Layout_Layout {
     this.createNestingGraph()
     this.rank()
     this.cleanupNestingGraph()
+    this.order()
     this.position()
+    this.translateGraph()
   }
 
   makeSpaceForEdgeLabels() {
@@ -227,6 +231,7 @@ class Layout_Layout {
 
     // create border nodes and link them up
     this.graph.getChildren().forEach(child => {
+      console.log('calling dfs with', this.graph.root, nodeSep, weight, height, depths, child)
       this.dfs(this.graph.root, nodeSep, weight, height, depths, child)
     })
 
@@ -258,7 +263,9 @@ class Layout_Layout {
       }
       depths[nodeId] = depth
     }
-    this.graph.getChildren().forEach(dfs)
+    this.graph.getChildren().forEach(childId => {
+      dfs(childId)
+    })
     return depths
   }
 
@@ -271,17 +278,71 @@ class Layout_Layout {
    * @param {*} depths
    * @param {GraphNode} node
    */
-  dfs(root, nodeSep, weight, height, depths, node) {
-    const children = this.graph.getChildren(node.id)
-    console.log('children of', node, children)
+  dfs(root, nodeSep, weight, height, depths, nodeId) {
+    const children = this.graph.getChildren(nodeId)
+    console.log('DFS: children of', nodeId, children)
     if (!children.length) {
-      if (node.id !== root.id) {
-        this.graph.setEdge(root.id, node.id, { weight: 0, minLen: nodeSep })
+      if (nodeId !== root.id) {
+        this.graph.setEdge(root.id, nodeId, { weight: 0, minLen: nodeSep })
       }
       return
     }
 
-    console.log('not returning, patcher: code further!')
+    const top = this.addBorderNode('_bt')
+    const bottom = this.addBorderNode('_bb')
+
+    this.graph.setParent(top, nodeId)
+    this.graph.borderTop = top
+    this.graph.setParent(bottom, nodeId)
+    this.graph.borderBottom = bottom
+
+    const dfs = this.dfs
+
+    children.forEach(child => {
+      this.dfs(root, nodeSep, weight, height, depths, child)
+
+      const childTop = child.borderTop ? child.borderTop : child
+      const childBottom = child.borderBottom ? child.borderBottom : child
+      const thisWeight = child.borderTop ? weight : 2 * weight
+      const minLen = childTop !== childBottom ? 1 : height - depths[nodeId] + 1
+
+      this.graph.setEdge(top, childTop, {
+        weight: thisWeight,
+        minLen: minLen,
+        nestingEdge: true
+      })
+
+      this.graph.setEdge(childBottom, bottom, {
+        weight: thisWeight,
+        minLen: minLen,
+        nestingEdge: true
+      })
+    })
+
+    if (!this.graph.parent(nodeId)) {
+      this.graph.setEdge(root, top, {
+        weight: 0,
+        minLen: height + depths[nodeId]
+      })
+    }
+  }
+
+  addBorderNode(prefix, rank, order) {
+    const node = {
+      width: 0,
+      height: 0
+    }
+    if (rank && order) {
+      node.rank = rank
+      node.order = order
+    }
+    return this.addDummyNode('border', node, prefix)
+  }
+
+  addDummyNode(type, attrs, name) {
+    attrs.dummy = type
+    this.graph.setNode(name, attrs)
+    return name
   }
 
   rank() {
@@ -331,6 +392,7 @@ class Layout_Layout {
   buildLayerMatrix() {
     const layering = []
     this.graph.nodes.forEach(node => {
+      console.log('creating layer with node', node, node.rank)
       if (node.rank) {
         if (!layering[node.rank]) {
           layering[node.rank] = []
@@ -352,23 +414,19 @@ class Layout_Layout {
     const visited = {}
 
     function _longestPath(node) {
-      console.log('visting node', node)
       if (visited[node.id]) {
         return node.rank
       }
       visited[node.id] = true
 
-      const rank =
-        Math.min(
-          layout.graph.outEdges(node).map(outEdge => {
-            return _longestPath(outEdge.to) - outEdge.minLen
-          })
-        ) || 0
+      const min = Math.min(...layout.graph.outEdges(node).map(outEdge => {
+          return _longestPath(outEdge.to) - outEdge.minLen
+      }))
+      const rank = min === Infinity ? 0 : min
 
       return (node.rank = rank)
     }
 
-    console.log('sources', this.graph.sources)
     this.graph.sources.forEach(_longestPath)
   }
 
@@ -378,15 +436,13 @@ class Layout_Layout {
     const start = this.graph.nodeIds[0]
     const size = this.graph.nodeIds.length
     this.treeGraph.setNode(start)
-    console.log('size is', size)
+    console.log('start is', start, 'size is', size)
 
     let edge
     let delta
     let doneTimes = 0
     while (this.tightTree() < size) {
-      console.log('LOOP STARTS')
       edge = this.findMinSlackEdge()
-      console.log('minslackedge is', edge)
       delta = this.treeGraph.hasNode(edge.from.id)
         ? this.slack(edge)
         : -this.slack(edge)
@@ -404,11 +460,13 @@ class Layout_Layout {
   tightTree() {
     const layout = this
     function dfs(node) {
+      console.log('nodeEdges', layout.graph.nodeEdges(node))
       layout.graph.nodeEdges(node).forEach(edge => {
-        console.log('CHECKING EDGE', edge)
+        console.log('nodeEdge for', node.id, edge)
         const to = node.id === edge.from.id ? edge.to : edge.from
+        console.log('not hasNode', !layout.treeGraph.hasNode(to.id), 'not slack', !layout.slack(edge))
         if (!layout.treeGraph.hasNode(to.id) && !layout.slack(edge)) {
-          console.log('ADDING NODE TO TIGHTTREE')
+          console.log('adding node to tighttree', to)
           layout.treeGraph.setNode(to.id)
           layout.treeGraph.setEdge(node.id, to.id)
           dfs(to)
@@ -451,18 +509,105 @@ class Layout_Layout {
   slack(edge) {
     console.log(
       'calculating slack of',
+      edge,
       edge.to.rank,
       edge.from.rank,
-      edge.minLen,
-      edge.to.rank - edge.from.rank
+      edge.minLen
     )
     return edge.to.rank - edge.from.rank - edge.minLen
+  }
+
+  order() {
+    const maxRank = this.maxRank()
+    console.log('STOPPED HERE, code further!')
+    // const downLayerGraphs = buildLayerGraphs(g, _.range(1, maxRank + 1), 'inEdges')
+    // const upLayerGraphs = buildLayerGraphs(g, _.range(maxRank - 1, -1, -1), 'outEdges')
+
+    // let layering = initOrder(g)
+    // assignOrder(g, layering)
+
+    // let bestCC = Number.POSITIVE_INFINITY
+    // let best
+
+    // for (let i = 0, lastBest = 0; lastBest < 4; ++i, ++lastBest) {
+    //   sweepLayerGraphs(i % 2 ? downLayerGraphs : upLayerGraphs, i % 4 >= 2)
+
+    //   layering = util.buildLayerMatrix(g)
+    //   const cc = crossCount(g, layering)
+    //   if (cc < bestCC) {
+    //     lastBest = 0
+    //     best = _.cloneDeep(layering)
+    //     bestCC = cc
+    //   }
+    // }
+
+    // assignOrder(g, best)
+  }
+
+  maxRank() {
+    this.graph.nodes.reduce((prevV, node) => {
+      return node.rank > prevV ? node.rank : prevV
+    }, -Infinity)
   }
 
   shiftRanks(delta) {
     this.treeGraph.nodes.forEach(node => {
       node.rank += delta
     })
+  }
+
+  translateGraph() {
+    let minX = Infinity
+    let maxX = 0
+    let minY = Infinity
+    let maxY = 0
+    const marginX = this.graph.marginX || 0
+    const marginY = this.graph.marginY || 0
+
+    function getExtremes(o) {
+      const x = o.x
+      const y = o.y
+      const w = o.width
+      const h = o.height
+      minX = Math.min(minX, x - w / 2)
+      maxX = Math.max(maxX, x + w / 2)
+      minY = Math.min(minY, y - h / 2)
+      maxY = Math.max(maxY, y + h / 2)
+    }
+
+    this.graph.nodes.forEach(getExtremes)
+
+    this.graph.edges.forEach(edge => {
+      if (edge.x) {
+        getExtremes(edge)
+      }
+    })
+
+    minX -= marginX
+    minY -= marginY
+
+    this.graph.nodes.forEach(node => {
+      node.x -= minX
+      node.y -= minY
+    })
+
+    this.graph.edges.forEach(edge => {
+      edge.points.forEach(point => {
+        point.x -= minX
+        point.y -= minY
+      })
+
+      if (edge.x) {
+        edge.x -= minX
+      }
+
+      if (edge.y) {
+        edge.y -= minY
+      }
+    })
+
+    this.graph.width = maxX - minX + marginX
+    this.graph.height = maxY - minY + marginY
   }
 }
 
@@ -645,10 +790,40 @@ class Graph_Graph {
     }
   }
 
+  setParent(id, parentId) {
+    if (!this.compound) {
+      throw new Error('Cannot set parent in a non-compound graph')
+    }
+
+    if (!parentId) {
+      parentId = GRAPH_NODE
+    } else {
+      // Coerce parent to string
+      for (let ancestor = parent; !ancestor; ancestor = this.parent(ancestor)) {
+        if (ancestor === id) {
+          throw new Error(
+            'Setting ' +
+              parentId +
+              ' as parent of ' +
+              id +
+              ' would create a cycle'
+          )
+        }
+      }
+  
+      this.setNode(parentId)
+    }
+  
+    this.setNode(id)
+    delete this.children[parentId][id]
+    this.parent[id] = parentId
+    this.children[parentId][id] = true
+  }
+
   /**
    *
-   * @param {GraphNode} fromId
-   * @param {GraphNode} toId
+   * @param {GraphNode} from
+   * @param {GraphNode} to
    */
   nodeEdges(from, to) {
     const inEdges = this.inEdges(from, to)
@@ -879,6 +1054,42 @@ class Renderer_Renderer {
 
     this.graph.layout()
 
+    let minX = 1000
+    let minY = 1000
+    let maxX = -1000
+    let maxY = -1000
+
+    this.graph.nodes.forEach(node => {
+      minX = Math.min(minX, node.x - node.width / 2)
+      minY = Math.min(minY, node.y - node.height / 2)
+      maxX = Math.max(maxX, node.x + node.width / 2)
+      maxY = Math.max(maxY, node.y + node.height / 2)
+    })
+
+    this.graph.edges.forEach(edge => {
+      if (edge.label && edge.x && edge.y) {
+        minX = Math.min(minX, edge.x - edge.width / 2)
+        minY = Math.min(minY, edge.y - edge.height / 2)
+        maxX = Math.max(maxX, edge.x + edge.width / 2)
+        maxY = Math.max(maxY, edge.y + edge.height / 2)
+      }
+      const points = edge.points.slice(1, edge.points.length - 1) // intersetion points don't matter
+      for (let i = 0; i < points.length; i++) {
+        const point = points[i]
+        minX = Math.min(minX, point.x)
+        minY = Math.min(minY, point.y)
+        maxX = Math.max(maxX, point.x)
+        maxY = Math.max(maxY, point.y)
+      }
+    })
+
+    this.graph.minX = minX
+    this.graph.minY = minY
+    this.graph.maxX = maxX
+    this.graph.maxY = maxY
+
+    console.log('GRAPH', this.graph)
+
     this.positionNodes()
   }
 
@@ -888,7 +1099,6 @@ class Renderer_Renderer {
    * @param {Graph} graph
    */
   createNodes(selection) {
-    console.log('createNodes selection is', selection, 'graph is', this.graph)
     const simpleNodes = this.graph.nodeIds.filter(id => {
       return !this.graph.isSubgraph(id)
     })
@@ -897,13 +1107,11 @@ class Renderer_Renderer {
     this.graph.nodes.forEach(graphNode => {
       const nodeGroup = selection.append('g').addClass('node')
 
-      console.log('adding node', graphNode)
       const labelGroup = nodeGroup.append('g').addClass('label')
       const label = labelGroup.append(
         new Label_GraphLabel({ label: graphNode.label }).group
       )
       const labelBBox = label.node.getBBox()
-      console.log('label', label, 'labelGroup', labelGroup)
 
       labelBBox.width += graphNode.paddingLeft + graphNode.paddingRight
       labelBBox.height += graphNode.paddingTop + graphNode.paddingBottom
@@ -948,13 +1156,18 @@ class Renderer_Renderer {
    */
   createEdgeLabels(selection, g) {
     let svgEdgeLabels = selection.selectAll('g.edgeLabel')
-    console.log(svgEdgeLabels)
-    svgEdgeLabels.forEach(n => {
-      const groupElement = SvgGenerator.create('g')
-      groupElement.classList.add('edgeLabel')
-      // groupElement.style.opacity = 0
-      n.classList.add('update')
-      n.appendChild(groupElement)
+
+    this.graph.edges.forEach(edge => {
+      const edgeLabelGroup = selection.append('g').addClass('edgeLabel')
+
+      const labelGroup = edgeLabelGroup.append('g').addClass('label')
+      const label = labelGroup.append(
+        new Label_GraphLabel({ label: edge.label }).group
+      )
+      const labelBBox = label.node.getBBox()
+
+      edge.width = edge.width || labelBBox.width
+      edge.height = edge.height || labelBBox.height
     })
   }
 
