@@ -6,16 +6,27 @@ const GRAPH_NODE = '\x00'
 
 export default class Graph {
   constructor({
-    directed: directed = true,
-    multiGraph: multiGraph = false,
-    compound: compound = false,
-    rankDir: rankDir = 'TB',
-    rankSep: rankSep = 50,
-    edgeSep: edgeSep = 20,
-    nodeSep: nodeSep = 50,
-    marginX: marginX = 20,
-    marginY: marginY = 20
+    directed = true,
+    multiGraph = false,
+    compound = false,
+    rankDir = 'TB',
+    rankSep = 50,
+    edgeSep = 20,
+    nodeSep = 50,
+    marginX = 20,
+    marginY = 20
   }) {
+    Object.assign(this, {
+      directed,
+      multiGraph,
+      compound,
+      rankDir,
+      rankSep,
+      edgeSep,
+      nodeSep,
+      marginX,
+      marginY
+    })
     /** @type {{id: GraphNode}} */
     this._nodes = {}
     /** @type {{id: Edge}} */
@@ -41,9 +52,6 @@ export default class Graph {
 
     // v -> w -> Number
     this.sucs = {}
-
-    // e -> edgeObj
-    this.edgeObjs = {}
   }
 
   /**

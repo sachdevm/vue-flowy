@@ -13,6 +13,7 @@ export default class Renderer {
   }
 
   render(svg) {
+    console.log('rendering', svg, this.graph)
     // TODO: remove all children of svg
 
     const edgePathsGroup = this.createOrSelectGroup(svg, 'edgePaths')

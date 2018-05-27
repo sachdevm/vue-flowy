@@ -82,14 +82,16 @@ export default class Layout {
     const depths = {}
     const layout = this
 
-    function dfs(node, depth = 1) {
-      const children = layout.graph.getChildren(node.id)
+    function dfs(nodeId, depth = 1) {
+      const children = layout.graph.getChildren(nodeId)
+      console.log('children of', nodeId, 'are', children, '. depth:', depth)
       if (children && children.length) {
-        children.forEach(child => {
-          dfs(child, depth + 1)
+        children.forEach(childId => {
+          console.log('child', childId)
+          dfs(childId, depth + 1)
         })
       }
-      depths[node.id] = depth
+      depths[nodeId] = depth
     }
     this.graph.getChildren().forEach(dfs)
     return depths

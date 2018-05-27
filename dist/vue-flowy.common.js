@@ -116,9 +116,7 @@ class GraphNode {
     Object.assign(this, defaults, options)
   }
 
-  setDefaults() {
-
-  }
+  setDefaults() {}
 }
 
 // CONCATENATED MODULE: ./src/graph/Edge.js
@@ -162,8 +160,8 @@ class Edge {
 
 class Layout_Layout {
   /**
-   * 
-   * @param {Graph} graph 
+   *
+   * @param {Graph} graph
    */
   constructor(graph) {
     /** @type {Graph} */
@@ -201,7 +199,7 @@ class Layout_Layout {
 
   createNestingGraph() {
     console.log('creating nesting graph')
-    this.graph.root = this.graph.setNode('_root', {dummy: 'root'})
+    this.graph.root = this.graph.setNode('_root', { dummy: 'root' })
     const depths = this.treeDepths()
     console.log('depths', depths)
     const height = Math.max(...Object.values(depths)) - 1
@@ -213,7 +211,10 @@ class Layout_Layout {
     })
 
     // calculate a weight that is sufficient to keep subgraphs vertically compact
-    const weight = this.graph.edges.reduce((prevVal, edge) => prevVal + edge.weight, 0)
+    const weight = this.graph.edges.reduce(
+      (prevVal, edge) => prevVal + edge.weight,
+      0
+    )
 
     // create border nodes and link them up
     this.graph.getChildren().forEach(child => {
@@ -237,34 +238,36 @@ class Layout_Layout {
     const depths = {}
     const layout = this
 
-    function dfs(node, depth = 1) {
-      const children = layout.graph.getChildren(node.id)
+    function dfs(nodeId, depth = 1) {
+      const children = layout.graph.getChildren(nodeId)
+      console.log('children of', nodeId, 'are', children, '. depth:', depth)
       if (children && children.length) {
-        children.forEach(child => {
-          dfs(child, depth + 1)
+        children.forEach(childId => {
+          console.log('child', childId)
+          dfs(childId, depth + 1)
         })
       }
-      depths[node.id] = depth
+      depths[nodeId] = depth
     }
     this.graph.getChildren().forEach(dfs)
     return depths
   }
 
   /**
-   * 
-   * @param {GraphNode} root 
-   * @param {*} nodeSep 
-   * @param {*} weight 
-   * @param {*} height 
-   * @param {*} depths 
-   * @param {GraphNode} node 
+   *
+   * @param {GraphNode} root
+   * @param {*} nodeSep
+   * @param {*} weight
+   * @param {*} height
+   * @param {*} depths
+   * @param {GraphNode} node
    */
   dfs(root, nodeSep, weight, height, depths, node) {
     const children = this.graph.getChildren(node.id)
     console.log('children of', node, children)
     if (!children.length) {
       if (node.id !== root.id) {
-        this.graph.setEdge(root.id, node.id, {weight: 0, minLen: nodeSep})
+        this.graph.setEdge(root.id, node.id, { weight: 0, minLen: nodeSep })
       }
       return
     }
@@ -291,7 +294,6 @@ class Layout_Layout {
 
   position() {
     this.positionY()
-
   }
 
   positionX() {
@@ -304,9 +306,11 @@ class Layout_Layout {
     const rankSep = this.graph.rankSep
     let prevY = 0
     layering.forEach(layer => {
-      const maxHeight = Math.max(layer.map(node => {
-        return node.height
-      }))
+      const maxHeight = Math.max(
+        layer.map(node => {
+          return node.height
+        })
+      )
       console.log('maxHeight of nodes layer', maxHeight)
       layer.forEach(node => {
         node.y = prevY + maxHeight / 2
@@ -344,11 +348,14 @@ class Layout_Layout {
         return node.rank
       }
       visited[node.id] = true
-  
-      const rank = Math.min(layout.graph.outEdges(node).map(outEdge => {
-        return _longestPath(outEdge.to) - outEdge.minLen
-      })) || 0
-  
+
+      const rank =
+        Math.min(
+          layout.graph.outEdges(node).map(outEdge => {
+            return _longestPath(outEdge.to) - outEdge.minLen
+          })
+        ) || 0
+
       return (node.rank = rank)
     }
 
@@ -357,7 +364,7 @@ class Layout_Layout {
   }
 
   feasibleTree() {
-    this.treeGraph = new Graph_Graph({directed: false})
+    this.treeGraph = new Graph_Graph({ directed: false })
 
     const start = this.graph.nodeIds[0]
     const size = this.graph.nodeIds.length
@@ -371,12 +378,13 @@ class Layout_Layout {
       console.log('LOOP STARTS')
       edge = this.findMinSlackEdge()
       console.log('minslackedge is', edge)
-      delta = this.treeGraph.hasNode(edge.from.id) ? this.slack(edge) : -this.slack(edge)
+      delta = this.treeGraph.hasNode(edge.from.id)
+        ? this.slack(edge)
+        : -this.slack(edge)
       this.shiftRanks(delta)
       doneTimes++
       if (doneTimes > 200) {
         throw new Error('too many loops, breaking now!')
-        break
       }
     }
   }
@@ -389,7 +397,7 @@ class Layout_Layout {
     function dfs(node) {
       layout.graph.nodeEdges(node).forEach(edge => {
         console.log('CHECKING EDGE', edge)
-        const to = (node.id === edge.from.id) ? edge.to : edge.from
+        const to = node.id === edge.from.id ? edge.to : edge.from
         if (!layout.treeGraph.hasNode(to.id) && !layout.slack(edge)) {
           console.log('ADDING NODE TO TIGHTTREE')
           layout.treeGraph.setNode(to.id)
@@ -411,7 +419,10 @@ class Layout_Layout {
     console.log('finding min slack edge')
 
     this.graph.edges.forEach(edge => {
-      if (this.treeGraph.hasNode(edge.from.id) !== this.treeGraph.hasNode(edge.to.id)) {
+      if (
+        this.treeGraph.hasNode(edge.from.id) !==
+        this.treeGraph.hasNode(edge.to.id)
+      ) {
         const slack = this.slack(edge)
         if (slack < minSlack) {
           minSlackEdge = edge
@@ -426,10 +437,16 @@ class Layout_Layout {
   /**
    * Returns the amount of slack for the given edge. The slack is defined as the difference
    * between the length of the edge and its minimum length
-   * @param {Edge} edge 
+   * @param {Edge} edge
    */
   slack(edge) {
-    console.log('calculating slack of', edge.to.rank, edge.from.rank, edge.minLen, edge.to.rank - edge.from.rank)
+    console.log(
+      'calculating slack of',
+      edge.to.rank,
+      edge.from.rank,
+      edge.minLen,
+      edge.to.rank - edge.from.rank
+    )
     return edge.to.rank - edge.from.rank - edge.minLen
   }
 
@@ -439,6 +456,7 @@ class Layout_Layout {
     })
   }
 }
+
 // CONCATENATED MODULE: ./src/Graph.js
 
 
@@ -448,16 +466,27 @@ const GRAPH_NODE = '\x00'
 
 class Graph_Graph {
   constructor({
-      directed: directed = true,
-      multiGraph: multiGraph = false,
-      compound: compound = false,
-      rankDir: rankDir = 'TB',
-      rankSep: rankSep = 50,
-      edgeSep: edgeSep = 20,
-      nodeSep: nodeSep = 50,
-      marginX: marginX = 20,
-      marginY: marginY = 20
-    }) {
+    directed = true,
+    multiGraph = false,
+    compound = false,
+    rankDir = 'TB',
+    rankSep = 50,
+    edgeSep = 20,
+    nodeSep = 50,
+    marginX = 20,
+    marginY = 20
+  }) {
+    Object.assign(this, {
+      directed,
+      multiGraph,
+      compound,
+      rankDir,
+      rankSep,
+      edgeSep,
+      nodeSep,
+      marginX,
+      marginY
+    })
     /** @type {{id: GraphNode}} */
     this._nodes = {}
     /** @type {{id: Edge}} */
@@ -483,15 +512,12 @@ class Graph_Graph {
 
     // v -> w -> Number
     this.sucs = {}
-
-    // e -> edgeObj
-    this.edgeObjs = {}
   }
 
   /**
-   * 
-   * @param {string} id 
-   * @param {{}} options 
+   *
+   * @param {string} id
+   * @param {{}} options
    * @returns {GraphNode} node
    */
   setNode(id, options) {
@@ -520,8 +546,8 @@ class Graph_Graph {
   }
 
   /**
-   * 
-   * @param {string} id 
+   *
+   * @param {string} id
    */
   removeNode(id) {
     console.log('TODO: removing not finished')
@@ -543,10 +569,10 @@ class Graph_Graph {
   }
 
   /**
-   * 
-   * @param {string} from 
-   * @param {string} to 
-   * @param {{}} options 
+   *
+   * @param {string} from
+   * @param {string} to
+   * @param {{}} options
    */
   setEdge(from, to, options) {
     console.log('setting edge', from, to, options)
@@ -574,8 +600,8 @@ class Graph_Graph {
   }
 
   /**
-   * 
-   * @param {string} id 
+   *
+   * @param {string} id
    */
   removeEdge(id) {
     console.log('TODO: removing not finished')
@@ -611,9 +637,9 @@ class Graph_Graph {
   }
 
   /**
-   * 
-   * @param {GraphNode} fromId 
-   * @param {GraphNode} toId 
+   *
+   * @param {GraphNode} fromId
+   * @param {GraphNode} toId
    */
   nodeEdges(from, to) {
     const inEdges = this.inEdges(from, to)
@@ -632,11 +658,11 @@ class Graph_Graph {
   }
 
   /**
-   * 
-   * @param {string} id 
+   *
+   * @param {string} id
    */
   hasNode(id) {
-    return (this._nodes[id])
+    return this._nodes[id]
   }
 
   /**
@@ -660,9 +686,9 @@ class Graph_Graph {
   }
 
   /**
-   * 
-   * @param {GraphNode} from 
-   * @param {GraphNode} to 
+   *
+   * @param {GraphNode} from
+   * @param {GraphNode} to
    */
   inEdges(from, to) {
     // console.log('ins', this.in)
@@ -678,11 +704,11 @@ class Graph_Graph {
     }
     return edges.filter(edge => edge.from.id === to.id)
   }
-  
+
   /**
-   * 
-   * @param {GraphNode} from 
-   * @param {GraphNode} to 
+   *
+   * @param {GraphNode} from
+   * @param {GraphNode} to
    */
   outEdges(from, to) {
     // console.log('outs', this.out)
@@ -709,7 +735,6 @@ class Graph_Graph {
 
 // CONCATENATED MODULE: ./src/graph/Svg.js
 class GraphSvg {
-
   constructor(tag) {
     /**
      * @type {HTMLElement}
@@ -718,8 +743,8 @@ class GraphSvg {
   }
 
   /**
-   * 
-   * @param {string|GraphSvg} tag 
+   *
+   * @param {string|GraphSvg} tag
    * @returns {GraphSvg}
    */
   append(el) {
@@ -747,7 +772,7 @@ class GraphSvg {
   selectAll(selector) {
     const res = this.node.querySelectorAll(selector)
     if (res) {
-      return Array.from(res).map((node) => new GraphSvg(node))
+      return Array.from(res).map(node => new GraphSvg(node))
     }
 
     return null
@@ -760,14 +785,15 @@ class GraphSvg {
   }
 
   /**
-   * 
-   * @param {string} c 
+   *
+   * @param {string} c
    */
   addClass(c) {
     this.node.classList.add(c)
     return this
   }
 }
+
 // CONCATENATED MODULE: ./src/graph/Shape.js
 
 
@@ -824,14 +850,15 @@ class Label_GraphLabel {
 
 class Renderer_Renderer {
   /**
-   * 
-   * @param {Graph} graph 
+   *
+   * @param {Graph} graph
    */
   constructor(graph) {
     this.graph = graph
   }
 
   render(svg) {
+    console.log('rendering', svg, this.graph)
     // TODO: remove all children of svg
 
     const edgePathsGroup = this.createOrSelectGroup(svg, 'edgePaths')
@@ -839,9 +866,7 @@ class Renderer_Renderer {
       this.createOrSelectGroup(svg, 'edgeLabels'),
       this.graph
     )
-    this.createNodes(
-      this.createOrSelectGroup(svg, 'nodes')
-    )
+    this.createNodes(this.createOrSelectGroup(svg, 'nodes'))
 
     this.graph.layout()
 
@@ -874,11 +899,15 @@ class Renderer_Renderer {
       labelBBox.width += graphNode.paddingLeft + graphNode.paddingRight
       labelBBox.height += graphNode.paddingTop + graphNode.paddingBottom
 
-      labelGroup.attr('transform', 'translate(' +
-        ((graphNode.paddingLeft - graphNode.paddingRight) / 2) + ',' +
-        ((graphNode.paddingTop - graphNode.paddingBottom) / 2) + ')'
+      labelGroup.attr(
+        'transform',
+        'translate(' +
+          (graphNode.paddingLeft - graphNode.paddingRight) / 2 +
+          ',' +
+          (graphNode.paddingTop - graphNode.paddingBottom) / 2 +
+          ')'
       )
-      
+
       // nodeGroup.node.style.opacity = 0
 
       const shape = nodeGroup.append(
@@ -921,9 +950,17 @@ class Renderer_Renderer {
   }
 
   positionNodes() {
-    console.log('position nodes', this.graph.nodes, 'with edges', this.graph.edges)
+    console.log(
+      'position nodes',
+      this.graph.nodes,
+      'with edges',
+      this.graph.edges
+    )
     this.graph.nodes.forEach(graphNode => {
-      graphNode.svgGroup.attr('transform', 'translate(' + graphNode.x + ',' + graphNode.y + ')')
+      graphNode.svgGroup.attr(
+        'transform',
+        'translate(' + graphNode.x + ',' + graphNode.y + ')'
+      )
     })
   }
 
