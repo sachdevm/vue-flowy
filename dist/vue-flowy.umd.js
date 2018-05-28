@@ -200,9 +200,9 @@ class Layout_Layout {
 
   makeSpaceForEdgeLabels() {
     this.graph.rankSep /= 2
-    console.log(this.graph)
+    ldb(this.graph)
     this.graph.edges.forEach(edge => {
-      console.log('making space for edge', edge)
+      ldb('making space for edge', edge)
       edge.minLen *= 2
 
       if (edge.labelPos.toLowerCase() === 'c') {
@@ -218,10 +218,10 @@ class Layout_Layout {
   }
 
   createNestingGraph() {
-    console.log('creating nesting graph')
+    ldb('creating nesting graph')
     this.graph.root = this.graph.setNode('_root', { dummy: 'root' })
     const depths = this.treeDepths()
-    console.log('depths', depths)
+    ldb('depths', depths)
     const height = Math.max(...Object.values(depths)) - 1
     const nodeSep = 2 * height + 1
 
@@ -238,7 +238,7 @@ class Layout_Layout {
 
     // create border nodes and link them up
     this.graph.getChildren().forEach(child => {
-      console.log('calling dfs with', this.graph.root, nodeSep, weight, height, depths, child)
+      ldb('calling dfs with', this.graph.root, nodeSep, weight, height, depths, child)
       this.dfs(this.graph.root, nodeSep, weight, height, depths, child)
     })
 
@@ -261,10 +261,10 @@ class Layout_Layout {
 
     function dfs(nodeId, depth = 1) {
       const children = layout.graph.getChildren(nodeId)
-      console.log('children of', nodeId, 'are', children, '. depth:', depth)
+      ldb('children of', nodeId, 'are', children, '. depth:', depth)
       if (children && children.length) {
         children.forEach(childId => {
-          console.log('child', childId)
+          ldb('child', childId)
           dfs(childId, depth + 1)
         })
       }
@@ -287,7 +287,7 @@ class Layout_Layout {
    */
   dfs(root, nodeSep, weight, height, depths, nodeId) {
     const children = this.graph.getChildren(nodeId)
-    console.log('DFS: children of', nodeId, children)
+    ldb('DFS: children of', nodeId, children)
     if (!children.length) {
       if (nodeId !== root.id) {
         this.graph.setEdge(root.id, nodeId, { weight: 0, minLen: nodeSep })
@@ -379,7 +379,7 @@ class Layout_Layout {
 
   positionY() {
     const layering = this.buildLayerMatrix()
-    console.log('layering', layering)
+    ldb('layering', layering)
     const rankSep = this.graph.rankSep
     let prevY = 0
     layering.forEach(layer => {
@@ -388,7 +388,7 @@ class Layout_Layout {
           return node.height
         })
       )
-      console.log('maxHeight of nodes layer', maxHeight)
+      ldb('maxHeight of nodes layer', maxHeight)
       layer.forEach(node => {
         node.y = prevY + maxHeight / 2
       })
@@ -399,7 +399,7 @@ class Layout_Layout {
   buildLayerMatrix() {
     const layering = []
     this.graph.nodes.forEach(node => {
-      console.log('creating layer with node', node, node.rank)
+      ldb('creating layer with node', node, node.rank)
       if (node.rank) {
         if (!layering[node.rank]) {
           layering[node.rank] = []
@@ -443,7 +443,7 @@ class Layout_Layout {
     const start = this.graph.nodeIds[0]
     const size = this.graph.nodeIds.length
     this.treeGraph.setNode(start)
-    console.log('start is', start, 'size is', size)
+    ldb('start is', start, 'size is', size)
 
     let edge
     let delta
@@ -467,13 +467,13 @@ class Layout_Layout {
   tightTree() {
     const layout = this
     function dfs(node) {
-      console.log('nodeEdges', layout.graph.nodeEdges(node))
+      ldb('nodeEdges', layout.graph.nodeEdges(node))
       layout.graph.nodeEdges(node).forEach(edge => {
-        console.log('nodeEdge for', node.id, edge)
+        ldb('nodeEdge for', node.id, edge)
         const to = node.id === edge.from.id ? edge.to : edge.from
-        console.log('not hasNode', !layout.treeGraph.hasNode(to.id), 'not slack', !layout.slack(edge))
+        ldb('not hasNode', !layout.treeGraph.hasNode(to.id), 'not slack', !layout.slack(edge))
         if (!layout.treeGraph.hasNode(to.id) && !layout.slack(edge)) {
-          console.log('adding node to tighttree', to)
+          ldb('adding node to tighttree', to)
           layout.treeGraph.setNode(to.id)
           layout.treeGraph.setEdge(node.id, to.id)
           dfs(to)
@@ -482,7 +482,7 @@ class Layout_Layout {
     }
 
     this.treeGraph.nodes.forEach(dfs)
-    console.log('tightTree size is', this.treeGraph.nodeIds.length)
+    ldb('tightTree size is', this.treeGraph.nodeIds.length)
     return this.treeGraph.nodeIds.length
   }
 
@@ -490,7 +490,7 @@ class Layout_Layout {
     let minSlackEdge
     let minSlack = Infinity
 
-    console.log('finding min slack edge')
+    ldb('finding min slack edge')
 
     this.graph.edges.forEach(edge => {
       if (
@@ -514,7 +514,7 @@ class Layout_Layout {
    * @param {Edge} edge
    */
   slack(edge) {
-    console.log(
+    ldb(
       'calculating slack of',
       edge,
       edge.to.rank,
@@ -526,7 +526,7 @@ class Layout_Layout {
 
   order() {
     const maxRank = this.maxRank()
-    console.log('STOPPED HERE, code further!')
+    ldb('STOPPED HERE, code further!')
     // const downLayerGraphs = buildLayerGraphs(g, _.range(1, maxRank + 1), 'inEdges')
     // const upLayerGraphs = buildLayerGraphs(g, _.range(maxRank - 1, -1, -1), 'outEdges')
 
@@ -623,6 +623,8 @@ class Layout_Layout {
 
 
 
+
+const gdb = browser_default()('graph')
 const GRAPH_NODE = '\x00'
 
 class Graph_Graph {
@@ -689,7 +691,7 @@ class Graph_Graph {
       return this._nodes[id]
     }
 
-    console.log('creating node', id, options)
+    gdb('creating node', id, options)
 
     this._nodes[id] = new GraphNode(id, options)
 
@@ -711,7 +713,7 @@ class Graph_Graph {
    * @param {string} id
    */
   removeNode(id) {
-    console.log('TODO: removing not finished')
+    gdb('TODO: removing not finished')
     if (!this._nodes[id]) {
       return
     }
@@ -736,7 +738,7 @@ class Graph_Graph {
    * @param {{}} options
    */
   setEdge(from, to, options) {
-    console.log('setting edge', from, to, options)
+    gdb('setting edge', from, to, options)
 
     const edgeId = Edge.generateId(from, to, this.directed)
 
@@ -765,7 +767,7 @@ class Graph_Graph {
    * @param {string} id
    */
   removeEdge(id) {
-    console.log('TODO: removing not finished')
+    gdb('TODO: removing not finished')
     if (!this.edges[id]) {
       return
     }
@@ -844,7 +846,7 @@ class Graph_Graph {
   }
 
   layout() {
-    console.log('layouting graph')
+    gdb('layouting graph')
     const layoutGraph = new Layout_Layout(this)
   }
 
@@ -882,9 +884,9 @@ class Graph_Graph {
    * @param {GraphNode} to
    */
   inEdges(from, to) {
-    // console.log('ins', this.in)
+    // gdb('ins', this.in)
     let inFrom = this.in[from.id]
-    // console.log('in from', from, 'to', to, inFrom)
+    // gdb('in from', from, 'to', to, inFrom)
     if (!inFrom) {
       return
     }
@@ -902,9 +904,9 @@ class Graph_Graph {
    * @param {GraphNode} to
    */
   outEdges(from, to) {
-    // console.log('outs', this.out)
+    // gdb('outs', this.out)
     let outFrom = this.out[from.id]
-    // console.log('out from', from, 'to', to, outFrom)
+    // gdb('out from', from, 'to', to, outFrom)
     if (!outFrom) {
       return
     }
@@ -999,7 +1001,6 @@ class Shape_Shape {
   constructor(shapeType, bbox, options) {
     /** @type {GraphSvg} */
     this.shape = this[shapeType](bbox, options)
-    console.log('inside bbox', this.shape.node.getBBox())
   }
   /**
    * 
@@ -1007,7 +1008,6 @@ class Shape_Shape {
    * @param {Object} options 
    */
   rect(bbox, options) {
-    console.log('bbox', bbox)
     return new GraphSvg('rect')
       .attr('rx', options.rx)
       .attr('ry', options.ry)
@@ -1228,6 +1228,7 @@ class FlowElement {
 
 class FlowChart_FlowChart {
   constructor(options) {
+    localStorage.debug = 'layout'
     this.elements = []
   }
 
@@ -1693,14 +1694,44 @@ var substr = 'ab'.substr(-1) === 'b'
 
 /***/ }),
 
+/***/ "4Qej":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("I1BE")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".flowyChart svg{display:block;margin:0 auto}.flowyChart .node rect{stroke:#999;fill:#fff;stroke-width:1.5px}.flowyChart .edgePath path{stroke:#333;stroke-width:1.5px}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "A57m":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("4Qej");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("SZ7m").default
+var update = add("407dd04a", content, true, {"sourceMap":false,"shadowMode":false});
+
+/***/ }),
+
 /***/ "E1aB":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_2_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_2_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("yF/8");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_2_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_2_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_2_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_2_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_2_0_node_modules_css_loader_index_js_ref_8_oneOf_2_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_2_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("A57m");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_2_0_node_modules_css_loader_index_js_ref_8_oneOf_2_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_2_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_2_0_node_modules_css_loader_index_js_ref_8_oneOf_2_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_2_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_2_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_2_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0___default.a); 
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_2_0_node_modules_css_loader_index_js_ref_8_oneOf_2_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_2_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -1878,6 +1909,89 @@ if (typeof window !== 'undefined') {
 
 /***/ }),
 
+/***/ "I1BE":
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+
 /***/ "NOtv":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1903,12 +2017,17 @@ exports.storage = 'undefined' != typeof chrome
  */
 
 exports.colors = [
-  'lightseagreen',
-  'forestgreen',
-  'goldenrod',
-  'dodgerblue',
-  'darkorchid',
-  'crimson'
+  '#0000CC', '#0000FF', '#0033CC', '#0033FF', '#0066CC', '#0066FF', '#0099CC',
+  '#0099FF', '#00CC00', '#00CC33', '#00CC66', '#00CC99', '#00CCCC', '#00CCFF',
+  '#3300CC', '#3300FF', '#3333CC', '#3333FF', '#3366CC', '#3366FF', '#3399CC',
+  '#3399FF', '#33CC00', '#33CC33', '#33CC66', '#33CC99', '#33CCCC', '#33CCFF',
+  '#6600CC', '#6600FF', '#6633CC', '#6633FF', '#66CC00', '#66CC33', '#9900CC',
+  '#9900FF', '#9933CC', '#9933FF', '#99CC00', '#99CC33', '#CC0000', '#CC0033',
+  '#CC0066', '#CC0099', '#CC00CC', '#CC00FF', '#CC3300', '#CC3333', '#CC3366',
+  '#CC3399', '#CC33CC', '#CC33FF', '#CC6600', '#CC6633', '#CC9900', '#CC9933',
+  '#CCCC00', '#CCCC33', '#FF0000', '#FF0033', '#FF0066', '#FF0099', '#FF00CC',
+  '#FF00FF', '#FF3300', '#FF3333', '#FF3366', '#FF3399', '#FF33CC', '#FF33FF',
+  '#FF6600', '#FF6633', '#FF9900', '#FF9933', '#FFCC00', '#FFCC33'
 ];
 
 /**
@@ -1925,6 +2044,11 @@ function useColors() {
   // explicitly
   if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
     return true;
+  }
+
+  // Internet Explorer and Edge do not support colors.
+  if (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/)) {
+    return false;
   }
 
   // is webkit? http://stackoverflow.com/a/16459606/376773
@@ -2038,7 +2162,7 @@ function load() {
 
   // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
   if (!r && typeof process !== 'undefined' && 'env' in process) {
-    r = Object({"NODE_ENV":"production","BASE_URL":"/"}).DEBUG;
+    r = Object({"VUE_APP_DEBUG":"true","NODE_ENV":"production","BASE_URL":"/"}).DEBUG;
   }
 
   return r;
@@ -2108,6 +2232,269 @@ exports.features = {};
 
 /***/ }),
 
+/***/ "SZ7m":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+// CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/listToStyles.js
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/addStylesClient.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return addStylesClient; });
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+var options = null
+var ssrIdKey = 'data-vue-ssr-id'
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+function addStylesClient (parentId, list, _isProduction, _options) {
+  isProduction = _isProduction
+
+  options = _options || {}
+
+  var styles = listToStyles(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = listToStyles(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+  if (options.ssrId) {
+    styleElement.setAttribute(ssrIdKey, obj.id)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+
 /***/ "lv48":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2127,6 +2514,11 @@ exports.enabled = enabled;
 exports.humanize = __webpack_require__("FGiv");
 
 /**
+ * Active `debug` instances.
+ */
+exports.instances = [];
+
+/**
  * The currently active debug mode names, and names to skip.
  */
 
@@ -2140,12 +2532,6 @@ exports.skips = [];
  */
 
 exports.formatters = {};
-
-/**
- * Previous log timestamp.
- */
-
-var prevTime;
 
 /**
  * Select a color.
@@ -2174,6 +2560,8 @@ function selectColor(namespace) {
  */
 
 function createDebug(namespace) {
+
+  var prevTime;
 
   function debug() {
     // disabled?
@@ -2231,13 +2619,26 @@ function createDebug(namespace) {
   debug.enabled = exports.enabled(namespace);
   debug.useColors = exports.useColors();
   debug.color = selectColor(namespace);
+  debug.destroy = destroy;
 
   // env-specific initialization logic for debug instances
   if ('function' === typeof exports.init) {
     exports.init(debug);
   }
 
+  exports.instances.push(debug);
+
   return debug;
+}
+
+function destroy () {
+  var index = exports.instances.indexOf(this);
+  if (index !== -1) {
+    exports.instances.splice(index, 1);
+    return true;
+  } else {
+    return false;
+  }
 }
 
 /**
@@ -2254,10 +2655,11 @@ function enable(namespaces) {
   exports.names = [];
   exports.skips = [];
 
+  var i;
   var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
   var len = split.length;
 
-  for (var i = 0; i < len; i++) {
+  for (i = 0; i < len; i++) {
     if (!split[i]) continue; // ignore empty strings
     namespaces = split[i].replace(/\*/g, '.*?');
     if (namespaces[0] === '-') {
@@ -2265,6 +2667,11 @@ function enable(namespaces) {
     } else {
       exports.names.push(new RegExp('^' + namespaces + '$'));
     }
+  }
+
+  for (i = 0; i < exports.instances.length; i++) {
+    var instance = exports.instances[i];
+    instance.enabled = exports.enabled(instance.namespace);
   }
 }
 
@@ -2287,6 +2694,9 @@ function disable() {
  */
 
 function enabled(name) {
+  if (name[name.length - 1] === '*') {
+    return true;
+  }
   var i, len;
   for (i = 0, len = exports.skips.length; i < len; i++) {
     if (exports.skips[i].test(name)) {
@@ -2314,13 +2724,6 @@ function coerce(val) {
   return val;
 }
 
-
-/***/ }),
-
-/***/ "yF/8":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ })
 

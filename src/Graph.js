@@ -1,7 +1,9 @@
 import GraphNode from './graph/Node'
 import Layout from './graph/Layout'
 import Edge from './graph/Edge'
+import debug from 'debug'
 
+const gdb = debug('graph')
 const GRAPH_NODE = '\x00'
 
 export default class Graph {
@@ -68,7 +70,7 @@ export default class Graph {
       return this._nodes[id]
     }
 
-    console.log('creating node', id, options)
+    gdb('creating node', id, options)
 
     this._nodes[id] = new GraphNode(id, options)
 
@@ -90,7 +92,7 @@ export default class Graph {
    * @param {string} id
    */
   removeNode(id) {
-    console.log('TODO: removing not finished')
+    gdb('TODO: removing not finished')
     if (!this._nodes[id]) {
       return
     }
@@ -115,7 +117,7 @@ export default class Graph {
    * @param {{}} options
    */
   setEdge(from, to, options) {
-    console.log('setting edge', from, to, options)
+    gdb('setting edge', from, to, options)
 
     const edgeId = Edge.generateId(from, to, this.directed)
 
@@ -144,7 +146,7 @@ export default class Graph {
    * @param {string} id
    */
   removeEdge(id) {
-    console.log('TODO: removing not finished')
+    gdb('TODO: removing not finished')
     if (!this.edges[id]) {
       return
     }
@@ -223,7 +225,7 @@ export default class Graph {
   }
 
   layout() {
-    console.log('layouting graph')
+    gdb('layouting graph')
     const layoutGraph = new Layout(this)
   }
 
@@ -261,9 +263,9 @@ export default class Graph {
    * @param {GraphNode} to
    */
   inEdges(from, to) {
-    // console.log('ins', this.in)
+    // gdb('ins', this.in)
     let inFrom = this.in[from.id]
-    // console.log('in from', from, 'to', to, inFrom)
+    // gdb('in from', from, 'to', to, inFrom)
     if (!inFrom) {
       return
     }
@@ -281,9 +283,9 @@ export default class Graph {
    * @param {GraphNode} to
    */
   outEdges(from, to) {
-    // console.log('outs', this.out)
+    // gdb('outs', this.out)
     let outFrom = this.out[from.id]
-    // console.log('out from', from, 'to', to, outFrom)
+    // gdb('out from', from, 'to', to, outFrom)
     if (!outFrom) {
       return
     }

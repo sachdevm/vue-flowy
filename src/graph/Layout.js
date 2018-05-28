@@ -29,9 +29,9 @@ export default class Layout {
 
   makeSpaceForEdgeLabels() {
     this.graph.rankSep /= 2
-    console.log(this.graph)
+    ldb(this.graph)
     this.graph.edges.forEach(edge => {
-      console.log('making space for edge', edge)
+      ldb('making space for edge', edge)
       edge.minLen *= 2
 
       if (edge.labelPos.toLowerCase() === 'c') {
@@ -47,10 +47,10 @@ export default class Layout {
   }
 
   createNestingGraph() {
-    console.log('creating nesting graph')
+    ldb('creating nesting graph')
     this.graph.root = this.graph.setNode('_root', { dummy: 'root' })
     const depths = this.treeDepths()
-    console.log('depths', depths)
+    ldb('depths', depths)
     const height = Math.max(...Object.values(depths)) - 1
     const nodeSep = 2 * height + 1
 
@@ -67,7 +67,7 @@ export default class Layout {
 
     // create border nodes and link them up
     this.graph.getChildren().forEach(child => {
-      console.log('calling dfs with', this.graph.root, nodeSep, weight, height, depths, child)
+      ldb('calling dfs with', this.graph.root, nodeSep, weight, height, depths, child)
       this.dfs(this.graph.root, nodeSep, weight, height, depths, child)
     })
 
@@ -90,10 +90,10 @@ export default class Layout {
 
     function dfs(nodeId, depth = 1) {
       const children = layout.graph.getChildren(nodeId)
-      console.log('children of', nodeId, 'are', children, '. depth:', depth)
+      ldb('children of', nodeId, 'are', children, '. depth:', depth)
       if (children && children.length) {
         children.forEach(childId => {
-          console.log('child', childId)
+          ldb('child', childId)
           dfs(childId, depth + 1)
         })
       }
@@ -116,7 +116,7 @@ export default class Layout {
    */
   dfs(root, nodeSep, weight, height, depths, nodeId) {
     const children = this.graph.getChildren(nodeId)
-    console.log('DFS: children of', nodeId, children)
+    ldb('DFS: children of', nodeId, children)
     if (!children.length) {
       if (nodeId !== root.id) {
         this.graph.setEdge(root.id, nodeId, { weight: 0, minLen: nodeSep })
@@ -208,7 +208,7 @@ export default class Layout {
 
   positionY() {
     const layering = this.buildLayerMatrix()
-    console.log('layering', layering)
+    ldb('layering', layering)
     const rankSep = this.graph.rankSep
     let prevY = 0
     layering.forEach(layer => {
@@ -217,7 +217,7 @@ export default class Layout {
           return node.height
         })
       )
-      console.log('maxHeight of nodes layer', maxHeight)
+      ldb('maxHeight of nodes layer', maxHeight)
       layer.forEach(node => {
         node.y = prevY + maxHeight / 2
       })
@@ -228,7 +228,7 @@ export default class Layout {
   buildLayerMatrix() {
     const layering = []
     this.graph.nodes.forEach(node => {
-      console.log('creating layer with node', node, node.rank)
+      ldb('creating layer with node', node, node.rank)
       if (node.rank) {
         if (!layering[node.rank]) {
           layering[node.rank] = []
@@ -272,7 +272,7 @@ export default class Layout {
     const start = this.graph.nodeIds[0]
     const size = this.graph.nodeIds.length
     this.treeGraph.setNode(start)
-    console.log('start is', start, 'size is', size)
+    ldb('start is', start, 'size is', size)
 
     let edge
     let delta
@@ -296,13 +296,13 @@ export default class Layout {
   tightTree() {
     const layout = this
     function dfs(node) {
-      console.log('nodeEdges', layout.graph.nodeEdges(node))
+      ldb('nodeEdges', layout.graph.nodeEdges(node))
       layout.graph.nodeEdges(node).forEach(edge => {
-        console.log('nodeEdge for', node.id, edge)
+        ldb('nodeEdge for', node.id, edge)
         const to = node.id === edge.from.id ? edge.to : edge.from
-        console.log('not hasNode', !layout.treeGraph.hasNode(to.id), 'not slack', !layout.slack(edge))
+        ldb('not hasNode', !layout.treeGraph.hasNode(to.id), 'not slack', !layout.slack(edge))
         if (!layout.treeGraph.hasNode(to.id) && !layout.slack(edge)) {
-          console.log('adding node to tighttree', to)
+          ldb('adding node to tighttree', to)
           layout.treeGraph.setNode(to.id)
           layout.treeGraph.setEdge(node.id, to.id)
           dfs(to)
@@ -311,7 +311,7 @@ export default class Layout {
     }
 
     this.treeGraph.nodes.forEach(dfs)
-    console.log('tightTree size is', this.treeGraph.nodeIds.length)
+    ldb('tightTree size is', this.treeGraph.nodeIds.length)
     return this.treeGraph.nodeIds.length
   }
 
@@ -319,7 +319,7 @@ export default class Layout {
     let minSlackEdge
     let minSlack = Infinity
 
-    console.log('finding min slack edge')
+    ldb('finding min slack edge')
 
     this.graph.edges.forEach(edge => {
       if (
@@ -343,7 +343,7 @@ export default class Layout {
    * @param {Edge} edge
    */
   slack(edge) {
-    console.log(
+    ldb(
       'calculating slack of',
       edge,
       edge.to.rank,
@@ -355,7 +355,7 @@ export default class Layout {
 
   order() {
     const maxRank = this.maxRank()
-    console.log('STOPPED HERE, code further!')
+    ldb('STOPPED HERE, code further!')
     // const downLayerGraphs = buildLayerGraphs(g, _.range(1, maxRank + 1), 'inEdges')
     // const upLayerGraphs = buildLayerGraphs(g, _.range(maxRank - 1, -1, -1), 'outEdges')
 
