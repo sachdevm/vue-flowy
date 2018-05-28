@@ -1,6 +1,9 @@
 import Graph from '../Graph'
 import GraphNode from './Node'
 import Edge from './Edge'
+import debug from 'debug'
+
+const ldb = debug('layout')
 
 export default class Layout {
   /**
@@ -11,7 +14,7 @@ export default class Layout {
     /** @type {Graph} */
     this.graph = graph
     this.runLayout()
-    console.log('new layout for graph', graph)
+    ldb('new layout for graph', graph)
   }
 
   runLayout() {
