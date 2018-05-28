@@ -94,7 +94,7 @@ export default class Graph {
    * @param {string} id
    */
   removeNode(id) {
-    gdb('TODO: removing not finished')
+    gdb('removing node id', id)
     if (!this._nodes[id]) {
       return
     }
@@ -106,8 +106,11 @@ export default class Graph {
       delete this.children[id]
     }
 
+    Object.keys(this.in[id]).forEach(this.removeEdge, this)
     delete this.in[id]
     delete this.preds[id]
+
+    Object.keys(this.out[id]).forEach(this.removeEdge, this)
     delete this.out[id]
     delete this.sucs[id]
   }
@@ -148,8 +151,9 @@ export default class Graph {
    * @param {string} id
    */
   removeEdge(id) {
-    gdb('TODO: removing not finished')
-    if (!this.edges[id]) {
+    gdb('removing edge', id)
+    if (!this._edges[id]) {
+      gdb('edge', id, 'does not exist. returning...')
       return
     }
     /** @type {Edge} */

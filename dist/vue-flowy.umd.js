@@ -201,6 +201,7 @@ class Layering_Layering {
   }
 
   _calculateXPositions() {
+    log('is', this.matrix)
     const xPositions = {}
     let adjustedLayering
     const verticals = ['u', 'd']
@@ -263,6 +264,7 @@ class Layering_Layering {
   _findSmallestWidthAlignment(xPositions) {
     const min = Infinity
     Object.values(xPositions).forEach(x => {
+      // log('XS is', x)
       const min = 0
       const max = 0
       return max - min
@@ -302,7 +304,6 @@ class Layering_Layering {
 
     layering.forEach(layer => {
       layer.forEach((node, order) => {
-        console.log('VA node', node)
         root[node.id] = node
         align[node.id] = node
         pos[node.id] = order
@@ -342,8 +343,8 @@ const Normalizer_log = browser_default()('normalizer')
 
 class Normalizer {
   /**
-   * 
-   * @param {Graph} graph 
+   *
+   * @param {Graph} graph
    */
   constructor(graph) {
     this.graph = graph
@@ -351,12 +352,13 @@ class Normalizer {
 
   normalize() {
     this.graph.dummyChains = []
+    Normalizer_log('EDGES', this.graph.edges)
     this.graph.edges.forEach(this._normalizeEdge, this)
   }
 
   /**
-   * 
-   * @param {Edge} edge 
+   *
+   * @param {Edge} edge
    */
   _normalizeEdge(edge) {
     if (edge.to.rank === edge.from.rank + 1) {
@@ -365,13 +367,20 @@ class Normalizer {
 
     Normalizer_log('not returning for', edge)
 
+    console.log(edge.from.rank, edge.to.rank)
     for (let i = edge.from.rank; i < edge.to.rank; i++) {
       edge.points = []
-      let dummy = this.graph.addDummyNode('edge', {rank: edge.from.rank}, '_d')
-      this.graph.setEdge(edge.from.id, dummy, {weight: edge.weight}, name)
+      let dummy = this.graph.addDummyNode(
+        'edge',
+        { rank: edge.from.rank },
+        '_d'
+      )
+      Normalizer_log('created dummy', dummy)
+      this.graph.setEdge(edge.from.id, dummy, { weight: edge.weight }, name)
     }
   }
 }
+
 // CONCATENATED MODULE: ./src/graph/Layout.js
 
 
@@ -459,6 +468,7 @@ class Layout_Layout {
     })
 
     this.graph.nodeRankFactor = nodeSep
+    ldb('edges after nesting graph', this.graph.edges.length)
   }
 
   cleanupNestingGraph() {
@@ -469,6 +479,7 @@ class Layout_Layout {
         this.graph.removeEdge(edge.id)
       }
     })
+    ldb('edges after cleanup nesting graph', this.graph.edges.length, this.graph.edges)
   }
 
   normalizeRanks() {
@@ -1125,7 +1136,7 @@ class Graph_Graph {
    * @param {string} id
    */
   removeNode(id) {
-    gdb('TODO: removing not finished')
+    gdb('removing node id', id)
     if (!this._nodes[id]) {
       return
     }
@@ -1137,8 +1148,11 @@ class Graph_Graph {
       delete this.children[id]
     }
 
+    Object.keys(this.in[id]).forEach(this.removeEdge, this)
     delete this.in[id]
     delete this.preds[id]
+
+    Object.keys(this.out[id]).forEach(this.removeEdge, this)
     delete this.out[id]
     delete this.sucs[id]
   }
@@ -1179,8 +1193,9 @@ class Graph_Graph {
    * @param {string} id
    */
   removeEdge(id) {
-    gdb('TODO: removing not finished')
-    if (!this.edges[id]) {
+    gdb('removing edge', id)
+    if (!this._edges[id]) {
+      gdb('edge', id, 'does not exist. returning...')
       return
     }
     /** @type {Edge} */
@@ -1734,7 +1749,7 @@ class FlowElement {
 
 class FlowChart_FlowChart {
   constructor(options) {
-    localStorage.debug = 'layering'
+    localStorage.debug = 'graph,layout'
     this.elements = []
   }
 

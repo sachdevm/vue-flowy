@@ -47,6 +47,7 @@ export default class Layering {
   }
 
   _calculateXPositions() {
+    log('is', this.matrix)
     const xPositions = {}
     let adjustedLayering
     const verticals = ['u', 'd']
@@ -109,6 +110,7 @@ export default class Layering {
   _findSmallestWidthAlignment(xPositions) {
     const min = Infinity
     Object.values(xPositions).forEach(x => {
+      // log('XS is', x)
       const min = 0
       const max = 0
       return max - min
@@ -148,7 +150,6 @@ export default class Layering {
 
     layering.forEach(layer => {
       layer.forEach((node, order) => {
-        console.log('VA node', node)
         root[node.id] = node
         align[node.id] = node
         pos[node.id] = order

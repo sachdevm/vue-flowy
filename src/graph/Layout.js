@@ -84,6 +84,7 @@ export default class Layout {
     })
 
     this.graph.nodeRankFactor = nodeSep
+    ldb('edges after nesting graph', this.graph.edges.length)
   }
 
   cleanupNestingGraph() {
@@ -94,6 +95,7 @@ export default class Layout {
         this.graph.removeEdge(edge.id)
       }
     })
+    ldb('edges after cleanup nesting graph', this.graph.edges.length, this.graph.edges)
   }
 
   normalizeRanks() {
