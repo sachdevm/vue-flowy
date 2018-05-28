@@ -11,18 +11,18 @@ export default class Graph {
     directed = true,
     multiGraph = false,
     compound = false,
-    rankDir = 'TB',
+    rankDir = 'tb',
     rankSep = 50,
     edgeSep = 20,
     nodeSep = 50,
     marginX = 20,
     marginY = 20
-  }) {
+  } = {}) {
     Object.assign(this, {
       directed,
       multiGraph,
       compound,
-      rankDir,
+      rankDir: rankDir.toLowerCase(),
       rankSep,
       edgeSep,
       nodeSep,
@@ -39,6 +39,8 @@ export default class Graph {
       this.children = {}
       this.children[GRAPH_NODE] = {}
     }
+
+    this.randomId = 1
 
     /** @type {GraphNode} */
     this.root = null
@@ -157,8 +159,19 @@ export default class Graph {
     delete this._edges[id]
   }
 
+  addDummyNode(type, attrs, name) {
+    name = name + this.randomId++
+    attrs.dummy = type
+    this.setNode(name, attrs)
+    return name
+  }
+
   getNode(id) {
     return this._nodes[id]
+  }
+
+  getEdge(fromId, toId) {
+    return this._edges[Edge.generateId(fromId, toId, this.directed)]
   }
 
   getChildren(id) {
@@ -175,6 +188,26 @@ export default class Graph {
       return this.nodes
     } else {
       return []
+    }
+  }
+
+  /**
+   * 
+   * @param {GraphNode} node 
+   */
+  getPredecessors(node) {
+    if (this.preds[node.id]) {
+      return Object.keys(this.preds[node.id])
+    }
+  }
+
+  /**
+   * 
+   * @param {GraphNode} node 
+   */
+  getSuccessors(node) {
+    if (this.sucs[node.id]) {
+      return Object.keys(this.sucs[node.id])
     }
   }
 
@@ -224,9 +257,9 @@ export default class Graph {
     return this.getChildren(id).length !== 0
   }
 
-  layout() {
+  doLayout() {
     gdb('layouting graph')
-    const layoutGraph = new Layout(this)
+    this.layout = new Layout(this)
   }
 
   /**
@@ -302,5 +335,68 @@ export default class Graph {
    */
   get nodeIds() {
     return Object.keys(this._nodes)
+  }
+
+  static buildBlockGraph(layering, root, reverseSep) {
+    const blockGraph = new Graph()
+    
+    layering.forEach(layer => {
+      let to
+      layer.forEach(node => {
+        blockGraph.setNode(root[node.id].id)
+        if (to) {
+          const prevMax = blockGraph.getEdge(root[to.id], root[node.id])
+          blockGraph.setEdge(root[to.id].id, root[node.id].id, {data: {unknown: Math.max(blockGraph.sep(reverseSep, node, to), prevMax || 0)}})
+        }
+        to = node
+      })
+    })
+
+    return blockGraph
+  }
+
+  sep(reverseSep, from, to) {
+    let sum = 0
+    let delta
+
+    sum += from.width / 2
+    if (from.labelPos) {
+      switch (from.labelPos.toLowerCase()) {
+        case 'l':
+          delta = -from.width / 2
+          break
+        case 'r':
+          delta = from.width / 2
+          break
+      }
+    }
+
+    if (delta) {
+      sum += reverseSep ? delta : -delta
+    }
+    delta = 0
+
+    sum += (from.dummy ? this.edgeSep : this.nodeSep) / 2
+    sum += (to.dummy ? this.edgeSep : this.nodeSep) / 2
+
+    sum += to.width / 2
+
+    if (to.labelPos) {
+      switch (to.labelPos.toLowerCase()) {
+        case 'l':
+          delta = to.width / 2
+          break
+        case 'r':
+          delta = -to.width / 2
+          break
+      }
+    }
+
+    if (delta) {
+      sum += reverseSep ? delta : -delta
+    }
+    delta = 0
+
+    return sum
   }
 }

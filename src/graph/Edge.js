@@ -1,3 +1,6 @@
+import Position from "./layout/Position";
+import Size from "./layout/Size";
+
 const DEFAULT_EDGE_NAME = '\x00'
 const EDGE_KEY_DELIM = '\x01'
 
@@ -17,6 +20,10 @@ export default class Edge {
     this.to = to
     this.order = 0
     this.points = []
+    this.data = {}
+    this.position = new Position()
+    this.size = new Size()
+    Object.assign(this, defaults)
     this.setOptions(options)
   }
 
@@ -30,6 +37,6 @@ export default class Edge {
   }
 
   setOptions(options) {
-    Object.assign(this, defaults, options)
+    Object.assign(this, options)
   }
 }

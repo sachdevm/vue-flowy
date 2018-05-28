@@ -8,7 +8,7 @@ import GraphSvg from './graph/Svg';
 
 export default class FlowChart {
   constructor(options) {
-    localStorage.debug = 'layout'
+    localStorage.debug = 'layering'
     this.elements = []
   }
 

@@ -1,3 +1,6 @@
+import Size from "./layout/Size";
+import Position from "./layout/Position";
+
 const defaults = {
   paddingLeft: 10,
   paddingRight: 10,
@@ -15,6 +18,8 @@ export default class GraphNode {
     /** @type {string} */
     this.id = id
     this.setOptions(options)
+    this.position = new Position()
+    this.size = new Size()
   }
 
   setOptions(options = {}) {

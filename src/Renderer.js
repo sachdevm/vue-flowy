@@ -23,7 +23,7 @@ export default class Renderer {
     )
     this.createNodes(this.createOrSelectGroup(svg, 'nodes'))
 
-    this.graph.layout()
+    this.graph.doLayout()
 
     let minX = 1000
     let minY = 1000

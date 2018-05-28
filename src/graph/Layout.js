@@ -2,6 +2,9 @@ import Graph from '../Graph'
 import GraphNode from './Node'
 import Edge from './Edge'
 import debug from 'debug'
+import Position from './layout/Position';
+import Layering from './layout/Layering';
+import Normalizer from './layout/Normalizer';
 
 const ldb = debug('layout')
 
@@ -22,8 +25,17 @@ export default class Layout {
     this.createNestingGraph()
     this.rank()
     this.cleanupNestingGraph()
+    this.normalizeRanks()
+
+    this.normalizer = new Normalizer(this.graph)
+    this.normalizer.normalize()
+
     this.order()
-    this.position()
+    this.adjustCoordinateSystem()
+
+    this.layering = new Layering(this.graph)
+    this.layering.calculatePositions()
+    this.undoCoordinateSystem()
     this.translateGraph()
   }
 
@@ -38,10 +50,10 @@ export default class Layout {
         return
       }
 
-      if (this.graph.rankDir === 'TB' || this.graph.rankDir === 'BT') {
-        edge.width += edge.labelOffset
+      if (this.graph.rankDir === 'tb' || this.graph.rankDir === 'bt') {
+        edge.size.width += edge.labelOffset
       } else {
-        edge.height += edge.labelOffset
+        edge.size.height += edge.labelOffset
       }
     })
   }
@@ -82,6 +94,11 @@ export default class Layout {
         this.graph.removeEdge(edge.id)
       }
     })
+  }
+
+  normalizeRanks() {
+    const minRank = this.minRank()
+    this.graph.nodes.forEach(node => node.rank -= minRank)
   }
 
   treeDepths() {
@@ -175,12 +192,6 @@ export default class Layout {
     return this.addDummyNode('border', node, prefix)
   }
 
-  addDummyNode(type, attrs, name) {
-    attrs.dummy = type
-    this.graph.setNode(name, attrs)
-    return name
-  }
-
   rank() {
     switch (this.graph.ranker) {
       case 'network-simplex':
@@ -199,45 +210,48 @@ export default class Layout {
   }
 
   position() {
+    const position = new Position(graph)
     this.positionY()
+    // this.positionX()
   }
 
   positionX() {
     const layering = this.buildLayerMatrix()
+
+    // const xss = {}
+    // let adjustedLayering
+    // ['u', 'd'].forEach(vert => {
+    //   adjustedLayering = vert === 'u' ? layering : Object.values(layering).reverse()
+    //   ['l', 'r'].forEach(horiz => {
+    //     if (horiz === 'r') {
+    //       adjustedLayering = adjustedLayering.map(inner => Object.values(inner).reverse())
+    //     }
+
+    //     const align = this.verticalAlignment(adjustedLayering)
+
+    //     xss[vert + horiz] = xs
+    //   })
+    // })
   }
 
   positionY() {
-    const layering = this.buildLayerMatrix()
-    ldb('layering', layering)
-    const rankSep = this.graph.rankSep
     let prevY = 0
-    layering.forEach(layer => {
+    this.layering.forEach(layer => {
       const maxHeight = Math.max(
         layer.map(node => {
           return node.height
         })
       )
-      ldb('maxHeight of nodes layer', maxHeight)
       layer.forEach(node => {
+        ldb('assigning y', node.id, prevY, maxHeight / 2, prevY + maxHeight / 2)
         node.y = prevY + maxHeight / 2
       })
       prevY += maxHeight + rankSep
     })
   }
 
-  buildLayerMatrix() {
-    const layering = []
-    this.graph.nodes.forEach(node => {
-      ldb('creating layer with node', node, node.rank)
-      if (node.rank) {
-        if (!layering[node.rank]) {
-          layering[node.rank] = []
-        }
-        layering[node.rank][node.order] = node
-      }
-    })
-
-    return layering
+  balance(xss, align) {
+    return
   }
 
   networkSimplexRanker() {
@@ -355,7 +369,12 @@ export default class Layout {
 
   order() {
     const maxRank = this.maxRank()
-    ldb('STOPPED HERE, code further!')
+    const layering = this.initOrder()
+    ldb('LAYERING', layering)
+    
+    this.assignOrder(layering)
+    // ldb('order', layering, this.graph.nodes)
+    // ldb('STOPPED HERE, code further!')
     // const downLayerGraphs = buildLayerGraphs(g, _.range(1, maxRank + 1), 'inEdges')
     // const upLayerGraphs = buildLayerGraphs(g, _.range(maxRank - 1, -1, -1), 'outEdges')
 
@@ -380,10 +399,108 @@ export default class Layout {
     // assignOrder(g, best)
   }
 
-  maxRank() {
-    this.graph.nodes.reduce((prevV, node) => {
+  buildLayerGraphs(ranks, relationship) {
+    return ranks.map(rank => this.buildLayerGraph(rank, relationship))
+  }
+
+  initOrder() {
+    const visited = {}
+    const simpleNodes = this.graph.nodes.filter(node => !this.graph.getChildren(node.id).length)
+    const maxRank = this.maxRank(simpleNodes)
+    const layers = []
+
+    function dfs (node) {
+      if (visited[node.id]) {
+        return
+      }
+      visited[node.id] = true
+      if (!layers[node.rank]) {
+        layers[node.rank] = []
+      }
+      layers[node.rank].push(node)
+      this.graph.getSuccessors(node).forEach(dfs)
+    }
+
+    function compare(a, b) {
+      if (a.rank < b.rank) {
+        return -1
+      }
+      if (a.rank > b.rank) {
+        return 1
+      }
+      return 0
+    }
+
+    const orderedNodeIds = simpleNodes.sort(compare)
+    orderedNodeIds.forEach(dfs, this)
+
+    return layers
+  }
+
+  assignOrder(layering) {
+    layering.forEach(layer => {
+      layer.forEach((node, index) => {
+        node.order = index
+      })
+    })
+  }
+
+  adjustCoordinateSystem() {
+    if (this.graph.rankDir === 'lr' || this.graph.rankDir === 'rl') {
+      this.swapWidthHeight()
+    }
+  }
+
+  undoCoordinateSystem() {
+    if (this.graph.rankDir === 'bt' || this.graph.rankDir === 'rl') {
+      this.reverseY()
+    }
+
+    if (this.graph.rankDir === 'lr' || this.graph.rankDir === 'rl') {
+      this.swapXY()
+      this.swapWidthHeight()
+    }
+  }
+
+  _swapWidthHeightOne(o) {
+    const w = o.width
+    o.width = o.height
+    o.height = w
+  }
+
+  swapWidthHeight() {
+    this.graph.nodes.forEach(this._swapWidthHeightOne)
+    this.graph.edges.forEach(this._swapWidthHeightOne)
+  }
+
+  _swapXYOne(o) {
+    const x = o.x
+    o.x = o.y
+    ldb('y before', o.y, 'after', x)
+    o.y = x
+    ldb('now', {x: o.x, y: o.y})
+  }
+
+  swapXY() {
+    this.graph.nodes.forEach(this._swapXYOne)
+    this.graph.edges.forEach(edge => {
+      edge.points.forEach(this._swapXYOne)
+      if (edge.x) {
+        this._swapXYOne(edge)
+      }
+    })
+  }
+
+  maxRank(nodes = this.graph.nodes) {
+    return nodes.reduce((prevV, node) => {
       return node.rank > prevV ? node.rank : prevV
     }, -Infinity)
+  }
+
+  minRank(nodes = this.graph.nodes) {
+    return nodes.reduce((prevV, node) => {
+      return node.rank < prevV ? node.rank : prevV
+    }, Infinity)
   }
 
   shiftRanks(delta) {
@@ -401,10 +518,10 @@ export default class Layout {
     const marginY = this.graph.marginY || 0
 
     function getExtremes(o) {
-      const x = o.x
-      const y = o.y
-      const w = o.width
-      const h = o.height
+      const x = o.x || 0
+      const y = o.y || 0
+      const w = o.width || 0
+      const h = o.height || 0
       minX = Math.min(minX, x - w / 2)
       maxX = Math.max(maxX, x + w / 2)
       minY = Math.min(minY, y - h / 2)
@@ -444,5 +561,44 @@ export default class Layout {
 
     this.graph.width = maxX - minX + marginX
     this.graph.height = maxY - minY + marginY
+  }
+
+
+  /**
+   * 
+   * @param {[{}]} arr 
+   * @param {string} key
+   */
+  sortBy(arr, key) {
+    function compare(a, b) {
+      if (a[key] < b[key]) {
+        return -1
+      }
+      if (a[key] > b[key]) {
+        return 1
+      }
+      return 0
+    }
+
+    return arr.sort(compare)
+  }
+
+  /**
+   * 
+   * @param {[{}]} arr 
+   * @param {any} fn Function for comparison
+   */
+  sortByFunction(arr, fn) {
+    function compare(a, b) {
+      if (fn(a) < fn(b)) {
+        return -1
+      }
+      if (fn(a) > fn(b)) {
+        return 1
+      }
+      return 0
+    }
+
+    return arr.sort(compare)
   }
 }
