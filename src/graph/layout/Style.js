@@ -1,5 +1,7 @@
 export default class Style {
-    constructor() { }
+    constructor() {
+        this.shape = 'rect';
+    }
     setPadding({ left = 10, top = 10, right = 10, bottom = 10 }) {
         this.padding = { left, top, right, bottom };
     }

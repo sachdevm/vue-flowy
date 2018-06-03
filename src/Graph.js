@@ -10,7 +10,6 @@ export default class Graph {
     constructor(options = {}) {
         this._nodes = {};
         this._edges = {};
-        this.layout = new Layout(this);
         this.size = new Size();
         this.style = new Style();
         this.nodeRankFactor = 0;
@@ -32,14 +31,6 @@ export default class Graph {
         this.ranker = 'network-simplex';
         Object.assign(this, options);
         this.rankDir = this.rankDir.toLowerCase();
-        // v -> edgeObj
-        // this.in = {}
-        // u -> v -> Number
-        // this.preds = {}
-        // v -> edgeObj
-        // this.out = {}
-        // v -> w -> Number
-        // this.sucs = {}
     }
     setNode(id, options = {}) {
         if (this._nodes[id]) {
@@ -71,7 +62,6 @@ export default class Graph {
             }
             return this;
         }
-        // first ensure the nodes exist
         const fromNode = this.setNode(fromId);
         const toNode = this.setNode(toId);
         const edge = new Edge(edgeId, fromNode, toNode, options);
@@ -152,7 +142,6 @@ export default class Graph {
         }
         let parentNode = this.setNode(parentId);
         let childNode = this.setNode(id);
-        // delete parentNode.children[id]
         this._nodes[id].parent = parentNode;
         parentNode.children[id] = childNode;
     }
@@ -185,8 +174,6 @@ export default class Graph {
         });
     }
     inEdges(from, to) {
-        // gdb('ins', this.in)
-        // gdb('in from', from, 'to', to, inFrom)
         if (!from.inEdges) {
             return [];
         }
@@ -197,7 +184,6 @@ export default class Graph {
         return edges.filter(edge => edge.from.id === to.id);
     }
     outEdges(from, to) {
-        // gdb('out from', from, 'to', to, outFrom)
         if (!from.outEdges) {
             return [];
         }
@@ -223,7 +209,7 @@ export default class Graph {
                 const prevMax = blockGraph.getEdge(root[to.id].id, root[node.id].id);
                 gdb('CHECK PREVMAX FROM STABLE');
                 blockGraph.setEdge(root[to.id].id, root[node.id].id, {
-                    maxSep: Math.max(blockGraph.sep(reverseSep, node, to), /*prevMax || */ 0)
+                    maxSep: Math.max(blockGraph.sep(reverseSep, node, to), 0)
                 });
                 to = node;
             });
@@ -235,16 +221,6 @@ export default class Graph {
         let delta;
         sum += from.size.width / 2;
         gdb('CHECK LABEL POS');
-        // if (from.labelPos) {
-        //   switch (from.labelPos.toLowerCase()) {
-        //     case 'l':
-        //       delta = -from.size.width / 2
-        //       break
-        //     case 'r':
-        //       delta = from.size.width / 2
-        //       break
-        //   }
-        // }
         if (delta) {
             sum += reverseSep ? delta : -delta;
         }
@@ -252,16 +228,6 @@ export default class Graph {
         sum += (from.dummy ? this.edgeSep : this.nodeSep) / 2;
         sum += (to.dummy ? this.edgeSep : this.nodeSep) / 2;
         sum += to.size.width / 2;
-        // if (to.labelPos) {
-        //   switch (to.labelPos.toLowerCase()) {
-        //     case 'l':
-        //       delta = to.size.width / 2
-        //       break
-        //     case 'r':
-        //       delta = -to.size.width / 2
-        //       break
-        //   }
-        // }
         if (delta) {
             sum += reverseSep ? delta : -delta;
         }

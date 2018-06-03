@@ -38,7 +38,7 @@ export default class Graph {
   private _nodes: GraphNodeList = {}
   private _edges: EdgeList = {}
 
-  layout: Layout = new Layout(this)
+  layout: Layout | undefined
   size: Size = new Size()
   style: Style = new Style()
   rootNode: GraphNode | undefined

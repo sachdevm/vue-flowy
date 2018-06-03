@@ -17,7 +17,7 @@ export default class Normalizer {
             edge.points = [];
             let dummy = this.graph.addDummyNode('edge', { rank: edge.from.rank }, '_d');
             this.graph.setEdge(edge.from.id, dummy.id, {
-                weight: edge.weight /*, name: edge.name*/
+                weight: edge.weight
             });
             if (i === edge.from.rank + 1) {
                 this.graph.dummyChain.push(dummy);

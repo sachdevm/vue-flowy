@@ -3,6 +3,8 @@ import { VueConstructor } from 'vue';
 import FlowChart from './FlowChart'
 
 const Plugin = {
+  VueFlowy,
+  FlowChart,
   install (Vue: VueConstructor) {
     Vue.component(VueFlowy.name, VueFlowy)
   }
@@ -10,4 +12,4 @@ const Plugin = {
 
 export default Plugin
 
-export { FlowChart }
+export { VueFlowy, FlowChart }

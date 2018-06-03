@@ -2,12 +2,9 @@ import Graph from '../../Graph';
 import debug from 'debug';
 const log = debug('layering');
 export default class Layering {
-    /**
-     *
-     * @param {Graph} graph
-     */
     constructor(graph) {
         this.graph = graph;
+        log('creating matrix once');
         this.matrix = this.buildLayerMatrix();
     }
     buildLayerMatrix() {
@@ -39,6 +36,9 @@ export default class Layering {
         });
     }
     _calculateXPositions() {
+        if (!this.graph.layout) {
+            throw new Error('Layout is not set yet!');
+        }
         log('is', this.buildLayerMatrix());
         const xPositions = {};
         let adjustedLayering;
@@ -53,7 +53,6 @@ export default class Layering {
                 }
                 log('adjusted layering is', adjustedLayering);
                 const align = this._verticalAlignment(adjustedLayering, vert, horiz);
-                // log('align is', align)
                 let xs = this._horizontalCompaction(adjustedLayering, align, horiz === 'r');
                 log(vert + horiz, xs);
                 if (horiz === 'r') {
@@ -100,7 +99,6 @@ export default class Layering {
         let minWidth = Infinity;
         let minXs = {};
         Object.values(xPositions).forEach(xs => {
-            // log('XS is', x)
             let minVal = Infinity;
             let maxVal = -Infinity;
             Object.keys(xs).forEach(nodeId => {
@@ -133,7 +131,6 @@ export default class Layering {
             visited[node.id] = true;
             xs[node.id] = blockGraph.inEdges(node).reduce((max, edge) => {
                 pass1(edge.from);
-                // log('pass1', blockGraph, edge)
                 return Math.max(max, xs[edge.from.id] + (edge.maxSep || 0));
             }, 0);
         }
@@ -163,6 +160,9 @@ export default class Layering {
                     : this.graph.getSuccessors(node);
                 if (!ws.length) {
                     return;
+                }
+                if (!this.graph.layout) {
+                    throw new Error('Layout for graph is not set!');
                 }
                 ws = this.graph.layout.sortByFunction(ws, w => pos[w]);
                 const mp = (ws.length - 1) / 2;

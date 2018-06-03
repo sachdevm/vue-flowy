@@ -1,16 +1,11 @@
 import Shape from './graph/Shape';
 import GraphLabel from './graph/Label';
 export default class Renderer {
-    /**
-     *
-     * @param {Graph} graph
-     */
     constructor(graph) {
         this.graph = graph;
     }
     render(svg) {
         console.log('rendering', svg, this.graph);
-        // TODO: remove all children of svg
         const edgePathsGroup = this.createOrSelectGroup(svg, 'edgePaths');
         const edgeLabels = this.createEdgeLabels(this.createOrSelectGroup(svg, 'edgeLabels'));
         this.createNodes(this.createOrSelectGroup(svg, 'nodes'));
@@ -32,7 +27,7 @@ export default class Renderer {
                 maxX = Math.max(maxX, edge.position.x + edge.size.width / 2);
                 maxY = Math.max(maxY, edge.position.y + edge.size.height / 2);
             }
-            const points = edge.points.slice(1, edge.points.length - 1); // intersetion points don't matter
+            const points = edge.points.slice(1, edge.points.length - 1);
             for (let i = 0; i < points.length; i++) {
                 const point = points[i];
                 minX = Math.min(minX, point.x);
@@ -52,26 +47,22 @@ export default class Renderer {
         const simpleNodes = this.graph.nodeIds.filter(id => {
             return !this.graph.isSubgraph(id);
         });
-        // we have to append all simpleNodes to the graph now
         this.graph.nodes.forEach(graphNode => {
             const nodeGroup = selection.append('g').addClass('node');
             const labelGroup = nodeGroup.append('g').addClass('label');
             const label = labelGroup.append(new GraphLabel({ label: graphNode.label }).group);
             const labelBBox = label.node.getBBox();
             if (graphNode.style.padding) {
-                // set width and height
                 labelBBox.width +=
                     graphNode.style.padding.left + graphNode.style.padding.right;
                 labelBBox.height +=
                     graphNode.style.padding.top + graphNode.style.padding.bottom;
-                // transform label with padding
                 labelGroup.attr('transform', 'translate(' +
                     (graphNode.style.padding.left - graphNode.style.padding.right) / 2 +
                     ',' +
                     (graphNode.style.padding.top - graphNode.style.padding.bottom) / 2 +
                     ')');
             }
-            // nodeGroup.node.style.opacity = 0
             if (!graphNode.style.shape) {
                 throw new Error('no shape is defined!');
             }
@@ -81,13 +72,6 @@ export default class Renderer {
             nodeGroup.append(labelGroup);
             graphNode.svgGroup = nodeGroup;
         });
-        // let svgNodes = selection.querySelectorAll('g.node')
-        // svgNodes.forEach((svgNode) => {
-        //   svgNode.classList.add('update')
-        // })
-        // for (const node of nodes) {
-        //   const shape = shapes[node.shape]
-        // }
     }
     createEdgeLabels(selection) {
         let svgEdgeLabels = selection.selectAll('g.edgeLabel');

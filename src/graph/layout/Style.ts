@@ -12,7 +12,7 @@ export default class Style {
   padding: RoundNumbers | undefined
   border: RoundNumbers | undefined
   radius: BorderRadius | undefined
-  shape: ShapeType | undefined
+  shape: ShapeType = 'rect'
 
   constructor() {}
 

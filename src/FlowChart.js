@@ -17,7 +17,6 @@ export default class FlowChart {
         svg.node.id = 'f' + element.id;
         element.appendChild(svg.node);
         const group = svg.append('g');
-        // Create the input graph
         const graph = new Graph({
             multiGraph: true,
             compound: true,
@@ -25,16 +24,13 @@ export default class FlowChart {
             marginX: 20,
             marginY: 20
         });
-        // first create all nodes
         for (const i in this.elements) {
             const el = this.elements[i];
             graph.setNode(el.id, el.options);
         }
-        // now apply some styles to all nodes
         for (const node of graph.nodes) {
             node.style.radius = { rx: 5, ry: 5 };
         }
-        // now create all edges
         for (const i in this.elements) {
             const el = this.elements[i];
             for (const k in el.edges) {
@@ -44,10 +40,6 @@ export default class FlowChart {
         }
         const renderer = new Renderer(graph);
         renderer.render(group);
-        // const svgElement = document.getElementById('f' + element.id)
-        // const groupElement = svgElement.querySelector('g')
-        // svgElement.style.width = groupElement.getBoundingClientRect().width + 40
-        // svgElement.style.height = groupElement.getBoundingClientRect().height + 40
     }
 }
 //# sourceMappingURL=FlowChart.js.map

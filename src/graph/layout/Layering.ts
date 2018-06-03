@@ -17,6 +17,7 @@ export default class Layering {
    */
   constructor(graph: Graph) {
     this.graph = graph
+    log('creating matrix once')
     this.matrix = this.buildLayerMatrix()
   }
 
@@ -55,6 +56,10 @@ export default class Layering {
   }
 
   _calculateXPositions() {
+    if (!this.graph.layout) {
+      throw new Error('Layout is not set yet!')
+    }
+
     log('is', this.buildLayerMatrix())
     const xPositions: xPositionList = {}
     let adjustedLayering: Matrix
@@ -214,6 +219,10 @@ export default class Layering {
 
         if (!ws.length) {
           return
+        }
+
+        if (!this.graph.layout) {
+          throw new Error('Layout for graph is not set!')
         }
 
         ws = this.graph.layout.sortByFunction(ws, w => pos[w])

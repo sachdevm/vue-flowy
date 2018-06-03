@@ -34,13 +34,9 @@ export default class GraphSvg {
 
   selectAll(selector: string) {
     const res = this.node.querySelectorAll(selector)
-    if (res instanceof SVGGraphicsElement) {
-      return Array.from(res).map(node => new GraphSvg(<SVGGraphicsElement>node))
-    } else if (res) {
-      throw new TypeError('The selected element is not of type "SVGGraphicsElement"')
-    }
+    return Array.from(res).filter(node => node instanceof SVGGraphicsElement).map(node => new GraphSvg(<SVGGraphicsElement>node))
 
-    return null
+    // return null
   }
 
   text(s: string) {

@@ -125,7 +125,9 @@ class Position {
 //# sourceMappingURL=Position.js.map
 // CONCATENATED MODULE: ./src/graph/layout/Style.js
 class Style {
-    constructor() { }
+    constructor() {
+        this.shape = 'rect';
+    }
     setPadding({ left = 10, top = 10, right = 10, bottom = 10 }) {
         this.padding = { left, top, right, bottom };
     }
@@ -179,12 +181,9 @@ var browser_default = /*#__PURE__*/__webpack_require__.n(browser);
 
 const log = browser_default()('layering');
 class Layering_Layering {
-    /**
-     *
-     * @param {Graph} graph
-     */
     constructor(graph) {
         this.graph = graph;
+        log('creating matrix once');
         this.matrix = this.buildLayerMatrix();
     }
     buildLayerMatrix() {
@@ -216,6 +215,9 @@ class Layering_Layering {
         });
     }
     _calculateXPositions() {
+        if (!this.graph.layout) {
+            throw new Error('Layout is not set yet!');
+        }
         log('is', this.buildLayerMatrix());
         const xPositions = {};
         let adjustedLayering;
@@ -230,7 +232,6 @@ class Layering_Layering {
                 }
                 log('adjusted layering is', adjustedLayering);
                 const align = this._verticalAlignment(adjustedLayering, vert, horiz);
-                // log('align is', align)
                 let xs = this._horizontalCompaction(adjustedLayering, align, horiz === 'r');
                 log(vert + horiz, xs);
                 if (horiz === 'r') {
@@ -277,7 +278,6 @@ class Layering_Layering {
         let minWidth = Infinity;
         let minXs = {};
         Object.values(xPositions).forEach(xs => {
-            // log('XS is', x)
             let minVal = Infinity;
             let maxVal = -Infinity;
             Object.keys(xs).forEach(nodeId => {
@@ -310,7 +310,6 @@ class Layering_Layering {
             visited[node.id] = true;
             xs[node.id] = blockGraph.inEdges(node).reduce((max, edge) => {
                 pass1(edge.from);
-                // log('pass1', blockGraph, edge)
                 return Math.max(max, xs[edge.from.id] + (edge.maxSep || 0));
             }, 0);
         }
@@ -340,6 +339,9 @@ class Layering_Layering {
                     : this.graph.getSuccessors(node);
                 if (!ws.length) {
                     return;
+                }
+                if (!this.graph.layout) {
+                    throw new Error('Layout for graph is not set!');
                 }
                 ws = this.graph.layout.sortByFunction(ws, w => pos[w]);
                 const mp = (ws.length - 1) / 2;
@@ -377,7 +379,7 @@ class Normalizer {
             edge.points = [];
             let dummy = this.graph.addDummyNode('edge', { rank: edge.from.rank }, '_d');
             this.graph.setEdge(edge.from.id, dummy.id, {
-                weight: edge.weight /*, name: edge.name*/
+                weight: edge.weight
             });
             if (i === edge.from.rank + 1) {
                 this.graph.dummyChain.push(dummy);
@@ -396,9 +398,9 @@ class Layout_Layout {
     constructor(graph) {
         this.graph = graph;
         this.normalizer = new Normalizer(this.graph);
+        ldb('creating layering once');
         this.layering = new Layering_Layering(this.graph);
         this.runLayout();
-        ldb('new layout for graph', graph);
     }
     runLayout() {
         this.makeSpaceForEdgeLabels();
@@ -438,13 +440,10 @@ class Layout_Layout {
         ldb('depths', depths);
         const height = Math.max(...Object.values(depths)) - 1;
         this.graph.nodeRankFactor = 2 * height + 1;
-        // multiply minLen by nodeSep to align nodes on non-border ranks
         this.graph.edges.forEach(edge => {
             edge.minLen *= this.graph.nodeRankFactor;
         });
-        // calculate a weight that is sufficient to keep subgraphs vertically compact
         const weight = this.graph.edges.reduce((prevVal, edge) => prevVal + edge.weight, 0);
-        // create border nodes and link them up
         this.graph.getChildren().forEach(child => {
             ldb('calling dfs with', this.graph.rootNode, this.graph.nodeRankFactor, weight, height, depths, child);
             this.dfs(this.graph.rootNode, weight, height, depths, child);
@@ -498,13 +497,15 @@ class Layout_Layout {
     }
     dfs(rootNode, weight, height, depths, node) {
         const children = Object.values(node.children);
-        ldb('DFS: children of', node, children);
+        ldb('DFS:', children.length, 'children of', node, children);
         if (!children.length) {
             if (node.id !== rootNode.id) {
                 this.graph.setEdge(rootNode.id, node.id, { weight: 0, minLen: this.graph.nodeRankFactor });
             }
+            ldb('returning!');
             return;
         }
+        ldb('not returning');
         const top = this.addBorderNode('_bt');
         const bottom = this.addBorderNode('_bb');
         node.borders = { top, bottom };
@@ -551,10 +552,8 @@ class Layout_Layout {
                 this.networkSimplexRanker();
                 break;
             case 'tight-tree':
-                // this.tightTreeRanker()
                 break;
             case 'longest-path':
-                // this.longestPathRanker()
                 break;
             default:
                 this.networkSimplexRanker();
@@ -562,24 +561,11 @@ class Layout_Layout {
         }
     }
     position() {
-        // const position = new Position(graph)
         this.positionY();
-        // this.positionX()
     }
     positionX() {
+        ldb('creating matrix in positionX');
         const matrix = this.layering.buildLayerMatrix();
-        // const xss = {}
-        // let adjustedLayering
-        // ['u', 'd'].forEach(vert => {
-        //   adjustedLayering = vert === 'u' ? layering : Object.values(layering).reverse()
-        //   ['l', 'r'].forEach(horiz => {
-        //     if (horiz === 'r') {
-        //       adjustedLayering = adjustedLayering.map(inner => Object.values(inner).reverse())
-        //     }
-        //     const align = this.verticalAlignment(adjustedLayering)
-        //     xss[vert + horiz] = xs
-        //   })
-        // })
     }
     positionY() {
         let prevY = 0;
@@ -643,9 +629,6 @@ class Layout_Layout {
             }
         }
     }
-    /**
-     * Finds a maximal tree of tight edges and returns the number of nodes in the tree
-     */
     tightTree() {
         const layout = this;
         const treeGraph = this.treeGraph;
@@ -692,25 +675,6 @@ class Layout_Layout {
         const layering = this.initOrder();
         ldb('LAYERING', layering);
         this.assignOrder(layering);
-        // ldb('order', layering, this.graph.nodes)
-        // ldb('STOPPED HERE, code further!')
-        // const downLayerGraphs = buildLayerGraphs(g, _.range(1, maxRank + 1), 'inEdges')
-        // const upLayerGraphs = buildLayerGraphs(g, _.range(maxRank - 1, -1, -1), 'outEdges')
-        // let layering = initOrder(g)
-        // assignOrder(g, layering)
-        // let bestCC = Number.POSITIVE_INFINITY
-        // let best
-        // for (let i = 0, lastBest = 0; lastBest < 4; ++i, ++lastBest) {
-        //   sweepLayerGraphs(i % 2 ? downLayerGraphs : upLayerGraphs, i % 4 >= 2)
-        //   layering = util.buildLayerMatrix(g)
-        //   const cc = crossCount(g, layering)
-        //   if (cc < bestCC) {
-        //     lastBest = 0
-        //     best = _.cloneDeep(layering)
-        //     bestCC = cc
-        //   }
-        // }
-        // assignOrder(g, best)
     }
     buildLayerGraph(rank, relationship) {
         const graph = new Graph_Graph({ compound: true });
@@ -791,7 +755,6 @@ class Layout_Layout {
     }
     undoCoordinateSystem() {
         if (this.graph.rankDir === 'bt' || this.graph.rankDir === 'rl') {
-            // this.reverseY()
         }
         if (this.graph.rankDir === 'lr' || this.graph.rankDir === 'rl') {
             this.swapXY();
@@ -885,11 +848,6 @@ class Layout_Layout {
         this.graph.size.width = maxX - minX + marginX;
         this.graph.size.height = maxY - minY + marginY;
     }
-    /**
-     *
-     * @param {[{}]} arr
-     * @param {string} key
-     */
     sortBy(arr, key) {
         function compare(a, b) {
             if (a[key] < b[key]) {
@@ -964,7 +922,6 @@ class Graph_Graph {
     constructor(options = {}) {
         this._nodes = {};
         this._edges = {};
-        this.layout = new Layout_Layout(this);
         this.size = new Size();
         this.style = new Style();
         this.nodeRankFactor = 0;
@@ -986,14 +943,6 @@ class Graph_Graph {
         this.ranker = 'network-simplex';
         Object.assign(this, options);
         this.rankDir = this.rankDir.toLowerCase();
-        // v -> edgeObj
-        // this.in = {}
-        // u -> v -> Number
-        // this.preds = {}
-        // v -> edgeObj
-        // this.out = {}
-        // v -> w -> Number
-        // this.sucs = {}
     }
     setNode(id, options = {}) {
         if (this._nodes[id]) {
@@ -1025,7 +974,6 @@ class Graph_Graph {
             }
             return this;
         }
-        // first ensure the nodes exist
         const fromNode = this.setNode(fromId);
         const toNode = this.setNode(toId);
         const edge = new Edge_Edge(edgeId, fromNode, toNode, options);
@@ -1106,7 +1054,6 @@ class Graph_Graph {
         }
         let parentNode = this.setNode(parentId);
         let childNode = this.setNode(id);
-        // delete parentNode.children[id]
         this._nodes[id].parent = parentNode;
         parentNode.children[id] = childNode;
     }
@@ -1139,8 +1086,6 @@ class Graph_Graph {
         });
     }
     inEdges(from, to) {
-        // gdb('ins', this.in)
-        // gdb('in from', from, 'to', to, inFrom)
         if (!from.inEdges) {
             return [];
         }
@@ -1151,7 +1096,6 @@ class Graph_Graph {
         return edges.filter(edge => edge.from.id === to.id);
     }
     outEdges(from, to) {
-        // gdb('out from', from, 'to', to, outFrom)
         if (!from.outEdges) {
             return [];
         }
@@ -1177,7 +1121,7 @@ class Graph_Graph {
                 const prevMax = blockGraph.getEdge(root[to.id].id, root[node.id].id);
                 gdb('CHECK PREVMAX FROM STABLE');
                 blockGraph.setEdge(root[to.id].id, root[node.id].id, {
-                    maxSep: Math.max(blockGraph.sep(reverseSep, node, to), /*prevMax || */ 0)
+                    maxSep: Math.max(blockGraph.sep(reverseSep, node, to), 0)
                 });
                 to = node;
             });
@@ -1189,16 +1133,6 @@ class Graph_Graph {
         let delta;
         sum += from.size.width / 2;
         gdb('CHECK LABEL POS');
-        // if (from.labelPos) {
-        //   switch (from.labelPos.toLowerCase()) {
-        //     case 'l':
-        //       delta = -from.size.width / 2
-        //       break
-        //     case 'r':
-        //       delta = from.size.width / 2
-        //       break
-        //   }
-        // }
         if (delta) {
             sum += reverseSep ? delta : -delta;
         }
@@ -1206,16 +1140,6 @@ class Graph_Graph {
         sum += (from.dummy ? this.edgeSep : this.nodeSep) / 2;
         sum += (to.dummy ? this.edgeSep : this.nodeSep) / 2;
         sum += to.size.width / 2;
-        // if (to.labelPos) {
-        //   switch (to.labelPos.toLowerCase()) {
-        //     case 'l':
-        //       delta = to.size.width / 2
-        //       break
-        //     case 'r':
-        //       delta = -to.size.width / 2
-        //       break
-        //   }
-        // }
         if (delta) {
             sum += reverseSep ? delta : -delta;
         }
@@ -1257,13 +1181,7 @@ class GraphSvg {
     }
     selectAll(selector) {
         const res = this.node.querySelectorAll(selector);
-        if (res instanceof SVGGraphicsElement) {
-            return Array.from(res).map(node => new GraphSvg(node));
-        }
-        else if (res) {
-            throw new TypeError('The selected element is not of type "SVGGraphicsElement"');
-        }
-        return null;
+        return Array.from(res).filter(node => node instanceof SVGGraphicsElement).map(node => new GraphSvg(node));
     }
     text(s) {
         const el = document.createTextNode(s);
@@ -1310,16 +1228,11 @@ class Label_GraphLabel {
 
 
 class Renderer_Renderer {
-    /**
-     *
-     * @param {Graph} graph
-     */
     constructor(graph) {
         this.graph = graph;
     }
     render(svg) {
         console.log('rendering', svg, this.graph);
-        // TODO: remove all children of svg
         const edgePathsGroup = this.createOrSelectGroup(svg, 'edgePaths');
         const edgeLabels = this.createEdgeLabels(this.createOrSelectGroup(svg, 'edgeLabels'));
         this.createNodes(this.createOrSelectGroup(svg, 'nodes'));
@@ -1341,7 +1254,7 @@ class Renderer_Renderer {
                 maxX = Math.max(maxX, edge.position.x + edge.size.width / 2);
                 maxY = Math.max(maxY, edge.position.y + edge.size.height / 2);
             }
-            const points = edge.points.slice(1, edge.points.length - 1); // intersetion points don't matter
+            const points = edge.points.slice(1, edge.points.length - 1);
             for (let i = 0; i < points.length; i++) {
                 const point = points[i];
                 minX = Math.min(minX, point.x);
@@ -1361,26 +1274,22 @@ class Renderer_Renderer {
         const simpleNodes = this.graph.nodeIds.filter(id => {
             return !this.graph.isSubgraph(id);
         });
-        // we have to append all simpleNodes to the graph now
         this.graph.nodes.forEach(graphNode => {
             const nodeGroup = selection.append('g').addClass('node');
             const labelGroup = nodeGroup.append('g').addClass('label');
             const label = labelGroup.append(new Label_GraphLabel({ label: graphNode.label }).group);
             const labelBBox = label.node.getBBox();
             if (graphNode.style.padding) {
-                // set width and height
                 labelBBox.width +=
                     graphNode.style.padding.left + graphNode.style.padding.right;
                 labelBBox.height +=
                     graphNode.style.padding.top + graphNode.style.padding.bottom;
-                // transform label with padding
                 labelGroup.attr('transform', 'translate(' +
                     (graphNode.style.padding.left - graphNode.style.padding.right) / 2 +
                     ',' +
                     (graphNode.style.padding.top - graphNode.style.padding.bottom) / 2 +
                     ')');
             }
-            // nodeGroup.node.style.opacity = 0
             if (!graphNode.style.shape) {
                 throw new Error('no shape is defined!');
             }
@@ -1390,13 +1299,6 @@ class Renderer_Renderer {
             nodeGroup.append(labelGroup);
             graphNode.svgGroup = nodeGroup;
         });
-        // let svgNodes = selection.querySelectorAll('g.node')
-        // svgNodes.forEach((svgNode) => {
-        //   svgNode.classList.add('update')
-        // })
-        // for (const node of nodes) {
-        //   const shape = shapes[node.shape]
-        // }
     }
     createEdgeLabels(selection) {
         let svgEdgeLabels = selection.selectAll('g.edgeLabel');
@@ -1460,7 +1362,6 @@ class FlowChart_FlowChart {
         svg.node.id = 'f' + element.id;
         element.appendChild(svg.node);
         const group = svg.append('g');
-        // Create the input graph
         const graph = new Graph_Graph({
             multiGraph: true,
             compound: true,
@@ -1468,16 +1369,13 @@ class FlowChart_FlowChart {
             marginX: 20,
             marginY: 20
         });
-        // first create all nodes
         for (const i in this.elements) {
             const el = this.elements[i];
             graph.setNode(el.id, el.options);
         }
-        // now apply some styles to all nodes
         for (const node of graph.nodes) {
             node.style.radius = { rx: 5, ry: 5 };
         }
-        // now create all edges
         for (const i in this.elements) {
             const el = this.elements[i];
             for (const k in el.edges) {
@@ -1487,10 +1385,6 @@ class FlowChart_FlowChart {
         }
         const renderer = new Renderer_Renderer(graph);
         renderer.render(group);
-        // const svgElement = document.getElementById('f' + element.id)
-        // const groupElement = svgElement.querySelector('g')
-        // svgElement.style.width = groupElement.getBoundingClientRect().width + 40
-        // svgElement.style.height = groupElement.getBoundingClientRect().height + 40
     }
 }
 //# sourceMappingURL=FlowChart.js.map
@@ -1652,6 +1546,8 @@ var component = normalizeComponent(
 
 
 const Plugin = {
+    VueFlowy: VueFlowy,
+    FlowChart: FlowChart_FlowChart,
     install(Vue) {
         Vue.component(VueFlowy.name, VueFlowy);
     }
@@ -1660,6 +1556,7 @@ const Plugin = {
 
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "VueFlowy", function() { return VueFlowy; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "FlowChart", function() { return FlowChart_FlowChart; });
 
 

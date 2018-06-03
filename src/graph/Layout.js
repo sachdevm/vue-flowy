@@ -7,9 +7,9 @@ export default class Layout {
     constructor(graph) {
         this.graph = graph;
         this.normalizer = new Normalizer(this.graph);
+        ldb('creating layering once');
         this.layering = new Layering(this.graph);
         this.runLayout();
-        ldb('new layout for graph', graph);
     }
     runLayout() {
         this.makeSpaceForEdgeLabels();
@@ -49,13 +49,10 @@ export default class Layout {
         ldb('depths', depths);
         const height = Math.max(...Object.values(depths)) - 1;
         this.graph.nodeRankFactor = 2 * height + 1;
-        // multiply minLen by nodeSep to align nodes on non-border ranks
         this.graph.edges.forEach(edge => {
             edge.minLen *= this.graph.nodeRankFactor;
         });
-        // calculate a weight that is sufficient to keep subgraphs vertically compact
         const weight = this.graph.edges.reduce((prevVal, edge) => prevVal + edge.weight, 0);
-        // create border nodes and link them up
         this.graph.getChildren().forEach(child => {
             ldb('calling dfs with', this.graph.rootNode, this.graph.nodeRankFactor, weight, height, depths, child);
             this.dfs(this.graph.rootNode, weight, height, depths, child);
@@ -109,13 +106,15 @@ export default class Layout {
     }
     dfs(rootNode, weight, height, depths, node) {
         const children = Object.values(node.children);
-        ldb('DFS: children of', node, children);
+        ldb('DFS:', children.length, 'children of', node, children);
         if (!children.length) {
             if (node.id !== rootNode.id) {
                 this.graph.setEdge(rootNode.id, node.id, { weight: 0, minLen: this.graph.nodeRankFactor });
             }
+            ldb('returning!');
             return;
         }
+        ldb('not returning');
         const top = this.addBorderNode('_bt');
         const bottom = this.addBorderNode('_bb');
         node.borders = { top, bottom };
@@ -162,10 +161,8 @@ export default class Layout {
                 this.networkSimplexRanker();
                 break;
             case 'tight-tree':
-                // this.tightTreeRanker()
                 break;
             case 'longest-path':
-                // this.longestPathRanker()
                 break;
             default:
                 this.networkSimplexRanker();
@@ -173,24 +170,11 @@ export default class Layout {
         }
     }
     position() {
-        // const position = new Position(graph)
         this.positionY();
-        // this.positionX()
     }
     positionX() {
+        ldb('creating matrix in positionX');
         const matrix = this.layering.buildLayerMatrix();
-        // const xss = {}
-        // let adjustedLayering
-        // ['u', 'd'].forEach(vert => {
-        //   adjustedLayering = vert === 'u' ? layering : Object.values(layering).reverse()
-        //   ['l', 'r'].forEach(horiz => {
-        //     if (horiz === 'r') {
-        //       adjustedLayering = adjustedLayering.map(inner => Object.values(inner).reverse())
-        //     }
-        //     const align = this.verticalAlignment(adjustedLayering)
-        //     xss[vert + horiz] = xs
-        //   })
-        // })
     }
     positionY() {
         let prevY = 0;
@@ -254,9 +238,6 @@ export default class Layout {
             }
         }
     }
-    /**
-     * Finds a maximal tree of tight edges and returns the number of nodes in the tree
-     */
     tightTree() {
         const layout = this;
         const treeGraph = this.treeGraph;
@@ -303,25 +284,6 @@ export default class Layout {
         const layering = this.initOrder();
         ldb('LAYERING', layering);
         this.assignOrder(layering);
-        // ldb('order', layering, this.graph.nodes)
-        // ldb('STOPPED HERE, code further!')
-        // const downLayerGraphs = buildLayerGraphs(g, _.range(1, maxRank + 1), 'inEdges')
-        // const upLayerGraphs = buildLayerGraphs(g, _.range(maxRank - 1, -1, -1), 'outEdges')
-        // let layering = initOrder(g)
-        // assignOrder(g, layering)
-        // let bestCC = Number.POSITIVE_INFINITY
-        // let best
-        // for (let i = 0, lastBest = 0; lastBest < 4; ++i, ++lastBest) {
-        //   sweepLayerGraphs(i % 2 ? downLayerGraphs : upLayerGraphs, i % 4 >= 2)
-        //   layering = util.buildLayerMatrix(g)
-        //   const cc = crossCount(g, layering)
-        //   if (cc < bestCC) {
-        //     lastBest = 0
-        //     best = _.cloneDeep(layering)
-        //     bestCC = cc
-        //   }
-        // }
-        // assignOrder(g, best)
     }
     buildLayerGraph(rank, relationship) {
         const graph = new Graph({ compound: true });
@@ -402,7 +364,6 @@ export default class Layout {
     }
     undoCoordinateSystem() {
         if (this.graph.rankDir === 'bt' || this.graph.rankDir === 'rl') {
-            // this.reverseY()
         }
         if (this.graph.rankDir === 'lr' || this.graph.rankDir === 'rl') {
             this.swapXY();
@@ -496,11 +457,6 @@ export default class Layout {
         this.graph.size.width = maxX - minX + marginX;
         this.graph.size.height = maxY - minY + marginY;
     }
-    /**
-     *
-     * @param {[{}]} arr
-     * @param {string} key
-     */
     sortBy(arr, key) {
         function compare(a, b) {
             if (a[key] < b[key]) {

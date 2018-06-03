@@ -17,9 +17,9 @@ export default class Layout {
   constructor(graph: Graph) {
     this.graph = graph
     this.normalizer = new Normalizer(this.graph)
+    ldb('creating layering once')
     this.layering = new Layering(this.graph)
     this.runLayout()
-    ldb('new layout for graph', graph)
   }
 
   runLayout() {
@@ -152,14 +152,15 @@ export default class Layout {
 
   dfs(rootNode: GraphNode, weight: number, height: number, depths: {[nodeId: string]: number}, node: GraphNode) {
     const children = Object.values(node.children)
-    ldb('DFS: children of', node, children)
+    ldb('DFS:', children.length, 'children of', node, children)
     if (!children.length) {
       if (node.id !== rootNode.id) {
         this.graph.setEdge(rootNode.id, node.id, { weight: 0, minLen: this.graph.nodeRankFactor })
       }
+      ldb('returning!')
       return
     }
-
+ldb('not returning')
     const top = this.addBorderNode('_bt')
     const bottom = this.addBorderNode('_bb')
 
@@ -233,6 +234,7 @@ export default class Layout {
   }
 
   positionX() {
+    ldb('creating matrix in positionX')
     const matrix = this.layering.buildLayerMatrix()
 
     // const xss = {}
