@@ -1,42 +1,34 @@
 import Position from "./layout/Position";
 import Size from "./layout/Size";
-
-const DEFAULT_EDGE_NAME = '\x00'
-const EDGE_KEY_DELIM = '\x01'
-
-const defaults = {
-  minLen: 1,
-  weight: 1,
-  width: 0,
-  height: 0,
-  labelOffset: 10,
-  labelPos: 'r'
-}
-
+const DEFAULT_EDGE_NAME = '\x00';
+const EDGE_KEY_DELIM = '\x01';
 export default class Edge {
-  constructor(id, from, to, options) {
-    this.id = id
-    this.from = from
-    this.to = to
-    this.order = 0
-    this.points = []
-    this.data = {}
-    this.position = new Position()
-    this.size = new Size()
-    Object.assign(this, defaults)
-    this.setOptions(options)
-  }
-
-  static generateId(from, to, directed = false) {
-    if (!directed && from > to) {
-      const tmp = from
-      from = to
-      to = tmp
+    constructor(id, from, to, options) {
+        this.order = 0;
+        this.points = [];
+        this.data = {};
+        this.position = new Position();
+        this.size = new Size();
+        this.minLen = 1;
+        this.weight = 1;
+        this.labelOffset = 10;
+        this.labelPos = 'r';
+        this.nestingEdge = false;
+        this.id = id;
+        this.from = from;
+        this.to = to;
+        this.setOptions(options);
     }
-    return from + EDGE_KEY_DELIM + to + EDGE_KEY_DELIM + DEFAULT_EDGE_NAME
-  }
-
-  setOptions(options) {
-    Object.assign(this, options)
-  }
+    static generateId(fromId, toId, directed = false, name) {
+        if (!directed && fromId > toId) {
+            const tmp = fromId;
+            fromId = toId;
+            toId = tmp;
+        }
+        return fromId + EDGE_KEY_DELIM + toId + EDGE_KEY_DELIM + (name ? name : DEFAULT_EDGE_NAME);
+    }
+    setOptions(options = {}) {
+        Object.assign(this, options);
+    }
 }
+//# sourceMappingURL=Edge.js.map

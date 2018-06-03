@@ -7,7 +7,7 @@
 		exports["vue-flowy"] = factory();
 	else
 		root["vue-flowy"] = factory();
-})(window, function() {
+})(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -46,17 +46,32 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -90,7 +105,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 var setPublicPath = __webpack_require__("HrLf");
 
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./src/VueFlowy.vue?vue&type=template&id=6244c0f8
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"/mnt/d/WebServer/vue-flowy/node_modules/.cache/vue-loader","cacheIdentifier":"b3fca2dc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/VueFlowy.vue?vue&type=template&id=6244c0f8
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"flowyChart",attrs:{"id":_vm._uid}})}
 var staticRenderFns = []
 
@@ -99,54 +114,71 @@ var staticRenderFns = []
 
 // CONCATENATED MODULE: ./src/graph/layout/Size.js
 class Size {
-  constructor() {
-    this.width = 0
-    this.height = 0
-  }
-}
-// CONCATENATED MODULE: ./src/graph/Edge.js
-
-
-
-const DEFAULT_EDGE_NAME = '\x00'
-const EDGE_KEY_DELIM = '\x01'
-
-const defaults = {
-  minLen: 1,
-  weight: 1,
-  width: 0,
-  height: 0,
-  labelOffset: 10,
-  labelPos: 'r'
-}
-
-class Edge_Edge {
-  constructor(id, from, to, options) {
-    this.id = id
-    this.from = from
-    this.to = to
-    this.order = 0
-    this.points = []
-    this.data = {}
-    this.position = new Position()
-    this.size = new Size()
-    Object.assign(this, defaults)
-    this.setOptions(options)
-  }
-
-  static generateId(from, to, directed = false) {
-    if (!directed && from > to) {
-      const tmp = from
-      from = to
-      to = tmp
+    constructor() {
+        this.height = 0;
+        this.width = 0;
     }
-    return from + EDGE_KEY_DELIM + to + EDGE_KEY_DELIM + DEFAULT_EDGE_NAME
-  }
-
-  setOptions(options) {
-    Object.assign(this, options)
-  }
+    setSize(width, height) {
+        this.width = width;
+        this.height = height;
+    }
 }
+//# sourceMappingURL=Size.js.map
+// CONCATENATED MODULE: ./src/graph/layout/Position.js
+class Position {
+    constructor() {
+        this.x = 0;
+        this.y = 0;
+    }
+}
+//# sourceMappingURL=Position.js.map
+// CONCATENATED MODULE: ./src/graph/layout/Style.js
+class Style {
+    constructor() { }
+    setPadding({ left = 10, top = 10, right = 10, bottom = 10 }) {
+        this.padding = { left, top, right, bottom };
+    }
+    setBorderRadius(radius = { rx: 0, ry: 0 }) {
+        this.radius = radius;
+    }
+    setShape(shapeType) {
+        this.shape = shapeType;
+    }
+    setBorder({ left = 0, top = 0, right = 0, bottom = 0 }) {
+        this.border = { left, top, right, bottom };
+    }
+}
+//# sourceMappingURL=Style.js.map
+// CONCATENATED MODULE: ./src/graph/Node.js
+
+
+
+class Node_GraphNode {
+    constructor(id, options = {}) {
+        this.label = '';
+        this.parent = null;
+        this.children = {};
+        this.position = new Position();
+        this.size = new Size();
+        this.style = new Style();
+        this.rank = 0;
+        this.order = 0;
+        this.inEdges = {};
+        this.outEdges = {};
+        this.successors = {};
+        this.predecessors = {};
+        this.borders = {};
+        this.id = id;
+        this.setOptions(options);
+    }
+    setOptions(options) {
+        if (!options.label) {
+            options.label = this.id;
+        }
+        Object.assign(this, options);
+    }
+}
+//# sourceMappingURL=Node.js.map
 // EXTERNAL MODULE: ./node_modules/debug/src/browser.js
 var browser = __webpack_require__("NOtv");
 var browser_default = /*#__PURE__*/__webpack_require__.n(browser);
@@ -154,1659 +186,1324 @@ var browser_default = /*#__PURE__*/__webpack_require__.n(browser);
 // CONCATENATED MODULE: ./src/graph/layout/Layering.js
 
 
-
-const log = browser_default()('layering')
-
+const log = browser_default()('layering');
 class Layering_Layering {
-  /**
-   * 
-   * @param {Graph} graph 
-   */
-  constructor(graph) {
-    this.graph = graph
-    this.matrix = this._buildLayerMatrix()
-  }
-
-  _buildLayerMatrix() {
-    const layering = []
-    this.graph.nodes.forEach(node => {
-      if (!layering[node.rank]) {
-        layering[node.rank] = []
-      }
-      layering[node.rank][node.order] = node
-    })
-
-    return layering
-  }
-
-  calculatePositions() {
-    this._calculateYPositions()
-    this._calculateXPositions()
-  }
-
-  _calculateYPositions() {
-    let prevY = 0
-    this.matrix.forEach(layer => {
-      const maxHeight = Math.max(
-        ...layer.map(node => {
-          return node.height
-        })
-      )
-      layer.forEach(node => {
-        log('assigning y', node.id, prevY, maxHeight / 2, prevY + maxHeight / 2)
-        node.position.y = prevY + maxHeight / 2
-      })
-      prevY += maxHeight + this.graph.rankSep
-    })
-  }
-
-  _calculateXPositions() {
-    log('is', this.matrix)
-    const xPositions = {}
-    let adjustedLayering
-    const verticals = ['u', 'd']
-    const horizontals = ['l', 'r']
-    verticals.forEach(vert => {
-      console.log('calculating with', vert)
-      adjustedLayering = vert === 'u' ? this.matrix : Object.values(this.matrix).reverse()
-
-      horizontals.forEach(horiz => {
-        if (horiz === 'r') {
-          adjustedLayering = adjustedLayering.map(inner => Object.values(inner).reverse())
-        }
-        
-        const align = this._verticalAlignment(adjustedLayering, vert, horiz)
-        let xs = this._horizontalCompaction(adjustedLayering, align, horiz)
-        log(vert + horiz, xs)
-        if (horiz === 'r') {
-          for (const key in xs) {
-            xs[key] = -xs[key]
-          }
-        }
-        xPositions[vert + horiz] = xs
-      })
-    })
-
-    log('xPositions finish', xPositions)
-
-    const smallestWidthAlignment = this._findSmallestWidthAlignment(xPositions)
-    this._alignCoordinates(xPositions, smallestWidthAlignment)
-    return
-  }
-
-  _alignCoordinates(xPositions, smallestWidthAlignment) {
-
-    const alignToVals = Object.values(smallestWidthAlignment)
-    const alignToMin = Math.min(...alignToVals)
-    const alignToMax = math.max(...alignToVals)
-
-    const verticals = ['u', 'd']
-    const horizontals = ['l', 'r']
-    verticals.forEach(vert => {
-      horizontals.forEach(horiz => {
-        const alignment = vert + horiz
-        const xs = xPositions[alignment]
-        if (xs === smallestWidthAlignment) {
-          return
-        }
-        const xsVals = Object.values(xs)
-        const delta = horiz === 'l' ? alignToMin - Math.min(...xsVals) : alignToMax - Math.max(...xsVals)
-
-        if (delta) {
-          for (const i in xs) {
-            xPositions[alignment] = xs[i] + delta
-          }
-        }
-      })
-    })
-  }
-
-  _findSmallestWidthAlignment(xPositions) {
-    const min = Infinity
-    Object.values(xPositions).forEach(x => {
-      // log('XS is', x)
-      const min = 0
-      const max = 0
-      return max - min
-    })
-  }
-
-  _horizontalCompaction(layering, align, reverseSep) {
-    log('horizontalCompaction', layering, align, reverseSep)
-    const xs = {}
-    const blockGraph = Graph_Graph.buildBlockGraph(layering, align.root, reverseSep)
-
-    const visited = {}
-    function pass1 (node) {
-      if (visited[node.id]) {
-        return
-      }
-      visited[node.id] = true
-      xs[node.id] = blockGraph.inEdges(node).reduce((max, edge) => {
-        pass1(edge.from)
-        log('pass1', blockGraph, edge)
-        return Math.max(max, xs[edge.from] + edge.data.unknown)
-      }, 0)
+    /**
+     *
+     * @param {Graph} graph
+     */
+    constructor(graph) {
+        this.graph = graph;
+        this.matrix = this.buildLayerMatrix();
     }
-    blockGraph.nodes.forEach(pass1)
-
-    Object.keys(align.align).forEach(nodeId => {
-      xs[nodeId] = xs[align.root[nodeId]]
-    })
-
-    return xs
-  }
-
-  _verticalAlignment(layering, vert, horiz) {
-    const root = {}
-    const align = {}
-    const pos = {}
-
-    layering.forEach(layer => {
-      layer.forEach((node, order) => {
-        root[node.id] = node
-        align[node.id] = node
-        pos[node.id] = order
-      })
-    })
-
-    layering.forEach(layer => {
-      let prevIdx = -1
-      layer.forEach(node => {
-        let ws = (vert === 'u') ? this.graph.getPredecessors(node) : this.graph.getSuccessors(node)
-        if (!ws.length) {
-          return
+    buildLayerMatrix() {
+        const layering = [];
+        log('NODES FOR MATRIX is', Object.assign({}, this.graph.nodes));
+        this.graph.nodes.forEach(node => {
+            if (!layering[node.rank]) {
+                layering[node.rank] = [];
+            }
+            layering[node.rank][node.order] = node;
+        });
+        return layering;
+    }
+    calculatePositions() {
+        this._calculateYPositions();
+        this._calculateXPositions();
+    }
+    _calculateYPositions() {
+        let prevY = 0;
+        this.matrix.forEach(layer => {
+            const maxHeight = Math.max(...layer.map(node => {
+                return node.size.height;
+            }));
+            layer.forEach(node => {
+                log('assigning y', node.id, prevY, maxHeight / 2, prevY + maxHeight / 2);
+                node.position.y = prevY + maxHeight / 2;
+            });
+            prevY += maxHeight + this.graph.rankSep;
+        });
+    }
+    _calculateXPositions() {
+        log('is', this.buildLayerMatrix());
+        const xPositions = {};
+        let adjustedLayering;
+        const verticals = ['u', 'd'];
+        const horizontals = ['l', 'r'];
+        verticals.forEach(vert => {
+            adjustedLayering =
+                vert === 'u' ? this.matrix : Object.values(this.matrix).reverse();
+            horizontals.forEach(horiz => {
+                if (horiz === 'r') {
+                    adjustedLayering = adjustedLayering.map(inner => Object.values(inner).reverse());
+                }
+                log('adjusted layering is', adjustedLayering);
+                const align = this._verticalAlignment(adjustedLayering, vert, horiz);
+                // log('align is', align)
+                let xs = this._horizontalCompaction(adjustedLayering, align, horiz === 'r');
+                log(vert + horiz, xs);
+                if (horiz === 'r') {
+                    for (const key in xs) {
+                        xs[key] = -xs[key];
+                    }
+                }
+                xPositions[vert + horiz] = xs;
+            });
+        });
+        log('xPositions finish', xPositions);
+        const smallestWidthAlignment = this._findSmallestWidthAlignment(xPositions);
+        log('smallestWidth is', smallestWidthAlignment);
+        this._alignCoordinates(xPositions, smallestWidthAlignment);
+        return this.graph.layout.balance(xPositions);
+    }
+    _alignCoordinates(xPositions, smallestWidthAlignment) {
+        const alignToVals = Object.values(smallestWidthAlignment);
+        const alignToMin = Math.min(...alignToVals);
+        const alignToMax = Math.max(...alignToVals);
+        const verticals = ['u', 'd'];
+        const horizontals = ['l', 'r'];
+        verticals.forEach(vert => {
+            horizontals.forEach(horiz => {
+                const alignment = vert + horiz;
+                const xs = xPositions[alignment];
+                if (xs === smallestWidthAlignment) {
+                    return;
+                }
+                const xsVals = Object.values(xs);
+                const delta = horiz === 'l'
+                    ? alignToMin - Math.min(...xsVals)
+                    : alignToMax - Math.max(...xsVals);
+                if (delta) {
+                    for (const i in xs) {
+                        xs[i] += delta;
+                    }
+                    xPositions[alignment] = xs;
+                }
+            });
+        });
+    }
+    _findSmallestWidthAlignment(xPositions) {
+        let minWidth = Infinity;
+        let minXs = {};
+        Object.values(xPositions).forEach(xs => {
+            // log('XS is', x)
+            let minVal = Infinity;
+            let maxVal = -Infinity;
+            Object.keys(xs).forEach(nodeId => {
+                const no = xs[nodeId];
+                const check = no - this.graph.getNode(nodeId).size.width / 2;
+                if (check < minVal) {
+                    minVal = check;
+                }
+                if (check > maxVal) {
+                    maxVal = check;
+                }
+            });
+            const minCheck = maxVal - minVal;
+            if (minCheck < minWidth) {
+                minWidth = minCheck;
+                minXs = xs;
+            }
+        });
+        return minXs;
+    }
+    _horizontalCompaction(layering, align, reverseSep) {
+        log('horizontalCompaction', layering, align, reverseSep);
+        const xs = {};
+        const blockGraph = Graph_Graph.buildBlockGraph(layering, align.root, reverseSep);
+        const visited = {};
+        function pass1(node) {
+            if (visited[node.id]) {
+                return;
+            }
+            visited[node.id] = true;
+            xs[node.id] = blockGraph.inEdges(node).reduce((max, edge) => {
+                pass1(edge.from);
+                // log('pass1', blockGraph, edge)
+                return Math.max(max, xs[edge.from.id] + (edge.maxSep || 0));
+            }, 0);
         }
-        ws = this.graph.layout.sortByFunction(ws, (w) => pos[w])
-        const mp = (ws.length - 1) / 2
-        for (let i = Math.floor(mp), il = Math.ceil(mp); i <= il; i++) {
-          const w = ws[i]
-          if (align[node.id].id === node.id && prevIdx < pos[w]) {
-            align[w] = node
-            align[node.id] = root[node.id] = root[w]
-            prevIdx = pos[w]
-          }          
-        }
-      })
-    })
-
-    return {root, align}
-  }
-  
+        blockGraph.nodes.forEach(pass1);
+        Object.keys(align.align).forEach(nodeId => {
+            xs[nodeId] = xs[align.root[nodeId].id];
+        });
+        return xs;
+    }
+    _verticalAlignment(layering, vert, horiz) {
+        const root = {};
+        const align = {};
+        const pos = {};
+        layering.forEach(layer => {
+            layer.forEach((node, order) => {
+                root[node.id] = node;
+                align[node.id] = node;
+                pos[node.id] = order;
+            });
+        });
+        log('objects after first step is', root, align, pos);
+        layering.forEach(layer => {
+            let prevIdx = -1;
+            layer.forEach(node => {
+                let ws = vert === 'u'
+                    ? this.graph.getPredecessors(node)
+                    : this.graph.getSuccessors(node);
+                if (!ws.length) {
+                    return;
+                }
+                ws = this.graph.layout.sortByFunction(ws, w => pos[w]);
+                const mp = (ws.length - 1) / 2;
+                for (let i = Math.floor(mp), il = Math.ceil(mp); i <= il; i++) {
+                    const w = ws[i];
+                    if (align[node.id].id === node.id && prevIdx < pos[w]) {
+                        align[w] = node;
+                        align[node.id] = root[node.id] = root[w];
+                        prevIdx = pos[w];
+                    }
+                }
+            });
+        });
+        return { root, align };
+    }
 }
+//# sourceMappingURL=Layering.js.map
 // CONCATENATED MODULE: ./src/graph/layout/Normalizer.js
 
-
-
-
-const Normalizer_log = browser_default()('normalizer')
-
+const Normalizer_log = browser_default()('normalizer');
 class Normalizer {
-  /**
-   *
-   * @param {Graph} graph
-   */
-  constructor(graph) {
-    this.graph = graph
-  }
-
-  normalize() {
-    this.graph.dummyChains = []
-    Normalizer_log('EDGES', this.graph.edges)
-    this.graph.edges.forEach(this._normalizeEdge, this)
-  }
-
-  /**
-   *
-   * @param {Edge} edge
-   */
-  _normalizeEdge(edge) {
-    if (edge.to.rank === edge.from.rank + 1) {
-      return
+    constructor(graph) {
+        this.graph = graph;
     }
-
-    Normalizer_log('not returning for', edge)
-
-    console.log(edge.from.rank, edge.to.rank)
-    for (let i = edge.from.rank; i < edge.to.rank; i++) {
-      edge.points = []
-      let dummy = this.graph.addDummyNode(
-        'edge',
-        { rank: edge.from.rank },
-        '_d'
-      )
-      Normalizer_log('created dummy', dummy)
-      this.graph.setEdge(edge.from.id, dummy, { weight: edge.weight }, name)
+    normalize() {
+        this.graph.dummyChain = [];
+        Normalizer_log('EDGES', this.graph.edges);
+        this.graph.edges.forEach(this._normalizeEdge, this);
     }
-  }
+    _normalizeEdge(edge) {
+        if (edge.to.rank === edge.from.rank + 1) {
+            return;
+        }
+        for (let i = edge.from.rank + 1; i < edge.to.rank; i++) {
+            edge.points = [];
+            let dummy = this.graph.addDummyNode('edge', { rank: edge.from.rank }, '_d');
+            this.graph.setEdge(edge.from.id, dummy.id, {
+                weight: edge.weight /*, name: edge.name*/
+            });
+            if (i === edge.from.rank + 1) {
+                this.graph.dummyChain.push(dummy);
+            }
+        }
+    }
 }
-
+//# sourceMappingURL=Normalizer.js.map
 // CONCATENATED MODULE: ./src/graph/Layout.js
 
 
 
 
-
-
-
-
-const ldb = browser_default()('layout')
-
+const ldb = browser_default()('layout');
 class Layout_Layout {
-  /**
-   *
-   * @param {Graph} graph
-   */
-  constructor(graph) {
-    /** @type {Graph} */
-    this.graph = graph
-    this.runLayout()
-    ldb('new layout for graph', graph)
-  }
-
-  runLayout() {
-    this.makeSpaceForEdgeLabels()
-    this.createNestingGraph()
-    this.rank()
-    this.cleanupNestingGraph()
-    this.normalizeRanks()
-
-    this.normalizer = new Normalizer(this.graph)
-    this.normalizer.normalize()
-
-    this.order()
-    this.adjustCoordinateSystem()
-
-    this.layering = new Layering_Layering(this.graph)
-    this.layering.calculatePositions()
-    this.undoCoordinateSystem()
-    this.translateGraph()
-  }
-
-  makeSpaceForEdgeLabels() {
-    this.graph.rankSep /= 2
-    ldb(this.graph)
-    this.graph.edges.forEach(edge => {
-      ldb('making space for edge', edge)
-      edge.minLen *= 2
-
-      if (edge.labelPos.toLowerCase() === 'c') {
-        return
-      }
-
-      if (this.graph.rankDir === 'tb' || this.graph.rankDir === 'bt') {
-        edge.size.width += edge.labelOffset
-      } else {
-        edge.size.height += edge.labelOffset
-      }
-    })
-  }
-
-  createNestingGraph() {
-    ldb('creating nesting graph')
-    this.graph.root = this.graph.setNode('_root', { dummy: 'root' })
-    const depths = this.treeDepths()
-    ldb('depths', depths)
-    const height = Math.max(...Object.values(depths)) - 1
-    const nodeSep = 2 * height + 1
-
-    // multiply minLen by nodeSep to align nodes on non-border ranks
-    this.graph.edges.forEach(edge => {
-      edge.minLen *= nodeSep
-    })
-
-    // calculate a weight that is sufficient to keep subgraphs vertically compact
-    const weight = this.graph.edges.reduce(
-      (prevVal, edge) => prevVal + edge.weight,
-      0
-    )
-
-    // create border nodes and link them up
-    this.graph.getChildren().forEach(child => {
-      ldb('calling dfs with', this.graph.root, nodeSep, weight, height, depths, child)
-      this.dfs(this.graph.root, nodeSep, weight, height, depths, child)
-    })
-
-    this.graph.nodeRankFactor = nodeSep
-    ldb('edges after nesting graph', this.graph.edges.length)
-  }
-
-  cleanupNestingGraph() {
-    this.graph.removeNode(this.graph.root.id)
-    this.graph.root = null
-    this.graph.edges.forEach(edge => {
-      if (edge.nestingEdge) {
-        this.graph.removeEdge(edge.id)
-      }
-    })
-    ldb('edges after cleanup nesting graph', this.graph.edges.length, this.graph.edges)
-  }
-
-  normalizeRanks() {
-    const minRank = this.minRank()
-    this.graph.nodes.forEach(node => node.rank -= minRank)
-  }
-
-  treeDepths() {
-    const depths = {}
-    const layout = this
-
-    function dfs(nodeId, depth = 1) {
-      const children = layout.graph.getChildren(nodeId)
-      ldb('children of', nodeId, 'are', children, '. depth:', depth)
-      if (children && children.length) {
-        children.forEach(childId => {
-          ldb('child', childId)
-          dfs(childId, depth + 1)
-        })
-      }
-      depths[nodeId] = depth
+    constructor(graph) {
+        this.graph = graph;
+        this.normalizer = new Normalizer(this.graph);
+        this.layering = new Layering_Layering(this.graph);
+        this.runLayout();
+        ldb('new layout for graph', graph);
     }
-    this.graph.getChildren().forEach(childId => {
-      dfs(childId)
-    })
-    return depths
-  }
-
-  /**
-   *
-   * @param {GraphNode} root
-   * @param {*} nodeSep
-   * @param {*} weight
-   * @param {*} height
-   * @param {*} depths
-   * @param {GraphNode} node
-   */
-  dfs(root, nodeSep, weight, height, depths, nodeId) {
-    const children = this.graph.getChildren(nodeId)
-    ldb('DFS: children of', nodeId, children)
-    if (!children.length) {
-      if (nodeId !== root.id) {
-        this.graph.setEdge(root.id, nodeId, { weight: 0, minLen: nodeSep })
-      }
-      return
+    runLayout() {
+        this.makeSpaceForEdgeLabels();
+        this.createNestingGraph();
+        this.rank();
+        this.cleanupNestingGraph();
+        this.normalizeRanks();
+        this.assignRankMinMax();
+        this.normalizer.normalize();
+        this.order();
+        this.adjustCoordinateSystem();
+        this.layering.calculatePositions();
+        this.undoCoordinateSystem();
+        this.translateGraph();
     }
-
-    const top = this.addBorderNode('_bt')
-    const bottom = this.addBorderNode('_bb')
-
-    this.graph.setParent(top, nodeId)
-    this.graph.borderTop = top
-    this.graph.setParent(bottom, nodeId)
-    this.graph.borderBottom = bottom
-
-    const dfs = this.dfs
-
-    children.forEach(child => {
-      this.dfs(root, nodeSep, weight, height, depths, child)
-
-      const childTop = child.borderTop ? child.borderTop : child
-      const childBottom = child.borderBottom ? child.borderBottom : child
-      const thisWeight = child.borderTop ? weight : 2 * weight
-      const minLen = childTop !== childBottom ? 1 : height - depths[nodeId] + 1
-
-      this.graph.setEdge(top, childTop, {
-        weight: thisWeight,
-        minLen: minLen,
-        nestingEdge: true
-      })
-
-      this.graph.setEdge(childBottom, bottom, {
-        weight: thisWeight,
-        minLen: minLen,
-        nestingEdge: true
-      })
-    })
-
-    if (!this.graph.parent(nodeId)) {
-      this.graph.setEdge(root, top, {
-        weight: 0,
-        minLen: height + depths[nodeId]
-      })
+    makeSpaceForEdgeLabels() {
+        this.graph.rankSep /= 2;
+        ldb(this.graph);
+        this.graph.edges.forEach(edge => {
+            ldb('making space for edge', edge);
+            edge.minLen *= 2;
+            if (edge.labelPos.toLowerCase() === 'c') {
+                return;
+            }
+            if (this.graph.rankDir === 'tb' || this.graph.rankDir === 'bt') {
+                edge.size.width += edge.labelOffset;
+            }
+            else {
+                edge.size.height += edge.labelOffset;
+            }
+        });
     }
-  }
-
-  addBorderNode(prefix, rank, order) {
-    const node = {
-      width: 0,
-      height: 0
+    createNestingGraph() {
+        ldb('creating nesting graph');
+        this.graph.rootNode = this.graph.setNode('_root', { dummy: 'root' });
+        const depths = this.treeDepths();
+        ldb('depths', depths);
+        const height = Math.max(...Object.values(depths)) - 1;
+        this.graph.nodeRankFactor = 2 * height + 1;
+        // multiply minLen by nodeSep to align nodes on non-border ranks
+        this.graph.edges.forEach(edge => {
+            edge.minLen *= this.graph.nodeRankFactor;
+        });
+        // calculate a weight that is sufficient to keep subgraphs vertically compact
+        const weight = this.graph.edges.reduce((prevVal, edge) => prevVal + edge.weight, 0);
+        // create border nodes and link them up
+        this.graph.getChildren().forEach(child => {
+            ldb('calling dfs with', this.graph.rootNode, this.graph.nodeRankFactor, weight, height, depths, child);
+            this.dfs(this.graph.rootNode, weight, height, depths, child);
+        });
+        ldb('edges after nesting graph', this.graph.edges.length);
     }
-    if (rank && order) {
-      node.rank = rank
-      node.order = order
-    }
-    return this.addDummyNode('border', node, prefix)
-  }
-
-  rank() {
-    switch (this.graph.ranker) {
-      case 'network-simplex':
-        this.networkSimplexRanker()
-        break
-      case 'tight-tree':
-        this.tightTreeRanker()
-        break
-      case 'longest-path':
-        this.longestPathRanker()
-        break
-      default:
-        this.networkSimplexRanker()
-        break
-    }
-  }
-
-  position() {
-    const position = new Position(graph)
-    this.positionY()
-    // this.positionX()
-  }
-
-  positionX() {
-    const layering = this.buildLayerMatrix()
-
-    // const xss = {}
-    // let adjustedLayering
-    // ['u', 'd'].forEach(vert => {
-    //   adjustedLayering = vert === 'u' ? layering : Object.values(layering).reverse()
-    //   ['l', 'r'].forEach(horiz => {
-    //     if (horiz === 'r') {
-    //       adjustedLayering = adjustedLayering.map(inner => Object.values(inner).reverse())
-    //     }
-
-    //     const align = this.verticalAlignment(adjustedLayering)
-
-    //     xss[vert + horiz] = xs
-    //   })
-    // })
-  }
-
-  positionY() {
-    let prevY = 0
-    this.layering.forEach(layer => {
-      const maxHeight = Math.max(
-        layer.map(node => {
-          return node.height
-        })
-      )
-      layer.forEach(node => {
-        ldb('assigning y', node.id, prevY, maxHeight / 2, prevY + maxHeight / 2)
-        node.y = prevY + maxHeight / 2
-      })
-      prevY += maxHeight + rankSep
-    })
-  }
-
-  balance(xss, align) {
-    return
-  }
-
-  networkSimplexRanker() {
-    this.longestPath()
-    this.feasibleTree()
-  }
-
-  longestPath() {
-    const layout = this
-    const visited = {}
-
-    function _longestPath(node) {
-      if (visited[node.id]) {
-        return node.rank
-      }
-      visited[node.id] = true
-
-      const min = Math.min(...layout.graph.outEdges(node).map(outEdge => {
-          return _longestPath(outEdge.to) - outEdge.minLen
-      }))
-      const rank = min === Infinity ? 0 : min
-
-      return (node.rank = rank)
-    }
-
-    this.graph.sources.forEach(_longestPath)
-  }
-
-  feasibleTree() {
-    this.treeGraph = new Graph_Graph({ directed: false })
-
-    const start = this.graph.nodeIds[0]
-    const size = this.graph.nodeIds.length
-    this.treeGraph.setNode(start)
-    ldb('start is', start, 'size is', size)
-
-    let edge
-    let delta
-    let doneTimes = 0
-    while (this.tightTree() < size) {
-      edge = this.findMinSlackEdge()
-      delta = this.treeGraph.hasNode(edge.from.id)
-        ? this.slack(edge)
-        : -this.slack(edge)
-      this.shiftRanks(delta)
-      doneTimes++
-      if (doneTimes > 200) {
-        throw new Error('too many loops, breaking now!')
-      }
-    }
-  }
-
-  /**
-   * Finds a maximal tree of tight edges and returns the number of nodes in the tree
-   */
-  tightTree() {
-    const layout = this
-    function dfs(node) {
-      ldb('nodeEdges', layout.graph.nodeEdges(node))
-      layout.graph.nodeEdges(node).forEach(edge => {
-        ldb('nodeEdge for', node.id, edge)
-        const to = node.id === edge.from.id ? edge.to : edge.from
-        ldb('not hasNode', !layout.treeGraph.hasNode(to.id), 'not slack', !layout.slack(edge))
-        if (!layout.treeGraph.hasNode(to.id) && !layout.slack(edge)) {
-          ldb('adding node to tighttree', to)
-          layout.treeGraph.setNode(to.id)
-          layout.treeGraph.setEdge(node.id, to.id)
-          dfs(to)
+    cleanupNestingGraph() {
+        if (this.graph.rootNode) {
+            this.graph.removeNode(this.graph.rootNode.id);
         }
-      })
+        delete this.graph['rootNode'];
+        this.graph.edges.forEach(edge => {
+            if (edge.nestingEdge) {
+                this.graph.removeEdge(edge.id);
+            }
+        });
+        ldb('edges after cleanup nesting graph', this.graph.edges.length, this.graph.edges);
     }
-
-    this.treeGraph.nodes.forEach(dfs)
-    ldb('tightTree size is', this.treeGraph.nodeIds.length)
-    return this.treeGraph.nodeIds.length
-  }
-
-  findMinSlackEdge() {
-    let minSlackEdge
-    let minSlack = Infinity
-
-    ldb('finding min slack edge')
-
-    this.graph.edges.forEach(edge => {
-      if (
-        this.treeGraph.hasNode(edge.from.id) !==
-        this.treeGraph.hasNode(edge.to.id)
-      ) {
-        const slack = this.slack(edge)
-        if (slack < minSlack) {
-          minSlackEdge = edge
-          minSlack = slack
+    normalizeRanks() {
+        const minRank = this.minRank();
+        this.graph.nodes.forEach(node => (node.rank -= minRank));
+    }
+    assignRankMinMax() {
+        let maxRank = 0;
+        this.graph.nodes.forEach(node => {
+            if (!node.borders.top || !node.borders.bottom) {
+                return;
+            }
+            node.minRank = node.borders.top.rank;
+            node.maxRank = node.borders.bottom.rank;
+            maxRank = Math.max(maxRank, node.maxRank);
+        });
+        this.graph.maxRank = maxRank;
+    }
+    treeDepths() {
+        const depths = {};
+        const layout = this;
+        function dfs(node, depth = 1) {
+            const children = Object.values(node.children);
+            ldb('children of', node, 'are', children, '. depth:', depth);
+            children.forEach(child => {
+                ldb('child', child);
+                dfs(child, depth + 1);
+            });
+            depths[node.id] = depth;
         }
-      }
-    })
-
-    return minSlackEdge
-  }
-
-  /**
-   * Returns the amount of slack for the given edge. The slack is defined as the difference
-   * between the length of the edge and its minimum length
-   * @param {Edge} edge
-   */
-  slack(edge) {
-    ldb(
-      'calculating slack of',
-      edge,
-      edge.to.rank,
-      edge.from.rank,
-      edge.minLen
-    )
-    return edge.to.rank - edge.from.rank - edge.minLen
-  }
-
-  order() {
-    const maxRank = this.maxRank()
-    const layering = this.initOrder()
-    ldb('LAYERING', layering)
-    
-    this.assignOrder(layering)
-    // ldb('order', layering, this.graph.nodes)
-    // ldb('STOPPED HERE, code further!')
-    // const downLayerGraphs = buildLayerGraphs(g, _.range(1, maxRank + 1), 'inEdges')
-    // const upLayerGraphs = buildLayerGraphs(g, _.range(maxRank - 1, -1, -1), 'outEdges')
-
-    // let layering = initOrder(g)
-    // assignOrder(g, layering)
-
-    // let bestCC = Number.POSITIVE_INFINITY
-    // let best
-
-    // for (let i = 0, lastBest = 0; lastBest < 4; ++i, ++lastBest) {
-    //   sweepLayerGraphs(i % 2 ? downLayerGraphs : upLayerGraphs, i % 4 >= 2)
-
-    //   layering = util.buildLayerMatrix(g)
-    //   const cc = crossCount(g, layering)
-    //   if (cc < bestCC) {
-    //     lastBest = 0
-    //     best = _.cloneDeep(layering)
-    //     bestCC = cc
-    //   }
-    // }
-
-    // assignOrder(g, best)
-  }
-
-  buildLayerGraphs(ranks, relationship) {
-    return ranks.map(rank => this.buildLayerGraph(rank, relationship))
-  }
-
-  initOrder() {
-    const visited = {}
-    const simpleNodes = this.graph.nodes.filter(node => !this.graph.getChildren(node.id).length)
-    const maxRank = this.maxRank(simpleNodes)
-    const layers = []
-
-    function dfs (node) {
-      if (visited[node.id]) {
-        return
-      }
-      visited[node.id] = true
-      if (!layers[node.rank]) {
-        layers[node.rank] = []
-      }
-      layers[node.rank].push(node)
-      this.graph.getSuccessors(node).forEach(dfs)
+        this.graph.getChildren().forEach(child => {
+            dfs(child);
+        });
+        return depths;
     }
-
-    function compare(a, b) {
-      if (a.rank < b.rank) {
-        return -1
-      }
-      if (a.rank > b.rank) {
-        return 1
-      }
-      return 0
+    dfs(rootNode, weight, height, depths, node) {
+        const children = Object.values(node.children);
+        ldb('DFS: children of', node, children);
+        if (!children.length) {
+            if (node.id !== rootNode.id) {
+                this.graph.setEdge(rootNode.id, node.id, { weight: 0, minLen: this.graph.nodeRankFactor });
+            }
+            return;
+        }
+        const top = this.addBorderNode('_bt');
+        const bottom = this.addBorderNode('_bb');
+        node.borders = { top, bottom };
+        this.graph.setParent(top.id, node.id);
+        this.graph.setParent(bottom.id, node.id);
+        children.forEach(child => {
+            this.dfs(rootNode, weight, height, depths, child);
+            const childTop = child.borders.top ? child.borders.top : child;
+            const childBottom = child.borders.bottom ? child.borders.bottom : child;
+            const thisWeight = Object.keys(child.borders).length ? weight : 2 * weight;
+            const minLen = childTop !== childBottom ? 1 : height - depths[node.id] + 1;
+            this.graph.setEdge(top.id, childTop.id, {
+                weight: thisWeight,
+                minLen: minLen,
+                nestingEdge: true
+            });
+            this.graph.setEdge(childBottom.id, bottom.id, {
+                weight: thisWeight,
+                minLen: minLen,
+                nestingEdge: true
+            });
+        });
+        if (!this.graph.getParent(node.id)) {
+            this.graph.setEdge(rootNode.id, top.id, {
+                weight: 0,
+                minLen: height + depths[node.id]
+            });
+        }
     }
-
-    const orderedNodeIds = simpleNodes.sort(compare)
-    orderedNodeIds.forEach(dfs, this)
-
-    return layers
-  }
-
-  assignOrder(layering) {
-    layering.forEach(layer => {
-      layer.forEach((node, index) => {
-        node.order = index
-      })
-    })
-  }
-
-  adjustCoordinateSystem() {
-    if (this.graph.rankDir === 'lr' || this.graph.rankDir === 'rl') {
-      this.swapWidthHeight()
+    addBorderNode(prefix, rank, order) {
+        const node = {
+            width: 0,
+            height: 0
+        };
+        if (rank && order) {
+            node.rank = rank;
+            node.order = order;
+        }
+        return this.graph.addDummyNode('border', node, prefix);
     }
-  }
-
-  undoCoordinateSystem() {
-    if (this.graph.rankDir === 'bt' || this.graph.rankDir === 'rl') {
-      this.reverseY()
+    rank() {
+        switch (this.graph.ranker) {
+            case 'network-simplex':
+                this.networkSimplexRanker();
+                break;
+            case 'tight-tree':
+                // this.tightTreeRanker()
+                break;
+            case 'longest-path':
+                // this.longestPathRanker()
+                break;
+            default:
+                this.networkSimplexRanker();
+                break;
+        }
     }
-
-    if (this.graph.rankDir === 'lr' || this.graph.rankDir === 'rl') {
-      this.swapXY()
-      this.swapWidthHeight()
+    position() {
+        // const position = new Position(graph)
+        this.positionY();
+        // this.positionX()
     }
-  }
-
-  _swapWidthHeightOne(o) {
-    const w = o.width
-    o.width = o.height
-    o.height = w
-  }
-
-  swapWidthHeight() {
-    this.graph.nodes.forEach(this._swapWidthHeightOne)
-    this.graph.edges.forEach(this._swapWidthHeightOne)
-  }
-
-  _swapXYOne(o) {
-    const x = o.x
-    o.x = o.y
-    ldb('y before', o.y, 'after', x)
-    o.y = x
-    ldb('now', {x: o.x, y: o.y})
-  }
-
-  swapXY() {
-    this.graph.nodes.forEach(this._swapXYOne)
-    this.graph.edges.forEach(edge => {
-      edge.points.forEach(this._swapXYOne)
-      if (edge.x) {
-        this._swapXYOne(edge)
-      }
-    })
-  }
-
-  maxRank(nodes = this.graph.nodes) {
-    return nodes.reduce((prevV, node) => {
-      return node.rank > prevV ? node.rank : prevV
-    }, -Infinity)
-  }
-
-  minRank(nodes = this.graph.nodes) {
-    return nodes.reduce((prevV, node) => {
-      return node.rank < prevV ? node.rank : prevV
-    }, Infinity)
-  }
-
-  shiftRanks(delta) {
-    this.treeGraph.nodes.forEach(node => {
-      node.rank += delta
-    })
-  }
-
-  translateGraph() {
-    let minX = Infinity
-    let maxX = 0
-    let minY = Infinity
-    let maxY = 0
-    const marginX = this.graph.marginX || 0
-    const marginY = this.graph.marginY || 0
-
-    function getExtremes(o) {
-      const x = o.x || 0
-      const y = o.y || 0
-      const w = o.width || 0
-      const h = o.height || 0
-      minX = Math.min(minX, x - w / 2)
-      maxX = Math.max(maxX, x + w / 2)
-      minY = Math.min(minY, y - h / 2)
-      maxY = Math.max(maxY, y + h / 2)
+    positionX() {
+        const matrix = this.layering.buildLayerMatrix();
+        // const xss = {}
+        // let adjustedLayering
+        // ['u', 'd'].forEach(vert => {
+        //   adjustedLayering = vert === 'u' ? layering : Object.values(layering).reverse()
+        //   ['l', 'r'].forEach(horiz => {
+        //     if (horiz === 'r') {
+        //       adjustedLayering = adjustedLayering.map(inner => Object.values(inner).reverse())
+        //     }
+        //     const align = this.verticalAlignment(adjustedLayering)
+        //     xss[vert + horiz] = xs
+        //   })
+        // })
     }
-
-    this.graph.nodes.forEach(getExtremes)
-
-    this.graph.edges.forEach(edge => {
-      if (edge.x) {
-        getExtremes(edge)
-      }
-    })
-
-    minX -= marginX
-    minY -= marginY
-
-    this.graph.nodes.forEach(node => {
-      node.x -= minX
-      node.y -= minY
-    })
-
-    this.graph.edges.forEach(edge => {
-      edge.points.forEach(point => {
-        point.x -= minX
-        point.y -= minY
-      })
-
-      if (edge.x) {
-        edge.x -= minX
-      }
-
-      if (edge.y) {
-        edge.y -= minY
-      }
-    })
-
-    this.graph.width = maxX - minX + marginX
-    this.graph.height = maxY - minY + marginY
-  }
-
-
-  /**
-   * 
-   * @param {[{}]} arr 
-   * @param {string} key
-   */
-  sortBy(arr, key) {
-    function compare(a, b) {
-      if (a[key] < b[key]) {
-        return -1
-      }
-      if (a[key] > b[key]) {
-        return 1
-      }
-      return 0
+    positionY() {
+        let prevY = 0;
+        this.layering.matrix.forEach(layer => {
+            const maxHeight = Math.max(...layer.map(node => node.size.height));
+            layer.forEach(node => {
+                ldb('assigning y', node.id, prevY, maxHeight / 2, prevY + maxHeight / 2);
+                node.position.y = prevY + maxHeight / 2;
+            });
+            prevY += maxHeight + this.graph.rankSep;
+        });
     }
-
-    return arr.sort(compare)
-  }
-
-  /**
-   * 
-   * @param {[{}]} arr 
-   * @param {any} fn Function for comparison
-   */
-  sortByFunction(arr, fn) {
-    function compare(a, b) {
-      if (fn(a) < fn(b)) {
-        return -1
-      }
-      if (fn(a) > fn(b)) {
-        return 1
-      }
-      return 0
+    balance(xPositions) {
+        for (const nodeId in xPositions.ul) {
+            const xs = Object.values(Object.values(xPositions)).map(xs => xs[nodeId]).sort();
+            xPositions.ul[nodeId] = xs[1] + xs[2] / 2;
+        }
+        return xPositions;
     }
-
-    return arr.sort(compare)
-  }
+    networkSimplexRanker() {
+        this.longestPath();
+        this.feasibleTree();
+    }
+    longestPath() {
+        const layout = this;
+        const visited = {};
+        function _longestPath(node) {
+            if (visited[node.id]) {
+                return node.rank;
+            }
+            visited[node.id] = true;
+            const min = Math.min(...layout.graph.outEdges(node).map(outEdge => {
+                return _longestPath(outEdge.to) - outEdge.minLen;
+            }));
+            const rank = min === Infinity ? 0 : min;
+            return (node.rank = rank);
+        }
+        this.graph.sources.forEach(_longestPath);
+    }
+    feasibleTree() {
+        this.treeGraph = new Graph_Graph({ directed: false });
+        const start = this.graph.nodeIds[0];
+        const size = this.graph.nodeIds.length;
+        this.treeGraph.setNode(start);
+        ldb('start is', start, 'size is', size);
+        let edge;
+        let delta;
+        let doneTimes = 0;
+        while (this.tightTree() < size) {
+            edge = this.findMinSlackEdge();
+            if (edge === null) {
+                throw new Error('min slack edge is null!');
+            }
+            delta = this.treeGraph.hasNode(edge.from.id)
+                ? this.slack(edge)
+                : -this.slack(edge);
+            this.shiftRanks(delta);
+            doneTimes++;
+            if (doneTimes > 200) {
+                throw new Error('too many loops, breaking now!');
+            }
+        }
+    }
+    /**
+     * Finds a maximal tree of tight edges and returns the number of nodes in the tree
+     */
+    tightTree() {
+        const layout = this;
+        const treeGraph = this.treeGraph;
+        function dfs(node) {
+            ldb('nodeEdges', layout.graph.nodeEdges(node));
+            layout.graph.nodeEdges(node).forEach(edge => {
+                ldb('nodeEdge for', node.id, edge);
+                const to = node.id === edge.from.id ? edge.to : edge.from;
+                ldb('not hasNode', !treeGraph.hasNode(to.id), 'not slack', !layout.slack(edge));
+                if (!treeGraph.hasNode(to.id) && !layout.slack(edge)) {
+                    ldb('adding node to tighttree', to);
+                    treeGraph.setNode(to.id);
+                    treeGraph.setEdge(node.id, to.id);
+                    dfs(to);
+                }
+            });
+        }
+        treeGraph.nodes.forEach(dfs);
+        ldb('tightTree size is', treeGraph.nodeIds.length);
+        return treeGraph.nodeIds.length;
+    }
+    findMinSlackEdge() {
+        let minSlackEdge = null;
+        let minSlack = Infinity;
+        ldb('finding min slack edge');
+        this.graph.edges.forEach(edge => {
+            if (this.treeGraph.hasNode(edge.from.id) !==
+                this.treeGraph.hasNode(edge.to.id)) {
+                const slack = this.slack(edge);
+                if (slack < minSlack) {
+                    minSlackEdge = edge;
+                    minSlack = slack;
+                }
+            }
+        });
+        return minSlackEdge;
+    }
+    slack(edge) {
+        ldb('calculating slack of', edge, edge.to.rank, edge.from.rank, edge.minLen);
+        return edge.to.rank - edge.from.rank - edge.minLen;
+    }
+    order() {
+        const maxRank = this.maxRank();
+        const layering = this.initOrder();
+        ldb('LAYERING', layering);
+        this.assignOrder(layering);
+        // ldb('order', layering, this.graph.nodes)
+        // ldb('STOPPED HERE, code further!')
+        // const downLayerGraphs = buildLayerGraphs(g, _.range(1, maxRank + 1), 'inEdges')
+        // const upLayerGraphs = buildLayerGraphs(g, _.range(maxRank - 1, -1, -1), 'outEdges')
+        // let layering = initOrder(g)
+        // assignOrder(g, layering)
+        // let bestCC = Number.POSITIVE_INFINITY
+        // let best
+        // for (let i = 0, lastBest = 0; lastBest < 4; ++i, ++lastBest) {
+        //   sweepLayerGraphs(i % 2 ? downLayerGraphs : upLayerGraphs, i % 4 >= 2)
+        //   layering = util.buildLayerMatrix(g)
+        //   const cc = crossCount(g, layering)
+        //   if (cc < bestCC) {
+        //     lastBest = 0
+        //     best = _.cloneDeep(layering)
+        //     bestCC = cc
+        //   }
+        // }
+        // assignOrder(g, best)
+    }
+    buildLayerGraph(rank, relationship) {
+        const graph = new Graph_Graph({ compound: true });
+        graph.rootNode = graph.setNode('_root', { dummy: 'root' });
+        this.graph.nodes.forEach(node => {
+            const parent = node.parent;
+            if (!node.minRank || !node.maxRank) {
+                throw new Error('minRank or maxRank not defined!');
+            }
+            if (node.rank === rank || (node.minRank <= rank && rank <= node.maxRank)) {
+                const newNode = graph.setNode(node.id);
+                graph.setParent(node.id, parent ? parent.id : graph.rootNode ? graph.rootNode.id : '');
+                let edges = [];
+                if (relationship === 'in') {
+                    edges = this.graph.inEdges(node);
+                }
+                else if (relationship === 'out') {
+                    edges = this.graph.outEdges(node);
+                }
+                edges.forEach(edge => {
+                    const to = edge.from.id === node.id ? edge.to : edge.from;
+                    const newEdge = graph.getEdge(to.id, node.id);
+                    const weight = edge ? newEdge.weight : 0;
+                    graph.setEdge(to.id, node.id, { weight: edge.weight + weight });
+                });
+                if (node.minRank && node.borders.left && node.borders.right) {
+                    graph.setNode(node.id, { borders: { left: { [rank]: node.borders.left[rank] }, right: { [rank]: node.borders.right[rank] } } });
+                }
+            }
+        });
+    }
+    buildLayerGraphs(ranks, relationship) {
+        return ranks.map(rank => this.buildLayerGraph(rank, relationship));
+    }
+    initOrder() {
+        const layout = this;
+        const visited = {};
+        const simpleNodes = this.graph.nodes.filter(node => !this.graph.getChildren(node.id).length);
+        const maxRank = this.maxRank(simpleNodes);
+        const layers = [];
+        function dfs(node) {
+            if (visited[node.id]) {
+                return;
+            }
+            visited[node.id] = true;
+            if (!layers[node.rank]) {
+                layers[node.rank] = [];
+            }
+            layers[node.rank].push(node);
+            layout.graph.getSuccessors(node).forEach(nodeId => {
+                dfs(layout.graph.getNode(nodeId));
+            });
+        }
+        function compare(a, b) {
+            if (a.rank < b.rank) {
+                return -1;
+            }
+            if (a.rank > b.rank) {
+                return 1;
+            }
+            return 0;
+        }
+        const orderedNodeIds = simpleNodes.sort(compare);
+        orderedNodeIds.forEach(dfs, this);
+        return layers;
+    }
+    assignOrder(layering) {
+        layering.forEach(layer => {
+            layer.forEach((node, index) => {
+                node.order = index;
+            });
+        });
+    }
+    adjustCoordinateSystem() {
+        if (this.graph.rankDir === 'lr' || this.graph.rankDir === 'rl') {
+            this.swapWidthHeight();
+        }
+    }
+    undoCoordinateSystem() {
+        if (this.graph.rankDir === 'bt' || this.graph.rankDir === 'rl') {
+            // this.reverseY()
+        }
+        if (this.graph.rankDir === 'lr' || this.graph.rankDir === 'rl') {
+            this.swapXY();
+            this.swapWidthHeight();
+        }
+    }
+    _swapWidthHeightOne(o) {
+        const w = o.size.width;
+        o.size.width = o.size.height;
+        o.size.height = w;
+    }
+    swapWidthHeight() {
+        this.graph.nodes.forEach(this._swapWidthHeightOne);
+        this.graph.edges.forEach(this._swapWidthHeightOne);
+    }
+    _swapXYOne(o) {
+        const x = o.position.x;
+        o.position.x = o.position.y;
+        ldb('y before', o.position.y, 'after', x);
+        o.position.y = x;
+        ldb('now', { x: o.position.x, y: o.position.y });
+    }
+    swapXY() {
+        this.graph.nodes.forEach(this._swapXYOne);
+        this.graph.edges.forEach(edge => {
+            edge.points.forEach(this._swapXYOne);
+            if (edge.position.x) {
+                this._swapXYOne(edge);
+            }
+        });
+    }
+    maxRank(nodes = this.graph.nodes) {
+        return nodes.reduce((prevV, node) => {
+            return node.rank > prevV ? node.rank : prevV;
+        }, -Infinity);
+    }
+    minRank(nodes = this.graph.nodes) {
+        return nodes.reduce((prevV, node) => {
+            return node.rank < prevV ? node.rank : prevV;
+        }, Infinity);
+    }
+    shiftRanks(delta) {
+        if (!this.treeGraph) {
+            throw new Error('treeGraph is not defined!');
+        }
+        this.treeGraph.nodes.forEach(node => {
+            node.rank += delta;
+        });
+    }
+    translateGraph() {
+        let minX = Infinity;
+        let maxX = 0;
+        let minY = Infinity;
+        let maxY = 0;
+        const marginX = this.graph.marginX || 0;
+        const marginY = this.graph.marginY || 0;
+        function getExtremes(o) {
+            const x = o.position.x || 0;
+            const y = o.position.y || 0;
+            const w = o.size.width || 0;
+            const h = o.size.height || 0;
+            minX = Math.min(minX, x - w / 2);
+            maxX = Math.max(maxX, x + w / 2);
+            minY = Math.min(minY, y - h / 2);
+            maxY = Math.max(maxY, y + h / 2);
+        }
+        this.graph.nodes.forEach(getExtremes);
+        this.graph.edges.forEach(edge => {
+            if (edge.position.x) {
+                getExtremes(edge);
+            }
+        });
+        minX -= marginX;
+        minY -= marginY;
+        this.graph.nodes.forEach(node => {
+            node.position.x -= minX;
+            node.position.y -= minY;
+        });
+        this.graph.edges.forEach(edge => {
+            edge.points.forEach(point => {
+                point.position.x -= minX;
+                point.position.y -= minY;
+            });
+            if (edge.position.x) {
+                edge.position.x -= minX;
+            }
+            if (edge.position.y) {
+                edge.position.y -= minY;
+            }
+        });
+        this.graph.size.width = maxX - minX + marginX;
+        this.graph.size.height = maxY - minY + marginY;
+    }
+    /**
+     *
+     * @param {[{}]} arr
+     * @param {string} key
+     */
+    sortBy(arr, key) {
+        function compare(a, b) {
+            if (a[key] < b[key]) {
+                return -1;
+            }
+            if (a[key] > b[key]) {
+                return 1;
+            }
+            return 0;
+        }
+        return arr.sort(compare);
+    }
+    sortByFunction(arr, fn) {
+        function compare(a, b) {
+            if (fn(a) < fn(b)) {
+                return -1;
+            }
+            if (fn(a) > fn(b)) {
+                return 1;
+            }
+            return 0;
+        }
+        return arr.sort(compare);
+    }
 }
-
-// CONCATENATED MODULE: ./src/graph/layout/Position.js
-
-
-
-class Position {
-  /**
-   * 
-   * @param {Graph} graph 
-   */
-  constructor() {
-    this.x = 0
-    this.y = 0
-  }
-}
-// CONCATENATED MODULE: ./src/graph/Node.js
+//# sourceMappingURL=Layout.js.map
+// CONCATENATED MODULE: ./src/graph/Edge.js
 
 
-
-const Node_defaults = {
-  paddingLeft: 10,
-  paddingRight: 10,
-  paddingTop: 10,
-  paddingBottom: 10,
-  rx: 0,
-  ry: 0,
-  shape: 'rect',
-  width: 0,
-  height: 0
-}
-
-class Node_GraphNode {
-  constructor(id, options) {
-    /** @type {string} */
-    this.id = id
-    this.setOptions(options)
-    this.position = new Position()
-    this.size = new Size()
-  }
-
-  setOptions(options = {}) {
-    if (!options.label) {
-      options.label = this.id
+const DEFAULT_EDGE_NAME = '\x00';
+const EDGE_KEY_DELIM = '\x01';
+class Edge_Edge {
+    constructor(id, from, to, options) {
+        this.order = 0;
+        this.points = [];
+        this.data = {};
+        this.position = new Position();
+        this.size = new Size();
+        this.minLen = 1;
+        this.weight = 1;
+        this.labelOffset = 10;
+        this.labelPos = 'r';
+        this.nestingEdge = false;
+        this.id = id;
+        this.from = from;
+        this.to = to;
+        this.setOptions(options);
     }
-
-    Object.assign(this, Node_defaults, options)
-  }
-
-  setDefaults() {}
+    static generateId(fromId, toId, directed = false, name) {
+        if (!directed && fromId > toId) {
+            const tmp = fromId;
+            fromId = toId;
+            toId = tmp;
+        }
+        return fromId + EDGE_KEY_DELIM + toId + EDGE_KEY_DELIM + (name ? name : DEFAULT_EDGE_NAME);
+    }
+    setOptions(options = {}) {
+        Object.assign(this, options);
+    }
 }
-
+//# sourceMappingURL=Edge.js.map
 // CONCATENATED MODULE: ./src/Graph.js
 
 
 
 
 
-const gdb = browser_default()('graph')
-const GRAPH_NODE = '\x00'
 
+const gdb = browser_default()('graph');
+const GRAPH_NODE = '\x00';
 class Graph_Graph {
-  constructor({
-    directed = true,
-    multiGraph = false,
-    compound = false,
-    rankDir = 'tb',
-    rankSep = 50,
-    edgeSep = 20,
-    nodeSep = 50,
-    marginX = 20,
-    marginY = 20
-  } = {}) {
-    Object.assign(this, {
-      directed,
-      multiGraph,
-      compound,
-      rankDir: rankDir.toLowerCase(),
-      rankSep,
-      edgeSep,
-      nodeSep,
-      marginX,
-      marginY
-    })
-    /** @type {{id: GraphNode}} */
-    this._nodes = {}
-    /** @type {{id: Edge}} */
-    this._edges = {}
-
-    if (this.compound === true) {
-      this.parent = {}
-      this.children = {}
-      this.children[GRAPH_NODE] = {}
+    constructor(options = {}) {
+        this._nodes = {};
+        this._edges = {};
+        this.layout = new Layout_Layout(this);
+        this.size = new Size();
+        this.style = new Style();
+        this.nodeRankFactor = 0;
+        this.compound = false;
+        this.multiGraph = false;
+        this.directed = true;
+        this.rankDir = 'tb';
+        this.minX = 0;
+        this.minY = 0;
+        this.maxX = 0;
+        this.maxY = 0;
+        this.marginX = 20;
+        this.marginY = 20;
+        this.randomId = 1;
+        this.dummyChain = [];
+        this.rankSep = 50;
+        this.edgeSep = 20;
+        this.nodeSep = 50;
+        this.ranker = 'network-simplex';
+        Object.assign(this, options);
+        this.rankDir = this.rankDir.toLowerCase();
+        // v -> edgeObj
+        // this.in = {}
+        // u -> v -> Number
+        // this.preds = {}
+        // v -> edgeObj
+        // this.out = {}
+        // v -> w -> Number
+        // this.sucs = {}
     }
-
-    this.randomId = 1
-
-    /** @type {GraphNode} */
-    this.root = null
-
-    // v -> edgeObj
-    this.in = {}
-
-    // u -> v -> Number
-    this.preds = {}
-
-    // v -> edgeObj
-    this.out = {}
-
-    // v -> w -> Number
-    this.sucs = {}
-  }
-
-  /**
-   *
-   * @param {string} id
-   * @param {{}} options
-   * @returns {GraphNode} node
-   */
-  setNode(id, options) {
-    if (this._nodes[id]) {
-      if (options) {
-        this._nodes[id].setOptions(options)
-      }
-      return this._nodes[id]
-    }
-
-    gdb('creating node', id, options)
-
-    this._nodes[id] = new Node_GraphNode(id, options)
-
-    if (this.compound === true) {
-      this.parent[id] = GRAPH_NODE
-      this.children[id] = {}
-      this.children[GRAPH_NODE][id] = true
-    }
-
-    this.in[id] = {}
-    this.preds[id] = {}
-    this.out[id] = {}
-    this.sucs[id] = {}
-    return this._nodes[id]
-  }
-
-  /**
-   *
-   * @param {string} id
-   */
-  removeNode(id) {
-    gdb('removing node id', id)
-    if (!this._nodes[id]) {
-      return
-    }
-
-    delete this._nodes[id]
-
-    if (this.compound) {
-      delete this.parent[id]
-      delete this.children[id]
-    }
-
-    Object.keys(this.in[id]).forEach(this.removeEdge, this)
-    delete this.in[id]
-    delete this.preds[id]
-
-    Object.keys(this.out[id]).forEach(this.removeEdge, this)
-    delete this.out[id]
-    delete this.sucs[id]
-  }
-
-  /**
-   *
-   * @param {string} from
-   * @param {string} to
-   * @param {{}} options
-   */
-  setEdge(from, to, options) {
-    gdb('setting edge', from, to, options)
-
-    const edgeId = Edge_Edge.generateId(from, to, this.directed)
-
-    if (this._edges[edgeId]) {
-      if (options) {
-        this._edges[edgeId].setOptions(options)
-      }
-      return this
-    }
-
-    // first ensure the nodes exist
-    const fromNode = this.setNode(from)
-    const toNode = this.setNode(to)
-
-    const edge = new Edge_Edge(edgeId, fromNode, toNode, options)
-
-    this._edges[edgeId] = edge
-
-    this.out[from][edgeId] = edge
-    this.in[to][edgeId] = edge
-    return this
-  }
-
-  /**
-   *
-   * @param {string} id
-   */
-  removeEdge(id) {
-    gdb('removing edge', id)
-    if (!this._edges[id]) {
-      gdb('edge', id, 'does not exist. returning...')
-      return
-    }
-    /** @type {Edge} */
-    const edge = this._edges[id]
-    delete this.in[edge.from]
-    delete this.out[edge.to]
-    delete this._edges[id]
-  }
-
-  addDummyNode(type, attrs, name) {
-    name = name + this.randomId++
-    attrs.dummy = type
-    this.setNode(name, attrs)
-    return name
-  }
-
-  getNode(id) {
-    return this._nodes[id]
-  }
-
-  getEdge(fromId, toId) {
-    return this._edges[Edge_Edge.generateId(fromId, toId, this.directed)]
-  }
-
-  getChildren(id) {
-    if (!id) {
-      id = GRAPH_NODE
-    }
-
-    if (this.compound) {
-      const childArray = this.children[id]
-      if (childArray) {
-        return Object.keys(childArray)
-      }
-    } else if (id === GRAPH_NODE) {
-      return this.nodes
-    } else {
-      return []
-    }
-  }
-
-  /**
-   * 
-   * @param {GraphNode} node 
-   */
-  getPredecessors(node) {
-    if (this.preds[node.id]) {
-      return Object.keys(this.preds[node.id])
-    }
-  }
-
-  /**
-   * 
-   * @param {GraphNode} node 
-   */
-  getSuccessors(node) {
-    if (this.sucs[node.id]) {
-      return Object.keys(this.sucs[node.id])
-    }
-  }
-
-  setParent(id, parentId) {
-    if (!this.compound) {
-      throw new Error('Cannot set parent in a non-compound graph')
-    }
-
-    if (!parentId) {
-      parentId = GRAPH_NODE
-    } else {
-      // Coerce parent to string
-      for (let ancestor = parent; !ancestor; ancestor = this.parent(ancestor)) {
-        if (ancestor === id) {
-          throw new Error(
-            'Setting ' +
-              parentId +
-              ' as parent of ' +
-              id +
-              ' would create a cycle'
-          )
+    setNode(id, options = {}) {
+        if (this._nodes[id]) {
+            if (options) {
+                this._nodes[id].setOptions(options);
+            }
+            return this._nodes[id];
         }
-      }
-  
-      this.setNode(parentId)
+        gdb('creating node', id, options);
+        this._nodes[id] = new Node_GraphNode(id, options);
+        return this._nodes[id];
     }
-  
-    this.setNode(id)
-    delete this.children[parentId][id]
-    this.parent[id] = parentId
-    this.children[parentId][id] = true
-  }
-
-  /**
-   *
-   * @param {GraphNode} from
-   * @param {GraphNode} to
-   */
-  nodeEdges(from, to) {
-    const inEdges = this.inEdges(from, to)
-    if (inEdges) {
-      return inEdges.concat(this.outEdges(from, to))
-    }
-  }
-
-  isSubgraph(id) {
-    return this.getChildren(id).length !== 0
-  }
-
-  doLayout() {
-    gdb('layouting graph')
-    this.layout = new Layout_Layout(this)
-  }
-
-  /**
-   *
-   * @param {string} id
-   */
-  hasNode(id) {
-    return this._nodes[id]
-  }
-
-  /**
-   * @returns {Array<{label: string}>} all nodes of the graph
-   */
-  get nodes() {
-    return Object.values(this._nodes)
-  }
-
-  /**
-   * @returns {Array<{label: string}>} all edges of the graph
-   */
-  get edges() {
-    return Object.values(this._edges)
-  }
-
-  get sources() {
-    return this.nodes.filter(node => {
-      return Object.keys(this.in[node.id]).length === 0
-    })
-  }
-
-  /**
-   *
-   * @param {GraphNode} from
-   * @param {GraphNode} to
-   */
-  inEdges(from, to) {
-    // gdb('ins', this.in)
-    let inFrom = this.in[from.id]
-    // gdb('in from', from, 'to', to, inFrom)
-    if (!inFrom) {
-      return
-    }
-
-    const edges = Object.values(inFrom)
-    if (!to) {
-      return edges
-    }
-    return edges.filter(edge => edge.from.id === to.id)
-  }
-
-  /**
-   *
-   * @param {GraphNode} from
-   * @param {GraphNode} to
-   */
-  outEdges(from, to) {
-    // gdb('outs', this.out)
-    let outFrom = this.out[from.id]
-    // gdb('out from', from, 'to', to, outFrom)
-    if (!outFrom) {
-      return
-    }
-
-    const edges = Object.values(outFrom)
-    if (!to) {
-      return edges
-    }
-    return edges.filter(edge => edge.to.id === to.id)
-  }
-
-  /**
-   * @returns {Array<string>} array of all node IDs
-   */
-  get nodeIds() {
-    return Object.keys(this._nodes)
-  }
-
-  static buildBlockGraph(layering, root, reverseSep) {
-    const blockGraph = new Graph_Graph()
-    
-    layering.forEach(layer => {
-      let to
-      layer.forEach(node => {
-        blockGraph.setNode(root[node.id].id)
-        if (to) {
-          const prevMax = blockGraph.getEdge(root[to.id], root[node.id])
-          blockGraph.setEdge(root[to.id].id, root[node.id].id, {data: {unknown: Math.max(blockGraph.sep(reverseSep, node, to), prevMax || 0)}})
+    removeNode(id) {
+        gdb('removing node id', id);
+        const node = this._nodes[id];
+        if (!node) {
+            return;
         }
-        to = node
-      })
-    })
-
-    return blockGraph
-  }
-
-  sep(reverseSep, from, to) {
-    let sum = 0
-    let delta
-
-    sum += from.width / 2
-    if (from.labelPos) {
-      switch (from.labelPos.toLowerCase()) {
-        case 'l':
-          delta = -from.width / 2
-          break
-        case 'r':
-          delta = from.width / 2
-          break
-      }
+        Object.keys(node.inEdges).forEach(this.removeEdge, this);
+        Object.keys(node.outEdges[id]).forEach(this.removeEdge, this);
+        delete this._nodes[id];
     }
-
-    if (delta) {
-      sum += reverseSep ? delta : -delta
+    setEdge(fromId, toId, options = {}) {
+        gdb('setting edge', fromId, toId, options);
+        const edgeId = Edge_Edge.generateId(fromId, toId, this.directed, options.name);
+        if (this._edges[edgeId]) {
+            if (options) {
+                this._edges[edgeId].setOptions(options);
+            }
+            return this;
+        }
+        // first ensure the nodes exist
+        const fromNode = this.setNode(fromId);
+        const toNode = this.setNode(toId);
+        const edge = new Edge_Edge(edgeId, fromNode, toNode, options);
+        this._edges[edgeId] = edge;
+        fromNode.outEdges[edgeId] = edge;
+        toNode.inEdges[edgeId] = edge;
+        return this;
     }
-    delta = 0
-
-    sum += (from.dummy ? this.edgeSep : this.nodeSep) / 2
-    sum += (to.dummy ? this.edgeSep : this.nodeSep) / 2
-
-    sum += to.width / 2
-
-    if (to.labelPos) {
-      switch (to.labelPos.toLowerCase()) {
-        case 'l':
-          delta = to.width / 2
-          break
-        case 'r':
-          delta = -to.width / 2
-          break
-      }
+    removeEdge(id) {
+        gdb('removing edge', id);
+        if (!this._edges[id]) {
+            gdb('edge', id, 'does not exist. returning...');
+            return;
+        }
+        const edge = this._edges[id];
+        delete this._edges[id];
     }
-
-    if (delta) {
-      sum += reverseSep ? delta : -delta
+    addDummyNode(type, attrs, name) {
+        name = name + this.randomId++;
+        attrs.dummy = type;
+        return this.setNode(name, attrs);
     }
-    delta = 0
-
-    return sum
-  }
+    getNode(id) {
+        return this._nodes[id];
+    }
+    getEdge(fromId, toId) {
+        return this._edges[Edge_Edge.generateId(fromId, toId, this.directed)];
+    }
+    getChildren(id) {
+        if (!id) {
+            return this.nodes;
+        }
+        if (this.compound) {
+            return Object.values(this._nodes[id].children);
+        }
+        else {
+            return [];
+        }
+    }
+    getParent(id) {
+        if (!this.compound) {
+            return null;
+        }
+        const parent = this._nodes[id].parent;
+        if (parent !== null && parent.id !== GRAPH_NODE) {
+            return parent;
+        }
+        return null;
+    }
+    getPredecessors(node) {
+        return node.predecessors ? Object.keys(node.predecessors) : [];
+    }
+    getSuccessors(node) {
+        return node.successors ? Object.keys(node.successors) : [];
+    }
+    setParent(id, parentId) {
+        if (!this.compound) {
+            throw new Error('Cannot set parent in a non-compound graph');
+        }
+        if (parentId === '') {
+            throw new Error('Cannot set parent id to an empty id! (parentId is an empty string)');
+        }
+        let ancestor = parentId;
+        while (ancestor) {
+            const parent = this.getParent(ancestor);
+            if (!parent) {
+                ancestor = null;
+                continue;
+            }
+            if (ancestor === id) {
+                throw new Error('Setting ' +
+                    parentId +
+                    ' as parent of ' +
+                    id +
+                    ' would create a cycle');
+            }
+            ancestor = parent.id;
+        }
+        let parentNode = this.setNode(parentId);
+        let childNode = this.setNode(id);
+        // delete parentNode.children[id]
+        this._nodes[id].parent = parentNode;
+        parentNode.children[id] = childNode;
+    }
+    nodeEdges(from, to) {
+        const inEdges = this.inEdges(from, to);
+        if (inEdges) {
+            return inEdges.concat(this.outEdges(from, to));
+        }
+        return [];
+    }
+    isSubgraph(id) {
+        return this.getChildren(id).length !== 0;
+    }
+    doLayout() {
+        gdb('layouting graph');
+        this.layout = new Layout_Layout(this);
+    }
+    hasNode(id) {
+        return this._nodes[id];
+    }
+    get nodes() {
+        return Object.values(this._nodes);
+    }
+    get edges() {
+        return Object.values(this._edges);
+    }
+    get sources() {
+        return this.nodes.filter(node => {
+            return Object.keys(node.inEdges).length === 0;
+        });
+    }
+    inEdges(from, to) {
+        // gdb('ins', this.in)
+        // gdb('in from', from, 'to', to, inFrom)
+        if (!from.inEdges) {
+            return [];
+        }
+        const edges = Object.values(from.inEdges);
+        if (!to) {
+            return edges;
+        }
+        return edges.filter(edge => edge.from.id === to.id);
+    }
+    outEdges(from, to) {
+        // gdb('out from', from, 'to', to, outFrom)
+        if (!from.outEdges) {
+            return [];
+        }
+        const edges = Object.values(from.outEdges);
+        if (!to) {
+            return edges;
+        }
+        return edges.filter(edge => edge.to.id === to.id);
+    }
+    get nodeIds() {
+        return Object.keys(this._nodes);
+    }
+    static buildBlockGraph(layering, root, reverseSep) {
+        const blockGraph = new Graph_Graph();
+        layering.forEach(layer => {
+            let to;
+            layer.forEach(node => {
+                blockGraph.setNode(root[node.id].id);
+                if (!to) {
+                    to = node;
+                    return;
+                }
+                const prevMax = blockGraph.getEdge(root[to.id].id, root[node.id].id);
+                gdb('CHECK PREVMAX FROM STABLE');
+                blockGraph.setEdge(root[to.id].id, root[node.id].id, {
+                    maxSep: Math.max(blockGraph.sep(reverseSep, node, to), /*prevMax || */ 0)
+                });
+                to = node;
+            });
+        });
+        return blockGraph;
+    }
+    sep(reverseSep, from, to) {
+        let sum = 0;
+        let delta;
+        sum += from.size.width / 2;
+        gdb('CHECK LABEL POS');
+        // if (from.labelPos) {
+        //   switch (from.labelPos.toLowerCase()) {
+        //     case 'l':
+        //       delta = -from.size.width / 2
+        //       break
+        //     case 'r':
+        //       delta = from.size.width / 2
+        //       break
+        //   }
+        // }
+        if (delta) {
+            sum += reverseSep ? delta : -delta;
+        }
+        delta = 0;
+        sum += (from.dummy ? this.edgeSep : this.nodeSep) / 2;
+        sum += (to.dummy ? this.edgeSep : this.nodeSep) / 2;
+        sum += to.size.width / 2;
+        // if (to.labelPos) {
+        //   switch (to.labelPos.toLowerCase()) {
+        //     case 'l':
+        //       delta = to.size.width / 2
+        //       break
+        //     case 'r':
+        //       delta = -to.size.width / 2
+        //       break
+        //   }
+        // }
+        if (delta) {
+            sum += reverseSep ? delta : -delta;
+        }
+        delta = 0;
+        return sum;
+    }
 }
-
+//# sourceMappingURL=Graph.js.map
 // CONCATENATED MODULE: ./src/graph/Svg.js
 class GraphSvg {
-  constructor(tag) {
-    /**
-     * @type {HTMLElement}
-     */
-    this.node = document.createElementNS('http://www.w3.org/2000/svg', tag)
-  }
-
-  /**
-   *
-   * @param {string|GraphSvg} tag
-   * @returns {GraphSvg}
-   */
-  append(el) {
-    if (!(el instanceof GraphSvg)) {
-      el = new GraphSvg(el)
+    constructor(el) {
+        if (el instanceof SVGGraphicsElement) {
+            this.node = el;
+        }
+        else {
+            this.node = document.createElementNS('http://www.w3.org/2000/svg', el);
+        }
     }
-    this.node.appendChild(el.node)
-    return el
-  }
-
-  attr(attribute, value) {
-    this.node.setAttribute(attribute, value)
-    return this
-  }
-
-  select(selector) {
-    const res = this.node.querySelector(selector)
-    if (res) {
-      return new GraphSvg(res)
+    append(el) {
+        if (!(el instanceof GraphSvg)) {
+            el = new GraphSvg(el);
+        }
+        this.node.appendChild(el.node);
+        return el;
     }
-
-    return null
-  }
-
-  selectAll(selector) {
-    const res = this.node.querySelectorAll(selector)
-    if (res) {
-      return Array.from(res).map(node => new GraphSvg(node))
+    attr(attribute, value) {
+        this.node.setAttribute(attribute, value);
+        return this;
     }
-
-    return null
-  }
-
-  text(s) {
-    const el = document.createTextNode(s)
-    this.node.appendChild(el)
-    return this
-  }
-
-  /**
-   *
-   * @param {string} c
-   */
-  addClass(c) {
-    this.node.classList.add(c)
-    return this
-  }
+    select(selector) {
+        const res = this.node.querySelector(selector);
+        if (res instanceof SVGGraphicsElement) {
+            return new GraphSvg(res);
+        }
+        else if (res) {
+            throw new TypeError('The selected element is not of type "SVGGraphicsElement"');
+        }
+        return null;
+    }
+    selectAll(selector) {
+        const res = this.node.querySelectorAll(selector);
+        if (res instanceof SVGGraphicsElement) {
+            return Array.from(res).map(node => new GraphSvg(node));
+        }
+        else if (res) {
+            throw new TypeError('The selected element is not of type "SVGGraphicsElement"');
+        }
+        return null;
+    }
+    text(s) {
+        const el = document.createTextNode(s);
+        this.node.appendChild(el);
+        return this;
+    }
+    addClass(c) {
+        this.node.classList.add(c);
+        return this;
+    }
 }
-
+//# sourceMappingURL=Svg.js.map
 // CONCATENATED MODULE: ./src/graph/Shape.js
 
-
 class Shape_Shape {
-
-  /**
-   * 
-   * @param {string} shapeType 
-   * @param {Object} bbox 
-   * @param {Object} options 
-   */
-  constructor(shapeType, bbox, options) {
-    /** @type {GraphSvg} */
-    this.shape = this[shapeType](bbox, options)
-  }
-  /**
-   * 
-   * @param {Object} bbox 
-   * @param {Object} options 
-   */
-  rect(bbox, options) {
-    return new GraphSvg('rect')
-      .attr('rx', options.rx)
-      .attr('ry', options.ry)
-      .attr('x', -bbox.width / 2)
-      .attr('y', -bbox.height / 2)
-      .attr('width', bbox.width)
-      .attr('height', bbox.height)
-      .attr('rx', options.rx)
-  }
+    constructor(shapeType, bbox, options) {
+        this.shape = this[shapeType](bbox, options);
+    }
+    rect(bbox, { rx = '0', ry = '0' }) {
+        return new GraphSvg('rect')
+            .attr('rx', rx)
+            .attr('ry', ry)
+            .attr('x', (-bbox.width / 2).toString())
+            .attr('y', (-bbox.height / 2).toString())
+            .attr('width', bbox.width.toString())
+            .attr('height', bbox.height.toString());
+    }
 }
+//# sourceMappingURL=Shape.js.map
 // CONCATENATED MODULE: ./src/graph/Label.js
 
-
 class Label_GraphLabel {
-  constructor(labelData) {
-    this.group = new GraphSvg('g')
-    this.labelData = labelData
-
-    this.textLabel()
-  }
-
-  textLabel() {
-    const text = this.group.append('text').text(this.labelData.label)
-  }
+    constructor(options) {
+        this.group = new GraphSvg('g');
+        this.labelData = options;
+        this.textLabel();
+    }
+    textLabel() {
+        const text = this.group.append('text').text(this.labelData.label);
+    }
 }
+//# sourceMappingURL=Label.js.map
 // CONCATENATED MODULE: ./src/Renderer.js
 
 
-
-
-
 class Renderer_Renderer {
-  /**
-   *
-   * @param {Graph} graph
-   */
-  constructor(graph) {
-    this.graph = graph
-  }
-
-  render(svg) {
-    console.log('rendering', svg, this.graph)
-    // TODO: remove all children of svg
-
-    const edgePathsGroup = this.createOrSelectGroup(svg, 'edgePaths')
-    const edgeLabels = this.createEdgeLabels(
-      this.createOrSelectGroup(svg, 'edgeLabels'),
-      this.graph
-    )
-    this.createNodes(this.createOrSelectGroup(svg, 'nodes'))
-
-    this.graph.doLayout()
-
-    let minX = 1000
-    let minY = 1000
-    let maxX = -1000
-    let maxY = -1000
-
-    this.graph.nodes.forEach(node => {
-      minX = Math.min(minX, node.x - node.width / 2)
-      minY = Math.min(minY, node.y - node.height / 2)
-      maxX = Math.max(maxX, node.x + node.width / 2)
-      maxY = Math.max(maxY, node.y + node.height / 2)
-    })
-
-    this.graph.edges.forEach(edge => {
-      if (edge.label && edge.x && edge.y) {
-        minX = Math.min(minX, edge.x - edge.width / 2)
-        minY = Math.min(minY, edge.y - edge.height / 2)
-        maxX = Math.max(maxX, edge.x + edge.width / 2)
-        maxY = Math.max(maxY, edge.y + edge.height / 2)
-      }
-      const points = edge.points.slice(1, edge.points.length - 1) // intersetion points don't matter
-      for (let i = 0; i < points.length; i++) {
-        const point = points[i]
-        minX = Math.min(minX, point.x)
-        minY = Math.min(minY, point.y)
-        maxX = Math.max(maxX, point.x)
-        maxY = Math.max(maxY, point.y)
-      }
-    })
-
-    this.graph.minX = minX
-    this.graph.minY = minY
-    this.graph.maxX = maxX
-    this.graph.maxY = maxY
-
-    console.log('GRAPH', this.graph)
-
-    this.positionNodes()
-  }
-
-  /**
-   *
-   * @param {GraphSvg} selection
-   * @param {Graph} graph
-   */
-  createNodes(selection) {
-    const simpleNodes = this.graph.nodeIds.filter(id => {
-      return !this.graph.isSubgraph(id)
-    })
-
-    // we have to append all simpleNodes to the graph now
-    this.graph.nodes.forEach(graphNode => {
-      const nodeGroup = selection.append('g').addClass('node')
-
-      const labelGroup = nodeGroup.append('g').addClass('label')
-      const label = labelGroup.append(
-        new Label_GraphLabel({ label: graphNode.label }).group
-      )
-      const labelBBox = label.node.getBBox()
-
-      labelBBox.width += graphNode.paddingLeft + graphNode.paddingRight
-      labelBBox.height += graphNode.paddingTop + graphNode.paddingBottom
-
-      labelGroup.attr(
-        'transform',
-        'translate(' +
-          (graphNode.paddingLeft - graphNode.paddingRight) / 2 +
-          ',' +
-          (graphNode.paddingTop - graphNode.paddingBottom) / 2 +
-          ')'
-      )
-
-      // nodeGroup.node.style.opacity = 0
-
-      const shape = nodeGroup.append(
-        new Shape_Shape(graphNode.shape, labelBBox, graphNode).shape
-      )
-      const shapeBBox = shape.node.getBBox()
-      graphNode.width = shapeBBox.width
-      graphNode.height = shapeBBox.height
-      nodeGroup.append(labelGroup)
-      graphNode.svgGroup = nodeGroup
-    })
-    // let svgNodes = selection.querySelectorAll('g.node')
-    // svgNodes.forEach((svgNode) => {
-
-    //   svgNode.classList.add('update')
-    // })
-
-    // for (const node of nodes) {
-    //   const shape = shapes[node.shape]
-    // }
-  }
-
-  createLabel(selection) {}
-
-  /**
-   *
-   * @param {GraphSvg} selection
-   * @param {Graph} g
-   */
-  createEdgeLabels(selection, g) {
-    let svgEdgeLabels = selection.selectAll('g.edgeLabel')
-
-    this.graph.edges.forEach(edge => {
-      const edgeLabelGroup = selection.append('g').addClass('edgeLabel')
-
-      const labelGroup = edgeLabelGroup.append('g').addClass('label')
-      const label = labelGroup.append(
-        new Label_GraphLabel({ label: edge.label }).group
-      )
-      const labelBBox = label.node.getBBox()
-
-      edge.width = edge.width || labelBBox.width
-      edge.height = edge.height || labelBBox.height
-    })
-  }
-
-  positionNodes() {
-    console.log(
-      'position nodes',
-      this.graph.nodes,
-      'with edges',
-      this.graph.edges
-    )
-    this.graph.nodes.forEach(graphNode => {
-      graphNode.svgGroup.attr(
-        'transform',
-        'translate(' + (graphNode.x || 0) + ',' + (graphNode.y || 0) + ')'
-      )
-    })
-  }
-
-  /**
-   *
-   * @param {GraphSvg} root
-   * @param {string} name
-   */
-  createOrSelectGroup(root, name) {
-    return root.select('g.' + name) || root.append('g').addClass(name)
-  }
+    /**
+     *
+     * @param {Graph} graph
+     */
+    constructor(graph) {
+        this.graph = graph;
+    }
+    render(svg) {
+        console.log('rendering', svg, this.graph);
+        // TODO: remove all children of svg
+        const edgePathsGroup = this.createOrSelectGroup(svg, 'edgePaths');
+        const edgeLabels = this.createEdgeLabels(this.createOrSelectGroup(svg, 'edgeLabels'));
+        this.createNodes(this.createOrSelectGroup(svg, 'nodes'));
+        this.graph.doLayout();
+        let minX = 1000;
+        let minY = 1000;
+        let maxX = -1000;
+        let maxY = -1000;
+        this.graph.nodes.forEach(node => {
+            minX = Math.min(minX, node.position.x - node.size.width / 2);
+            minY = Math.min(minY, node.position.y - node.size.height / 2);
+            maxX = Math.max(maxX, node.position.x + node.size.width / 2);
+            maxY = Math.max(maxY, node.position.y + node.size.height / 2);
+        });
+        this.graph.edges.forEach(edge => {
+            if (edge.position.x && edge.position.y) {
+                minX = Math.min(minX, edge.position.x - edge.size.width / 2);
+                minY = Math.min(minY, edge.position.y - edge.size.height / 2);
+                maxX = Math.max(maxX, edge.position.x + edge.size.width / 2);
+                maxY = Math.max(maxY, edge.position.y + edge.size.height / 2);
+            }
+            const points = edge.points.slice(1, edge.points.length - 1); // intersetion points don't matter
+            for (let i = 0; i < points.length; i++) {
+                const point = points[i];
+                minX = Math.min(minX, point.x);
+                minY = Math.min(minY, point.y);
+                maxX = Math.max(maxX, point.x);
+                maxY = Math.max(maxY, point.y);
+            }
+        });
+        this.graph.minX = minX;
+        this.graph.minY = minY;
+        this.graph.maxX = maxX;
+        this.graph.maxY = maxY;
+        console.log('GRAPH', this.graph);
+        this.positionNodes();
+    }
+    createNodes(selection) {
+        const simpleNodes = this.graph.nodeIds.filter(id => {
+            return !this.graph.isSubgraph(id);
+        });
+        // we have to append all simpleNodes to the graph now
+        this.graph.nodes.forEach(graphNode => {
+            const nodeGroup = selection.append('g').addClass('node');
+            const labelGroup = nodeGroup.append('g').addClass('label');
+            const label = labelGroup.append(new Label_GraphLabel({ label: graphNode.label }).group);
+            const labelBBox = label.node.getBBox();
+            if (graphNode.style.padding) {
+                // set width and height
+                labelBBox.width +=
+                    graphNode.style.padding.left + graphNode.style.padding.right;
+                labelBBox.height +=
+                    graphNode.style.padding.top + graphNode.style.padding.bottom;
+                // transform label with padding
+                labelGroup.attr('transform', 'translate(' +
+                    (graphNode.style.padding.left - graphNode.style.padding.right) / 2 +
+                    ',' +
+                    (graphNode.style.padding.top - graphNode.style.padding.bottom) / 2 +
+                    ')');
+            }
+            // nodeGroup.node.style.opacity = 0
+            if (!graphNode.style.shape) {
+                throw new Error('no shape is defined!');
+            }
+            const shape = nodeGroup.append(new Shape_Shape(graphNode.style.shape, labelBBox, { width: graphNode.size.width, height: graphNode.size.height }).shape);
+            const shapeBBox = shape.node.getBBox();
+            graphNode.size.setSize(shapeBBox.width, shapeBBox.height);
+            nodeGroup.append(labelGroup);
+            graphNode.svgGroup = nodeGroup;
+        });
+        // let svgNodes = selection.querySelectorAll('g.node')
+        // svgNodes.forEach((svgNode) => {
+        //   svgNode.classList.add('update')
+        // })
+        // for (const node of nodes) {
+        //   const shape = shapes[node.shape]
+        // }
+    }
+    createEdgeLabels(selection) {
+        let svgEdgeLabels = selection.selectAll('g.edgeLabel');
+        this.graph.edges.forEach(edge => {
+            const edgeLabelGroup = selection.append('g').addClass('edgeLabel');
+            const labelGroup = edgeLabelGroup.append('g').addClass('label');
+            const label = labelGroup.append(new Label_GraphLabel({ label: edge.label || '' }).group);
+            const labelBBox = label.node.getBBox();
+            edge.size.width = edge.size.width || labelBBox.width;
+            edge.size.height = edge.size.height || labelBBox.height;
+        });
+    }
+    positionNodes() {
+        console.log('position nodes', this.graph.nodes, 'with edges', this.graph.edges);
+        this.graph.nodes.forEach(node => {
+            if (!node.svgGroup) {
+                return;
+            }
+            node.svgGroup.attr('transform', 'translate(' +
+                (node.position.x || 0) +
+                ',' +
+                (node.position.y || 0) +
+                ')');
+        });
+    }
+    createOrSelectGroup(root, name) {
+        return root.select('g.' + name) || root.append('g').addClass(name);
+    }
 }
-
+//# sourceMappingURL=Renderer.js.map
 // CONCATENATED MODULE: ./src/FlowElement.js
 class FlowElement {
-  constructor(id, options) {
-    this.id = id
-    this.options = options
-    this.edges = []
-  }
-
-  leadsTo(destinationElement, options) {
-    this.edges.push({ otherId: destinationElement.id, options })
-    return destinationElement
-  }
+    constructor(id, options) {
+        this.edges = [];
+        this.id = id;
+        this.options = options;
+    }
+    leadsTo(destinationElement, options) {
+        this.edges.push({ otherId: destinationElement.id, options });
+        return destinationElement;
+    }
 }
-
+//# sourceMappingURL=FlowElement.js.map
 // CONCATENATED MODULE: ./src/FlowChart.js
-// import {} from "d3"
-// import {Graph} from "graphlibrary"
-// import dagreD3 from "dagre-d3-renderer"
-
 
 
 
 
 class FlowChart_FlowChart {
-  constructor(options) {
-    localStorage.debug = 'graph,layout'
-    this.elements = []
-  }
-
-  addElement(id, options) {
-    const el = new FlowElement(id, options)
-    this.elements.push(el)
-    return el
-  }
-
-  render(element) {
-    const svg = new GraphSvg('svg')
-    svg.node.id = 'f' + element.id
-    element.appendChild(svg.node)
-    const group = svg.append('g')
-
-    // Create the input graph
-    const graph = new Graph_Graph({
-      multiGraph: true,
-      compound: true,
-      rankDir: 'LR',
-      marginX: 20,
-      marginY: 20
-    })
-
-    // first create all nodes
-    for (const i in this.elements) {
-      const el = this.elements[i]
-      graph.setNode(el.id, el.options)
+    constructor(options = {}) {
+        this.elements = [];
+        localStorage.debug = 'layout,normalizer,layering';
     }
-
-    // now apply some styles to all nodes
-    for (const node of graph.nodes) {
-      node.rx = node.ry = 5
+    addElement(id, options) {
+        const el = new FlowElement(id, options);
+        this.elements.push(el);
+        return el;
     }
-
-    // now create all edges
-    for (const i in this.elements) {
-      const el = this.elements[i]
-      for (const k in el.edges) {
-        const edge = el.edges[k]
-
-        graph.setEdge(el.id, edge.otherId, edge.options)
-      }
+    render(element) {
+        const svg = new GraphSvg('svg');
+        svg.node.id = 'f' + element.id;
+        element.appendChild(svg.node);
+        const group = svg.append('g');
+        // Create the input graph
+        const graph = new Graph_Graph({
+            multiGraph: true,
+            compound: true,
+            rankDir: 'LR',
+            marginX: 20,
+            marginY: 20
+        });
+        // first create all nodes
+        for (const i in this.elements) {
+            const el = this.elements[i];
+            graph.setNode(el.id, el.options);
+        }
+        // now apply some styles to all nodes
+        for (const node of graph.nodes) {
+            node.style.radius = { rx: 5, ry: 5 };
+        }
+        // now create all edges
+        for (const i in this.elements) {
+            const el = this.elements[i];
+            for (const k in el.edges) {
+                const edge = el.edges[k];
+                graph.setEdge(el.id, edge.otherId, edge.options);
+            }
+        }
+        const renderer = new Renderer_Renderer(graph);
+        renderer.render(group);
+        // const svgElement = document.getElementById('f' + element.id)
+        // const groupElement = svgElement.querySelector('g')
+        // svgElement.style.width = groupElement.getBoundingClientRect().width + 40
+        // svgElement.style.height = groupElement.getBoundingClientRect().height + 40
     }
-
-    const renderer = new Renderer_Renderer(graph)
-
-    renderer.render(group)
-
-    // const svgElement = document.getElementById('f' + element.id)
-    // const groupElement = svgElement.querySelector('g')
-    // svgElement.style.width = groupElement.getBoundingClientRect().width + 40
-    // svgElement.style.height = groupElement.getBoundingClientRect().height + 40
-  }
 }
-
-// CONCATENATED MODULE: ./node_modules/vue-loader/lib??vue-loader-options!./src/VueFlowy.vue?vue&type=script&lang=js
+//# sourceMappingURL=FlowChart.js.map
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/VueFlowy.vue?vue&type=script&lang=js
 //
 //
 //
@@ -1960,26 +1657,39 @@ var component = normalizeComponent(
 )
 
 /* harmony default export */ var VueFlowy = (component.exports);
-// CONCATENATED MODULE: ./src/main.js
+// CONCATENATED MODULE: ./src/main.ts
 
 
+const Plugin = {
+    install(Vue) {
+        Vue.component(VueFlowy.name, VueFlowy);
+    }
+};
+/* harmony default export */ var main = (Plugin);
 
-const main_plugin = {
-  install: Vue => {
-    Vue.component(VueFlowy.name, VueFlowy)
-  }
-}
-
-VueFlowy.install = main_plugin.install
-
-/* harmony default export */ var main = ({ VueFlowy: VueFlowy, FlowChart: FlowChart_FlowChart });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "FlowChart", function() { return FlowChart_FlowChart; });
 
 
 /* harmony default export */ var entry_lib = __webpack_exports__["default"] = (main);
 
 
+
+/***/ }),
+
+/***/ "1k3w":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("DOny");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("SZ7m").default
+var update = add("6b43ab32", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -2215,7 +1925,7 @@ var substr = 'ab'.substr(-1) === 'b'
 
 /***/ }),
 
-/***/ "4Qej":
+/***/ "DOny":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("I1BE")(false);
@@ -2230,29 +1940,14 @@ exports.push([module.i, ".flowyChart svg{display:block;margin:0 auto}.flowyChart
 
 /***/ }),
 
-/***/ "A57m":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("4Qej");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("SZ7m").default
-var update = add("407dd04a", content, true, {"sourceMap":false,"shadowMode":false});
-
-/***/ }),
-
 /***/ "E1aB":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_2_0_node_modules_css_loader_index_js_ref_8_oneOf_2_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_2_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("A57m");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_2_0_node_modules_css_loader_index_js_ref_8_oneOf_2_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_2_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_2_0_node_modules_css_loader_index_js_ref_8_oneOf_2_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_2_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("1k3w");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_2_0_node_modules_css_loader_index_js_ref_8_oneOf_2_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_2_2_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0___default.a); 
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

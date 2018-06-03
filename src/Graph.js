@@ -1,406 +1,272 @@
-import GraphNode from './graph/Node'
-import Layout from './graph/Layout'
-import Edge from './graph/Edge'
-import debug from 'debug'
-
-const gdb = debug('graph')
-const GRAPH_NODE = '\x00'
-
+import GraphNode from './graph/Node';
+import Layout from './graph/Layout';
+import Edge from './graph/Edge';
+import debug from 'debug';
+import Style from '@/graph/layout/Style';
+import Size from '@/graph/layout/Size';
+const gdb = debug('graph');
+const GRAPH_NODE = '\x00';
 export default class Graph {
-  constructor({
-    directed = true,
-    multiGraph = false,
-    compound = false,
-    rankDir = 'tb',
-    rankSep = 50,
-    edgeSep = 20,
-    nodeSep = 50,
-    marginX = 20,
-    marginY = 20
-  } = {}) {
-    Object.assign(this, {
-      directed,
-      multiGraph,
-      compound,
-      rankDir: rankDir.toLowerCase(),
-      rankSep,
-      edgeSep,
-      nodeSep,
-      marginX,
-      marginY
-    })
-    /** @type {{id: GraphNode}} */
-    this._nodes = {}
-    /** @type {{id: Edge}} */
-    this._edges = {}
-
-    if (this.compound === true) {
-      this.parent = {}
-      this.children = {}
-      this.children[GRAPH_NODE] = {}
+    constructor(options = {}) {
+        this._nodes = {};
+        this._edges = {};
+        this.layout = new Layout(this);
+        this.size = new Size();
+        this.style = new Style();
+        this.nodeRankFactor = 0;
+        this.compound = false;
+        this.multiGraph = false;
+        this.directed = true;
+        this.rankDir = 'tb';
+        this.minX = 0;
+        this.minY = 0;
+        this.maxX = 0;
+        this.maxY = 0;
+        this.marginX = 20;
+        this.marginY = 20;
+        this.randomId = 1;
+        this.dummyChain = [];
+        this.rankSep = 50;
+        this.edgeSep = 20;
+        this.nodeSep = 50;
+        this.ranker = 'network-simplex';
+        Object.assign(this, options);
+        this.rankDir = this.rankDir.toLowerCase();
+        // v -> edgeObj
+        // this.in = {}
+        // u -> v -> Number
+        // this.preds = {}
+        // v -> edgeObj
+        // this.out = {}
+        // v -> w -> Number
+        // this.sucs = {}
     }
-
-    this.randomId = 1
-
-    /** @type {GraphNode} */
-    this.root = null
-
-    // v -> edgeObj
-    this.in = {}
-
-    // u -> v -> Number
-    this.preds = {}
-
-    // v -> edgeObj
-    this.out = {}
-
-    // v -> w -> Number
-    this.sucs = {}
-  }
-
-  /**
-   *
-   * @param {string} id
-   * @param {{}} options
-   * @returns {GraphNode} node
-   */
-  setNode(id, options) {
-    if (this._nodes[id]) {
-      if (options) {
-        this._nodes[id].setOptions(options)
-      }
-      return this._nodes[id]
-    }
-
-    gdb('creating node', id, options)
-
-    this._nodes[id] = new GraphNode(id, options)
-
-    if (this.compound === true) {
-      this.parent[id] = GRAPH_NODE
-      this.children[id] = {}
-      this.children[GRAPH_NODE][id] = true
-    }
-
-    this.in[id] = {}
-    this.preds[id] = {}
-    this.out[id] = {}
-    this.sucs[id] = {}
-    return this._nodes[id]
-  }
-
-  /**
-   *
-   * @param {string} id
-   */
-  removeNode(id) {
-    gdb('removing node id', id)
-    if (!this._nodes[id]) {
-      return
-    }
-
-    delete this._nodes[id]
-
-    if (this.compound) {
-      delete this.parent[id]
-      delete this.children[id]
-    }
-
-    Object.keys(this.in[id]).forEach(this.removeEdge, this)
-    delete this.in[id]
-    delete this.preds[id]
-
-    Object.keys(this.out[id]).forEach(this.removeEdge, this)
-    delete this.out[id]
-    delete this.sucs[id]
-  }
-
-  /**
-   *
-   * @param {string} from
-   * @param {string} to
-   * @param {{}} options
-   */
-  setEdge(from, to, options) {
-    gdb('setting edge', from, to, options)
-
-    const edgeId = Edge.generateId(from, to, this.directed)
-
-    if (this._edges[edgeId]) {
-      if (options) {
-        this._edges[edgeId].setOptions(options)
-      }
-      return this
-    }
-
-    // first ensure the nodes exist
-    const fromNode = this.setNode(from)
-    const toNode = this.setNode(to)
-
-    const edge = new Edge(edgeId, fromNode, toNode, options)
-
-    this._edges[edgeId] = edge
-
-    this.out[from][edgeId] = edge
-    this.in[to][edgeId] = edge
-    return this
-  }
-
-  /**
-   *
-   * @param {string} id
-   */
-  removeEdge(id) {
-    gdb('removing edge', id)
-    if (!this._edges[id]) {
-      gdb('edge', id, 'does not exist. returning...')
-      return
-    }
-    /** @type {Edge} */
-    const edge = this._edges[id]
-    delete this.in[edge.from]
-    delete this.out[edge.to]
-    delete this._edges[id]
-  }
-
-  addDummyNode(type, attrs, name) {
-    name = name + this.randomId++
-    attrs.dummy = type
-    this.setNode(name, attrs)
-    return name
-  }
-
-  getNode(id) {
-    return this._nodes[id]
-  }
-
-  getEdge(fromId, toId) {
-    return this._edges[Edge.generateId(fromId, toId, this.directed)]
-  }
-
-  getChildren(id) {
-    if (!id) {
-      id = GRAPH_NODE
-    }
-
-    if (this.compound) {
-      const childArray = this.children[id]
-      if (childArray) {
-        return Object.keys(childArray)
-      }
-    } else if (id === GRAPH_NODE) {
-      return this.nodes
-    } else {
-      return []
-    }
-  }
-
-  /**
-   * 
-   * @param {GraphNode} node 
-   */
-  getPredecessors(node) {
-    if (this.preds[node.id]) {
-      return Object.keys(this.preds[node.id])
-    }
-  }
-
-  /**
-   * 
-   * @param {GraphNode} node 
-   */
-  getSuccessors(node) {
-    if (this.sucs[node.id]) {
-      return Object.keys(this.sucs[node.id])
-    }
-  }
-
-  setParent(id, parentId) {
-    if (!this.compound) {
-      throw new Error('Cannot set parent in a non-compound graph')
-    }
-
-    if (!parentId) {
-      parentId = GRAPH_NODE
-    } else {
-      // Coerce parent to string
-      for (let ancestor = parent; !ancestor; ancestor = this.parent(ancestor)) {
-        if (ancestor === id) {
-          throw new Error(
-            'Setting ' +
-              parentId +
-              ' as parent of ' +
-              id +
-              ' would create a cycle'
-          )
+    setNode(id, options = {}) {
+        if (this._nodes[id]) {
+            if (options) {
+                this._nodes[id].setOptions(options);
+            }
+            return this._nodes[id];
         }
-      }
-  
-      this.setNode(parentId)
+        gdb('creating node', id, options);
+        this._nodes[id] = new GraphNode(id, options);
+        return this._nodes[id];
     }
-  
-    this.setNode(id)
-    delete this.children[parentId][id]
-    this.parent[id] = parentId
-    this.children[parentId][id] = true
-  }
-
-  /**
-   *
-   * @param {GraphNode} from
-   * @param {GraphNode} to
-   */
-  nodeEdges(from, to) {
-    const inEdges = this.inEdges(from, to)
-    if (inEdges) {
-      return inEdges.concat(this.outEdges(from, to))
-    }
-  }
-
-  isSubgraph(id) {
-    return this.getChildren(id).length !== 0
-  }
-
-  doLayout() {
-    gdb('layouting graph')
-    this.layout = new Layout(this)
-  }
-
-  /**
-   *
-   * @param {string} id
-   */
-  hasNode(id) {
-    return this._nodes[id]
-  }
-
-  /**
-   * @returns {Array<{label: string}>} all nodes of the graph
-   */
-  get nodes() {
-    return Object.values(this._nodes)
-  }
-
-  /**
-   * @returns {Array<{label: string}>} all edges of the graph
-   */
-  get edges() {
-    return Object.values(this._edges)
-  }
-
-  get sources() {
-    return this.nodes.filter(node => {
-      return Object.keys(this.in[node.id]).length === 0
-    })
-  }
-
-  /**
-   *
-   * @param {GraphNode} from
-   * @param {GraphNode} to
-   */
-  inEdges(from, to) {
-    // gdb('ins', this.in)
-    let inFrom = this.in[from.id]
-    // gdb('in from', from, 'to', to, inFrom)
-    if (!inFrom) {
-      return
-    }
-
-    const edges = Object.values(inFrom)
-    if (!to) {
-      return edges
-    }
-    return edges.filter(edge => edge.from.id === to.id)
-  }
-
-  /**
-   *
-   * @param {GraphNode} from
-   * @param {GraphNode} to
-   */
-  outEdges(from, to) {
-    // gdb('outs', this.out)
-    let outFrom = this.out[from.id]
-    // gdb('out from', from, 'to', to, outFrom)
-    if (!outFrom) {
-      return
-    }
-
-    const edges = Object.values(outFrom)
-    if (!to) {
-      return edges
-    }
-    return edges.filter(edge => edge.to.id === to.id)
-  }
-
-  /**
-   * @returns {Array<string>} array of all node IDs
-   */
-  get nodeIds() {
-    return Object.keys(this._nodes)
-  }
-
-  static buildBlockGraph(layering, root, reverseSep) {
-    const blockGraph = new Graph()
-    
-    layering.forEach(layer => {
-      let to
-      layer.forEach(node => {
-        blockGraph.setNode(root[node.id].id)
-        if (to) {
-          const prevMax = blockGraph.getEdge(root[to.id], root[node.id])
-          blockGraph.setEdge(root[to.id].id, root[node.id].id, {data: {unknown: Math.max(blockGraph.sep(reverseSep, node, to), prevMax || 0)}})
+    removeNode(id) {
+        gdb('removing node id', id);
+        const node = this._nodes[id];
+        if (!node) {
+            return;
         }
-        to = node
-      })
-    })
-
-    return blockGraph
-  }
-
-  sep(reverseSep, from, to) {
-    let sum = 0
-    let delta
-
-    sum += from.width / 2
-    if (from.labelPos) {
-      switch (from.labelPos.toLowerCase()) {
-        case 'l':
-          delta = -from.width / 2
-          break
-        case 'r':
-          delta = from.width / 2
-          break
-      }
+        Object.keys(node.inEdges).forEach(this.removeEdge, this);
+        Object.keys(node.outEdges[id]).forEach(this.removeEdge, this);
+        delete this._nodes[id];
     }
-
-    if (delta) {
-      sum += reverseSep ? delta : -delta
+    setEdge(fromId, toId, options = {}) {
+        gdb('setting edge', fromId, toId, options);
+        const edgeId = Edge.generateId(fromId, toId, this.directed, options.name);
+        if (this._edges[edgeId]) {
+            if (options) {
+                this._edges[edgeId].setOptions(options);
+            }
+            return this;
+        }
+        // first ensure the nodes exist
+        const fromNode = this.setNode(fromId);
+        const toNode = this.setNode(toId);
+        const edge = new Edge(edgeId, fromNode, toNode, options);
+        this._edges[edgeId] = edge;
+        fromNode.outEdges[edgeId] = edge;
+        toNode.inEdges[edgeId] = edge;
+        return this;
     }
-    delta = 0
-
-    sum += (from.dummy ? this.edgeSep : this.nodeSep) / 2
-    sum += (to.dummy ? this.edgeSep : this.nodeSep) / 2
-
-    sum += to.width / 2
-
-    if (to.labelPos) {
-      switch (to.labelPos.toLowerCase()) {
-        case 'l':
-          delta = to.width / 2
-          break
-        case 'r':
-          delta = -to.width / 2
-          break
-      }
+    removeEdge(id) {
+        gdb('removing edge', id);
+        if (!this._edges[id]) {
+            gdb('edge', id, 'does not exist. returning...');
+            return;
+        }
+        const edge = this._edges[id];
+        delete this._edges[id];
     }
-
-    if (delta) {
-      sum += reverseSep ? delta : -delta
+    addDummyNode(type, attrs, name) {
+        name = name + this.randomId++;
+        attrs.dummy = type;
+        return this.setNode(name, attrs);
     }
-    delta = 0
-
-    return sum
-  }
+    getNode(id) {
+        return this._nodes[id];
+    }
+    getEdge(fromId, toId) {
+        return this._edges[Edge.generateId(fromId, toId, this.directed)];
+    }
+    getChildren(id) {
+        if (!id) {
+            return this.nodes;
+        }
+        if (this.compound) {
+            return Object.values(this._nodes[id].children);
+        }
+        else {
+            return [];
+        }
+    }
+    getParent(id) {
+        if (!this.compound) {
+            return null;
+        }
+        const parent = this._nodes[id].parent;
+        if (parent !== null && parent.id !== GRAPH_NODE) {
+            return parent;
+        }
+        return null;
+    }
+    getPredecessors(node) {
+        return node.predecessors ? Object.keys(node.predecessors) : [];
+    }
+    getSuccessors(node) {
+        return node.successors ? Object.keys(node.successors) : [];
+    }
+    setParent(id, parentId) {
+        if (!this.compound) {
+            throw new Error('Cannot set parent in a non-compound graph');
+        }
+        if (parentId === '') {
+            throw new Error('Cannot set parent id to an empty id! (parentId is an empty string)');
+        }
+        let ancestor = parentId;
+        while (ancestor) {
+            const parent = this.getParent(ancestor);
+            if (!parent) {
+                ancestor = null;
+                continue;
+            }
+            if (ancestor === id) {
+                throw new Error('Setting ' +
+                    parentId +
+                    ' as parent of ' +
+                    id +
+                    ' would create a cycle');
+            }
+            ancestor = parent.id;
+        }
+        let parentNode = this.setNode(parentId);
+        let childNode = this.setNode(id);
+        // delete parentNode.children[id]
+        this._nodes[id].parent = parentNode;
+        parentNode.children[id] = childNode;
+    }
+    nodeEdges(from, to) {
+        const inEdges = this.inEdges(from, to);
+        if (inEdges) {
+            return inEdges.concat(this.outEdges(from, to));
+        }
+        return [];
+    }
+    isSubgraph(id) {
+        return this.getChildren(id).length !== 0;
+    }
+    doLayout() {
+        gdb('layouting graph');
+        this.layout = new Layout(this);
+    }
+    hasNode(id) {
+        return this._nodes[id];
+    }
+    get nodes() {
+        return Object.values(this._nodes);
+    }
+    get edges() {
+        return Object.values(this._edges);
+    }
+    get sources() {
+        return this.nodes.filter(node => {
+            return Object.keys(node.inEdges).length === 0;
+        });
+    }
+    inEdges(from, to) {
+        // gdb('ins', this.in)
+        // gdb('in from', from, 'to', to, inFrom)
+        if (!from.inEdges) {
+            return [];
+        }
+        const edges = Object.values(from.inEdges);
+        if (!to) {
+            return edges;
+        }
+        return edges.filter(edge => edge.from.id === to.id);
+    }
+    outEdges(from, to) {
+        // gdb('out from', from, 'to', to, outFrom)
+        if (!from.outEdges) {
+            return [];
+        }
+        const edges = Object.values(from.outEdges);
+        if (!to) {
+            return edges;
+        }
+        return edges.filter(edge => edge.to.id === to.id);
+    }
+    get nodeIds() {
+        return Object.keys(this._nodes);
+    }
+    static buildBlockGraph(layering, root, reverseSep) {
+        const blockGraph = new Graph();
+        layering.forEach(layer => {
+            let to;
+            layer.forEach(node => {
+                blockGraph.setNode(root[node.id].id);
+                if (!to) {
+                    to = node;
+                    return;
+                }
+                const prevMax = blockGraph.getEdge(root[to.id].id, root[node.id].id);
+                gdb('CHECK PREVMAX FROM STABLE');
+                blockGraph.setEdge(root[to.id].id, root[node.id].id, {
+                    maxSep: Math.max(blockGraph.sep(reverseSep, node, to), /*prevMax || */ 0)
+                });
+                to = node;
+            });
+        });
+        return blockGraph;
+    }
+    sep(reverseSep, from, to) {
+        let sum = 0;
+        let delta;
+        sum += from.size.width / 2;
+        gdb('CHECK LABEL POS');
+        // if (from.labelPos) {
+        //   switch (from.labelPos.toLowerCase()) {
+        //     case 'l':
+        //       delta = -from.size.width / 2
+        //       break
+        //     case 'r':
+        //       delta = from.size.width / 2
+        //       break
+        //   }
+        // }
+        if (delta) {
+            sum += reverseSep ? delta : -delta;
+        }
+        delta = 0;
+        sum += (from.dummy ? this.edgeSep : this.nodeSep) / 2;
+        sum += (to.dummy ? this.edgeSep : this.nodeSep) / 2;
+        sum += to.size.width / 2;
+        // if (to.labelPos) {
+        //   switch (to.labelPos.toLowerCase()) {
+        //     case 'l':
+        //       delta = to.size.width / 2
+        //       break
+        //     case 'r':
+        //       delta = -to.size.width / 2
+        //       break
+        //   }
+        // }
+        if (delta) {
+            sum += reverseSep ? delta : -delta;
+        }
+        delta = 0;
+        return sum;
+    }
 }
+//# sourceMappingURL=Graph.js.map

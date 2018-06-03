@@ -1,14 +1,12 @@
-import GraphSvg from "./Svg";
-
+import GraphSvg from './Svg';
 export default class GraphLabel {
-  constructor(labelData) {
-    this.group = new GraphSvg('g')
-    this.labelData = labelData
-
-    this.textLabel()
-  }
-
-  textLabel() {
-    const text = this.group.append('text').text(this.labelData.label)
-  }
+    constructor(options) {
+        this.group = new GraphSvg('g');
+        this.labelData = options;
+        this.textLabel();
+    }
+    textLabel() {
+        const text = this.group.append('text').text(this.labelData.label);
+    }
 }
+//# sourceMappingURL=Label.js.map

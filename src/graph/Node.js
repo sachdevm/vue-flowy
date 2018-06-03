@@ -1,34 +1,29 @@
-import Size from "./layout/Size";
-import Position from "./layout/Position";
-
-const defaults = {
-  paddingLeft: 10,
-  paddingRight: 10,
-  paddingTop: 10,
-  paddingBottom: 10,
-  rx: 0,
-  ry: 0,
-  shape: 'rect',
-  width: 0,
-  height: 0
-}
-
+import Size from './layout/Size';
+import Position from './layout/Position';
+import Style from './layout/Style';
 export default class GraphNode {
-  constructor(id, options) {
-    /** @type {string} */
-    this.id = id
-    this.setOptions(options)
-    this.position = new Position()
-    this.size = new Size()
-  }
-
-  setOptions(options = {}) {
-    if (!options.label) {
-      options.label = this.id
+    constructor(id, options = {}) {
+        this.label = '';
+        this.parent = null;
+        this.children = {};
+        this.position = new Position();
+        this.size = new Size();
+        this.style = new Style();
+        this.rank = 0;
+        this.order = 0;
+        this.inEdges = {};
+        this.outEdges = {};
+        this.successors = {};
+        this.predecessors = {};
+        this.borders = {};
+        this.id = id;
+        this.setOptions(options);
     }
-
-    Object.assign(this, defaults, options)
-  }
-
-  setDefaults() {}
+    setOptions(options) {
+        if (!options.label) {
+            options.label = this.id;
+        }
+        Object.assign(this, options);
+    }
 }
+//# sourceMappingURL=Node.js.map

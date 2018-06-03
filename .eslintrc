@@ -4,19 +4,10 @@
   },
   "extends": [
     "plugin:vue/recommended",
-    "@vue/prettier",
     "@vue/typescript"
   ],
   "env": {
     "node": true
   },
-  "root": true,
-  "rules": {
-    "@vue/prettier/semi": false,
-    "semi": [
-      "error",
-      "never"
-    ],
-    "no-console": "warn"
-  }
+  "root": true
 }

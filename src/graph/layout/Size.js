@@ -1,6 +1,11 @@
 export default class Size {
-  constructor() {
-    this.width = 0
-    this.height = 0
-  }
+    constructor() {
+        this.height = 0;
+        this.width = 0;
+    }
+    setSize(width, height) {
+        this.width = width;
+        this.height = height;
+    }
 }
+//# sourceMappingURL=Size.js.map
