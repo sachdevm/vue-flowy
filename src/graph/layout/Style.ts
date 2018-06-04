@@ -1,8 +1,8 @@
 type RoundNumbers = { left: number; top: number; right: number; bottom: number }
 type OptionalRoundNumbers = {
-  left?: number
-  top?: number
-  right?: number
+  left?: number,
+  top?: number,
+  right?: number,
   bottom?: number
 }
 type BorderRadius = { rx: number; ry: number }

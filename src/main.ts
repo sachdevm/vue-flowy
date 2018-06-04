@@ -1,4 +1,4 @@
-import VueFlowy from './VueFlowy.vue'
+import VueFlowy from './components/VueFlowy.vue'
 import { VueConstructor } from 'vue';
 import FlowChart from './FlowChart'
 

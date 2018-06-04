@@ -25,12 +25,12 @@ export type GraphNodeArray = Array<GraphNode>
 interface GraphOptions {
     directed?: boolean,
     multiGraph?: boolean,
-    compound?: boolean
-    rankDir?: string
-    rankSep?: number
-    edgeSep?: number
-    nodeSep?: number
-    marginX?: number
+    compound?: boolean,
+    rankDir?: string,
+    rankSep?: number,
+    edgeSep?: number,
+    nodeSep?: number,
+    marginX?: number,
     marginY?: number
 }
 

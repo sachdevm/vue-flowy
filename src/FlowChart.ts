@@ -11,7 +11,7 @@ export default class FlowChart {
   elements: FlowElement[] = []
 
   constructor(options: FlowChartOptions = {}) {
-    localStorage.debug = 'layout,normalizer,layering'
+    localStorage.debug = 'graph,layout,normalizer,layering'
   }
 
   addElement(id: string, options: FlowElementOptions) {
