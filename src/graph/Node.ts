@@ -1,13 +1,14 @@
 import Size from './layout/Size'
 import Position from './layout/Position'
 import Style from './layout/Style'
-import Edge from './Edge';
-import { EdgeList, GraphNodeList } from '@/Graph';
-import GraphSvg from '@/graph/Svg';
+import Edge from './Edge'
+import { EdgeList, GraphNodeList } from '@/Graph'
+import GraphSvg from '@/graph/Svg'
 
 export interface NodeOptions {
   position?: Position
   size?: Size
+  style?: Style
   label?: string
   dummy?: string,
   rank?: number,
@@ -16,36 +17,36 @@ export interface NodeOptions {
 }
 
 export default class GraphNode {
-  id: string
-  label: string = ''
-  parent: GraphNode | null = null
-  children: GraphNodeList = {}
-  position: Position = new Position()
-  size: Size = new Size()
-  style: Style = new Style()
-  rank: number = 0
-  order: number = 0
-  dummy: string | undefined
-  
-  inEdges: EdgeList = {}
-  outEdges: EdgeList = {}
+  public id: string
+  public label: string = ''
+  public parent: GraphNode | null = null
+  public children: GraphNodeList = {}
+  public position: Position = new Position()
+  public size: Size = new Size()
+  public style: Style = new Style()
+  public rank: number = 0
+  public order: number = 0
+  public dummy: string | undefined
 
-  successors: {[nodeId: string]: number} = {}
-  predecessors: {[nodeId: string]: number} = {}
+  public inEdges: EdgeList = {}
+  public outEdges: EdgeList = {}
 
-  minRank: number | undefined
-  maxRank: number | undefined
+  public successors: {[nodeId: string]: number} = {}
+  public predecessors: {[nodeId: string]: number} = {}
 
-  borders: {top?: GraphNode, bottom?: GraphNode, left?: GraphNodeList, right?: GraphNodeList} = {}
+  public minRank: number | undefined
+  public maxRank: number | undefined
 
-  svgGroup: GraphSvg | undefined
+  public borders: {top?: GraphNode, bottom?: GraphNode, left?: GraphNodeList, right?: GraphNodeList} = {}
 
-  constructor(id: string, options : NodeOptions = {}) {
+  public svgGroup: GraphSvg | undefined
+
+  constructor(id: string, options: NodeOptions = {}) {
     this.id = id
     this.setOptions(options)
   }
 
-  setOptions(options: NodeOptions) {
+  public setOptions(options: NodeOptions) {
     if (!options.label) {
       options.label = this.id
     }

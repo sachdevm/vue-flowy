@@ -5,8 +5,8 @@ interface LabelOptions {
 }
 
 export default class GraphLabel {
-  labelData: LabelOptions
-  group: GraphSvg
+  public labelData: LabelOptions
+  public group: GraphSvg
 
   constructor(options: LabelOptions) {
     this.group = new GraphSvg('g')
@@ -15,7 +15,7 @@ export default class GraphLabel {
     this.textLabel()
   }
 
-  textLabel() {
+  public textLabel() {
     const text = this.group.append('text').text(this.labelData.label)
   }
 }

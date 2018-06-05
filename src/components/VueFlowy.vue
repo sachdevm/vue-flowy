@@ -5,24 +5,24 @@
 </template>
 
 <script lang='ts'>
-import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
+import { Component, Prop, Watch, Vue } from 'vue-property-decorator'
 import FlowChart from '../FlowChart'
-import FlowElement from '@/FlowElement';
+import FlowElement from '@/FlowElement'
 
 @Component
 export default class VueFlowy extends Vue {
-  chartElement: HTMLElement | null | undefined
+  public chartElement: HTMLElement | null | undefined
   @Prop() private chart!: FlowChart
   @Watch('chart.elements', {})
   @Watch('chart.elements')
-  onChartElementsChanged(val: FlowElement[], oldVal: FlowElement[]) {
+  public onChartElementsChanged(val: FlowElement[], oldVal: FlowElement[]) {
     if (!this.chartElement) {
       return
     }
     this.chart.render(this.chartElement)
   }
-  mounted() {
-    this.chartElement = <HTMLElement>this.$refs.vueflowyElement
+  public mounted() {
+    this.chartElement = this.$refs.vueflowyElement as HTMLElement
   }
 }
 </script>

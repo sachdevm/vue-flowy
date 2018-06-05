@@ -4,23 +4,23 @@ import FlowElement, { FlowElementOptions } from './FlowElement'
 import GraphSvg from './graph/Svg'
 
 interface FlowChartOptions {
-
+  test?: string
 }
 
 export default class FlowChart {
-  elements: FlowElement[] = []
+  public elements: FlowElement[] = []
 
   constructor(options: FlowChartOptions = {}) {
     localStorage.debug = 'graph,layout,normalizer,layering'
   }
 
-  addElement(id: string, options: FlowElementOptions) {
+  public addElement(id: string, options: FlowElementOptions) {
     const el = new FlowElement(id, options)
     this.elements.push(el)
     return el
   }
 
-  render(element: HTMLElement) {
+  public render(element: HTMLElement) {
     const svg = new GraphSvg('svg')
     svg.node.id = 'f' + element.id
     element.appendChild(svg.node)
@@ -32,26 +32,18 @@ export default class FlowChart {
       compound: true,
       rankDir: 'LR',
       marginX: 20,
-      marginY: 20
+      marginY: 20,
     })
 
     // first create all nodes
-    for (const i in this.elements) {
-      const el = this.elements[i]
-      graph.setNode(el.id, el.options)
-    }
-
-    // now apply some styles to all nodes
-    for (const node of graph.nodes) {
+    for (const el of this.elements) {
+      const node = graph.setNode(el.id, el.options)
       node.style.radius = {rx: 5, ry: 5}
     }
 
     // now create all edges
-    for (const i in this.elements) {
-      const el = this.elements[i]
-      for (const k in el.edges) {
-        const edge = el.edges[k]
-
+    for (const el of this.elements) {
+      for (const edge of el.edges) {
         graph.setEdge(el.id, edge.otherId, edge.options)
       }
     }

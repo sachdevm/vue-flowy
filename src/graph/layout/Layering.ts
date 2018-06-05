@@ -4,24 +4,21 @@ import GraphNode from '@/graph/Node'
 
 const log = debug('layering')
 
-export type xPosition = { [nodeId: string]: number }
-export type xPositionList = { [direction: string]: xPosition }
+export interface XPosition { [nodeId: string]: number }
+export interface XPositionList { [direction: string]: XPosition }
 export type Matrix = GraphNode[][]
 
 export default class Layering {
-  graph: Graph
-  matrix: Matrix
-  /**
-   *
-   * @param {Graph} graph
-   */
+  public graph: Graph
+  public matrix: Matrix
+
   constructor(graph: Graph) {
     this.graph = graph
     log('creating matrix once')
     this.matrix = this.buildLayerMatrix()
   }
 
-  buildLayerMatrix() {
+  public buildLayerMatrix() {
     const layering: Matrix = []
     log('NODES FOR MATRIX is', Object.assign({}, this.graph.nodes))
     this.graph.nodes.forEach(node => {
@@ -34,18 +31,18 @@ export default class Layering {
     return layering
   }
 
-  calculatePositions() {
+  public calculatePositions() {
     this._calculateYPositions()
     this._calculateXPositions()
   }
 
-  _calculateYPositions() {
+  public _calculateYPositions() {
     let prevY = 0
     this.matrix.forEach(layer => {
       const maxHeight = Math.max(
         ...layer.map(node => {
           return node.size.height
-        })
+        }),
       )
       layer.forEach(node => {
         log('assigning y', node.id, prevY, maxHeight / 2, prevY + maxHeight / 2)
@@ -55,13 +52,13 @@ export default class Layering {
     })
   }
 
-  _calculateXPositions() {
+  public _calculateXPositions() {
     if (!this.graph.layout) {
       throw new Error('Layout is not set yet!')
     }
 
     log('is', this.buildLayerMatrix())
-    const xPositions: xPositionList = {}
+    const xPositions: XPositionList = {}
     let adjustedLayering: Matrix
     const verticals = ['u', 'd']
     const horizontals = ['l', 'r']
@@ -72,7 +69,7 @@ export default class Layering {
       horizontals.forEach(horiz => {
         if (horiz === 'r') {
           adjustedLayering = adjustedLayering.map(inner =>
-            Object.values(inner).reverse()
+            Object.values(inner).reverse(),
           )
         }
 
@@ -80,15 +77,17 @@ export default class Layering {
 
         const align = this._verticalAlignment(adjustedLayering, vert, horiz)
         // log('align is', align)
-        let xs = this._horizontalCompaction(
+        const xs = this._horizontalCompaction(
           adjustedLayering,
           align,
-          horiz === 'r'
+          horiz === 'r',
         )
         log(vert + horiz, xs)
         if (horiz === 'r') {
           for (const key in xs) {
-            xs[key] = -xs[key]
+            if (xs.hasOwnProperty(key)) {
+              xs[key] = -xs[key]
+            }
           }
         }
         xPositions[vert + horiz] = xs
@@ -103,9 +102,9 @@ export default class Layering {
     return this.graph.layout.balance(xPositions)
   }
 
-  _alignCoordinates(
-    xPositions: xPositionList,
-    smallestWidthAlignment: xPosition
+  public _alignCoordinates(
+    xPositions: XPositionList,
+    smallestWidthAlignment: XPosition,
   ) {
     const alignToVals = Object.values(smallestWidthAlignment)
     const alignToMin = Math.min(...alignToVals)
@@ -128,7 +127,9 @@ export default class Layering {
 
         if (delta) {
           for (const i in xs) {
-            xs[i] += delta
+            if (xs.hasOwnProperty(i)) {
+              xs[i] += delta
+            }
           }
           xPositions[alignment] = xs
         }
@@ -136,7 +137,7 @@ export default class Layering {
     })
   }
 
-  _findSmallestWidthAlignment(xPositions: xPositionList): xPosition {
+  public _findSmallestWidthAlignment(xPositions: XPositionList): XPosition {
     let minWidth = Infinity
     let minXs = {}
     Object.values(xPositions).forEach(xs => {
@@ -164,10 +165,10 @@ export default class Layering {
     return minXs
   }
 
-  _horizontalCompaction(
+  public _horizontalCompaction(
     layering: Matrix,
     align: { root: GraphNodeList; align: GraphNodeList },
-    reverseSep: boolean
+    reverseSep: boolean,
   ) {
     log('horizontalCompaction', layering, align, reverseSep)
     const xs: { [nodeId: string]: number } = {}
@@ -194,7 +195,7 @@ export default class Layering {
     return xs
   }
 
-  _verticalAlignment(layering: Matrix, vert: string, horiz: string) {
+  public _verticalAlignment(layering: Matrix, vert: string, horiz: string) {
     const root: GraphNodeList = {}
     const align: GraphNodeList = {}
     const pos: { [nodeId: string]: number } = {}

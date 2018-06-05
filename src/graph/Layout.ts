@@ -3,16 +3,16 @@ import GraphNode from './Node'
 import Edge from './Edge'
 import debug from 'debug'
 import Position from './layout/Position'
-import Layering, { xPositionList } from './layout/Layering'
+import Layering, { XPositionList } from './layout/Layering'
 import Normalizer from './layout/Normalizer'
 
 const ldb = debug('layout')
 
 export default class Layout {
-  graph: Graph
-  treeGraph: Graph | undefined
-  layering: Layering
-  normalizer: Normalizer
+  public graph: Graph
+  public treeGraph: Graph | undefined
+  public layering: Layering
+  public normalizer: Normalizer
 
   constructor(graph: Graph) {
     this.graph = graph
@@ -22,7 +22,7 @@ export default class Layout {
     this.runLayout()
   }
 
-  runLayout() {
+  public runLayout() {
     this.makeSpaceForEdgeLabels()
     this.createNestingGraph()
     this.rank()
@@ -40,7 +40,7 @@ export default class Layout {
     this.translateGraph()
   }
 
-  makeSpaceForEdgeLabels() {
+  public makeSpaceForEdgeLabels() {
     this.graph.rankSep /= 2
     ldb(this.graph)
     this.graph.edges.forEach(edge => {
@@ -59,7 +59,7 @@ export default class Layout {
     })
   }
 
-  createNestingGraph() {
+  public createNestingGraph() {
     ldb('creating nesting graph')
     this.graph.rootNode = this.graph.setNode('_root', { dummy: 'root' })
     const depths = this.treeDepths()
@@ -75,7 +75,7 @@ export default class Layout {
     // calculate a weight that is sufficient to keep subgraphs vertically compact
     const weight = this.graph.edges.reduce(
       (prevVal, edge) => prevVal + edge.weight,
-      0
+      0,
     )
 
     // create border nodes and link them up
@@ -87,20 +87,20 @@ export default class Layout {
         weight,
         height,
         depths,
-        child
+        child,
       )
-      this.dfs(<GraphNode>this.graph.rootNode, weight, height, depths, child)
+      this.dfs(this.graph.rootNode as GraphNode, weight, height, depths, child)
     })
 
     ldb('edges after nesting graph', this.graph.edges.length)
   }
 
-  cleanupNestingGraph() {
+  public cleanupNestingGraph() {
     if (this.graph.rootNode) {
       this.graph.removeNode(this.graph.rootNode.id)
     }
 
-    delete this.graph['rootNode']
+    delete this.graph.rootNode
     this.graph.edges.forEach(edge => {
       if (edge.nestingEdge) {
         this.graph.removeEdge(edge.id)
@@ -109,16 +109,16 @@ export default class Layout {
     ldb(
       'edges after cleanup nesting graph',
       this.graph.edges.length,
-      this.graph.edges
+      this.graph.edges,
     )
   }
 
-  normalizeRanks() {
+  public normalizeRanks() {
     const minRank = this.minRank()
     this.graph.nodes.forEach(node => (node.rank -= minRank))
   }
 
-  assignRankMinMax() {
+  public assignRankMinMax() {
     let maxRank = 0
     this.graph.nodes.forEach(node => {
       if (!node.borders.top || !node.borders.bottom) {
@@ -131,7 +131,7 @@ export default class Layout {
     this.graph.maxRank = maxRank
   }
 
-  treeDepths() {
+  public treeDepths() {
     const depths: {[nodeId: string]: number} = {}
     const layout = this
 
@@ -150,7 +150,7 @@ export default class Layout {
     return depths
   }
 
-  dfs(rootNode: GraphNode, weight: number, height: number, depths: {[nodeId: string]: number}, node: GraphNode) {
+  public dfs(rootNode: GraphNode, weight: number, height: number, depths: {[nodeId: string]: number}, node: GraphNode) {
     const children = Object.values(node.children)
     ldb('DFS:', children.length, 'children of', node, children)
     if (!children.length) {
@@ -160,7 +160,7 @@ export default class Layout {
       ldb('returning!')
       return
     }
-ldb('not returning')
+    ldb('not returning')
     const top = this.addBorderNode('_bt')
     const bottom = this.addBorderNode('_bb')
 
@@ -179,29 +179,29 @@ ldb('not returning')
 
       this.graph.setEdge(top.id, childTop.id, {
         weight: thisWeight,
-        minLen: minLen,
-        nestingEdge: true
+        minLen,
+        nestingEdge: true,
       })
 
       this.graph.setEdge(childBottom.id, bottom.id, {
         weight: thisWeight,
-        minLen: minLen,
-        nestingEdge: true
+        minLen,
+        nestingEdge: true,
       })
     })
 
     if (!this.graph.getParent(node.id)) {
       this.graph.setEdge(rootNode.id, top.id, {
         weight: 0,
-        minLen: height + depths[node.id]
+        minLen: height + depths[node.id],
       })
     }
   }
 
-  addBorderNode(prefix: string, rank?: number, order?: number) {
+  public addBorderNode(prefix: string, rank?: number, order?: number) {
     const node: {width: number, height: number, rank?: number, order?: number} = {
       width: 0,
-      height: 0
+      height: 0,
     }
     if (rank && order) {
       node.rank = rank
@@ -210,7 +210,7 @@ ldb('not returning')
     return this.graph.addDummyNode('border', node, prefix)
   }
 
-  rank() {
+  public rank() {
     switch (this.graph.ranker) {
       case 'network-simplex':
         this.networkSimplexRanker()
@@ -227,13 +227,13 @@ ldb('not returning')
     }
   }
 
-  position() {
+  public position() {
     // const position = new Position(graph)
     this.positionY()
     // this.positionX()
   }
 
-  positionX() {
+  public positionX() {
     ldb('creating matrix in positionX')
     const matrix = this.layering.buildLayerMatrix()
 
@@ -253,11 +253,11 @@ ldb('not returning')
     // })
   }
 
-  positionY() {
+  public positionY() {
     let prevY = 0
     this.layering.matrix.forEach(layer => {
       const maxHeight = Math.max(
-        ...layer.map(node => node.size.height)
+        ...layer.map(node => node.size.height),
       )
       layer.forEach(node => {
         ldb('assigning y', node.id, prevY, maxHeight / 2, prevY + maxHeight / 2)
@@ -267,20 +267,22 @@ ldb('not returning')
     })
   }
 
-  balance(xPositions: xPositionList) {
+  public balance(xPositions: XPositionList) {
     for (const nodeId in xPositions.ul) {
-      const xs = Object.values(Object.values(xPositions)).map(xs => xs[nodeId]).sort()
-      xPositions.ul[nodeId] = xs[1] + xs[2] / 2
+      if (xPositions.ul.hasOwnProperty(nodeId)) {
+        const mappedXs = Object.values(Object.values(xPositions)).map(xs => xs[nodeId]).sort()
+        xPositions.ul[nodeId] = mappedXs[1] + mappedXs[2] / 2
+      }
     }
     return xPositions
   }
 
-  networkSimplexRanker() {
+  public networkSimplexRanker() {
     this.longestPath()
     this.feasibleTree()
   }
 
-  longestPath() {
+  public longestPath() {
     const layout = this
     const visited: {[nodeId: string]: boolean} = {}
 
@@ -293,7 +295,7 @@ ldb('not returning')
       const min = Math.min(
         ...layout.graph.outEdges(node).map(outEdge => {
           return _longestPath(outEdge.to) - outEdge.minLen
-        })
+        }),
       )
       const rank = min === Infinity ? 0 : min
 
@@ -303,7 +305,7 @@ ldb('not returning')
     this.graph.sources.forEach(_longestPath)
   }
 
-  feasibleTree() {
+  public feasibleTree() {
     this.treeGraph = new Graph({ directed: false })
 
     const start = this.graph.nodeIds[0]
@@ -321,7 +323,7 @@ ldb('not returning')
         throw new Error('min slack edge is null!')
       }
 
-      delta = this.treeGraph.hasNode((<Edge>edge).from.id)
+      delta = this.treeGraph.hasNode((edge as Edge).from.id)
         ? this.slack(edge)
         : -this.slack(edge)
       this.shiftRanks(delta)
@@ -335,9 +337,9 @@ ldb('not returning')
   /**
    * Finds a maximal tree of tight edges and returns the number of nodes in the tree
    */
-  tightTree() {
+  public tightTree() {
     const layout = this
-    const treeGraph = <Graph>this.treeGraph
+    const treeGraph = this.treeGraph as Graph
     function dfs(node: GraphNode) {
       ldb('nodeEdges', layout.graph.nodeEdges(node))
       layout.graph.nodeEdges(node).forEach(edge => {
@@ -347,7 +349,7 @@ ldb('not returning')
           'not hasNode',
           !treeGraph.hasNode(to.id),
           'not slack',
-          !layout.slack(edge)
+          !layout.slack(edge),
         )
         if (!treeGraph.hasNode(to.id) && !layout.slack(edge)) {
           ldb('adding node to tighttree', to)
@@ -363,7 +365,7 @@ ldb('not returning')
     return treeGraph.nodeIds.length
   }
 
-  findMinSlackEdge() {
+  public findMinSlackEdge() {
     let minSlackEdge: Edge | null = null
     let minSlack = Infinity
 
@@ -371,8 +373,8 @@ ldb('not returning')
 
     this.graph.edges.forEach(edge => {
       if (
-        (<Graph>this.treeGraph).hasNode(edge.from.id) !==
-        (<Graph>this.treeGraph).hasNode(edge.to.id)
+        (this.treeGraph as Graph).hasNode(edge.from.id) !==
+        (this.treeGraph as Graph).hasNode(edge.to.id)
       ) {
         const slack = this.slack(edge)
         if (slack < minSlack) {
@@ -385,12 +387,12 @@ ldb('not returning')
     return minSlackEdge
   }
 
-  slack(edge: Edge) {
+  public slack(edge: Edge) {
     ldb('calculating slack of', edge, edge.to.rank, edge.from.rank, edge.minLen)
     return edge.to.rank - edge.from.rank - edge.minLen
   }
 
-  order() {
+  public order() {
     const maxRank = this.maxRank()
     const layering = this.initOrder()
     ldb('LAYERING', layering)
@@ -423,7 +425,7 @@ ldb('not returning')
   }
 
 
-  buildLayerGraph(rank: number, relationship: 'in' | 'out') {
+  public buildLayerGraph(rank: number, relationship: 'in' | 'out') {
     const graph = new Graph({compound: true})
     graph.rootNode = graph.setNode('_root', { dummy: 'root' })
 
@@ -452,26 +454,29 @@ ldb('not returning')
         })
 
         if (node.minRank && node.borders.left && node.borders.right) {
-          graph.setNode(node.id, {borders: {left: {[rank]: node.borders.left[rank]}, right: {[rank]: node.borders.right[rank]}}})
+          graph.setNode(node.id, {borders: {
+            left: {[rank]: node.borders.left[rank]},
+            right: {[rank]: node.borders.right[rank]},
+          }})
         }
       }
-      
+
     })
-    
+
   }
 
-  buildLayerGraphs(ranks: Array<number>, relationship: 'in' | 'out') {
+  public buildLayerGraphs(ranks: number[], relationship: 'in' | 'out') {
     return ranks.map(rank => this.buildLayerGraph(rank, relationship))
   }
 
-  initOrder() {
+  public initOrder() {
     const layout = this
     const visited: {[nodeId: string]: boolean} = {}
     const simpleNodes = this.graph.nodes.filter(
-      node => !this.graph.getChildren(node.id).length
+      node => !this.graph.getChildren(node.id).length,
     )
     const maxRank = this.maxRank(simpleNodes)
-    const layers: Array<Array<GraphNode>> = []
+    const layers: GraphNode[][] = []
 
     function dfs(node: GraphNode) {
       if (visited[node.id]) {
@@ -503,7 +508,7 @@ ldb('not returning')
     return layers
   }
 
-  assignOrder(layering: GraphNode[][]) {
+  public assignOrder(layering: GraphNode[][]) {
     layering.forEach(layer => {
       layer.forEach((node, index) => {
         node.order = index
@@ -511,13 +516,13 @@ ldb('not returning')
     })
   }
 
-  adjustCoordinateSystem() {
+  public adjustCoordinateSystem() {
     if (this.graph.rankDir === 'lr' || this.graph.rankDir === 'rl') {
       this.swapWidthHeight()
     }
   }
 
-  undoCoordinateSystem() {
+  public undoCoordinateSystem() {
     if (this.graph.rankDir === 'bt' || this.graph.rankDir === 'rl') {
       // this.reverseY()
     }
@@ -528,18 +533,18 @@ ldb('not returning')
     }
   }
 
-  _swapWidthHeightOne(o: GraphNode | Edge) {
+  public _swapWidthHeightOne(o: GraphNode | Edge) {
     const w = o.size.width
     o.size.width = o.size.height
     o.size.height = w
   }
 
-  swapWidthHeight() {
+  public swapWidthHeight() {
     this.graph.nodes.forEach(this._swapWidthHeightOne)
     this.graph.edges.forEach(this._swapWidthHeightOne)
   }
 
-  _swapXYOne(o: GraphNode | Edge) {
+  public _swapXYOne(o: GraphNode | Edge) {
     const x = o.position.x
     o.position.x = o.position.y
     ldb('y before', o.position.y, 'after', x)
@@ -547,7 +552,7 @@ ldb('not returning')
     ldb('now', { x: o.position.x, y: o.position.y })
   }
 
-  swapXY() {
+  public swapXY() {
     this.graph.nodes.forEach(this._swapXYOne)
     this.graph.edges.forEach(edge => {
       edge.points.forEach(this._swapXYOne)
@@ -557,19 +562,19 @@ ldb('not returning')
     })
   }
 
-  maxRank(nodes = this.graph.nodes) {
+  public maxRank(nodes = this.graph.nodes) {
     return nodes.reduce((prevV, node) => {
       return node.rank > prevV ? node.rank : prevV
     }, -Infinity)
   }
 
-  minRank(nodes = this.graph.nodes) {
+  public minRank(nodes = this.graph.nodes) {
     return nodes.reduce((prevV, node) => {
       return node.rank < prevV ? node.rank : prevV
     }, Infinity)
   }
 
-  shiftRanks(delta: number) {
+  public shiftRanks(delta: number) {
     if (!this.treeGraph) {
       throw new Error('treeGraph is not defined!')
     }
@@ -579,7 +584,7 @@ ldb('not returning')
     })
   }
 
-  translateGraph() {
+  public translateGraph() {
     let minX = Infinity
     let maxX = 0
     let minY = Infinity
@@ -638,7 +643,7 @@ ldb('not returning')
    * @param {[{}]} arr
    * @param {string} key
    */
-  sortBy(arr: Array<{[key: string]: any}>, key: string) {
+  public sortBy(arr: Array<{[key: string]: any}>, key: string) {
     function compare(a: {[key: string]: any}, b: {[key: string]: any}) {
       if (a[key] < b[key]) {
         return -1
@@ -652,7 +657,7 @@ ldb('not returning')
     return arr.sort(compare)
   }
 
-  sortByFunction(arr: Array<any>, fn: (v: any) => any) {
+  public sortByFunction(arr: any[], fn: (v: any) => any) {
     function compare(a: string | number, b: string | number) {
       if (fn(a) < fn(b)) {
         return -1

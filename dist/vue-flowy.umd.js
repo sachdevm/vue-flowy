@@ -96,6 +96,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
+/***/ "+rLv":
+/***/ (function(module, exports, __webpack_require__) {
+
+var document = __webpack_require__("dyZX").document;
+module.exports = document && document.documentElement;
+
+
+/***/ }),
+
 /***/ "+xUi":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -105,13 +114,99 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 var setPublicPath = __webpack_require__("HrLf");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"/mnt/d/WebServer/vue-flowy/node_modules/.cache/vue-loader","cacheIdentifier":"b3fca2dc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/VueFlowy.vue?vue&type=template&id=25857353
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{ref:"vueflowyElement",staticClass:"flowyChart"})}
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.function.name.js
+var es6_function_name = __webpack_require__("f3/d");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"/mnt/d/WebServer/vue-flowy/node_modules/.cache/vue-loader","cacheIdentifier":"b3fca2dc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/VueFlowy.vue?vue&type=template&id=530d6ff0
+var VueFlowyvue_type_template_id_530d6ff0_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{ref:"vueflowyElement",staticClass:"flowyChart"})}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/VueFlowy.vue?vue&type=template&id=25857353
+// CONCATENATED MODULE: ./src/components/VueFlowy.vue?vue&type=template&id=530d6ff0
 
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/classCallCheck.js
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/setPrototypeOf.js
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/inherits.js
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  _setPrototypeOf(subClass.prototype, superClass && superClass.prototype);
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/createClass.js
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/typeof.js
+function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
+
+function _typeof(obj) {
+  if (typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol") {
+    _typeof = function _typeof(obj) {
+      return _typeof2(obj);
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof2(obj);
+    };
+  }
+
+  return _typeof(obj);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/assertThisInitialized.js
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/possibleConstructorReturn.js
+
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/getPrototypeOf.js
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.getPrototypeOf || function _getPrototypeOf(o) {
+    return o.__proto__;
+  };
+
+  return _getPrototypeOf(o);
+}
 // CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -420,75 +515,236 @@ function Emit(event) {
     };
 }
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es7.symbol.async-iterator.js
+var es7_symbol_async_iterator = __webpack_require__("rE2o");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.symbol.js
+var es6_symbol = __webpack_require__("ioFf");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom.iterable.js
+var web_dom_iterable = __webpack_require__("rGqo");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.filter.js
+var es6_array_filter = __webpack_require__("0l/t");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es7.object.values.js
+var es7_object_values = __webpack_require__("hhXQ");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.iterator.js
+var es6_array_iterator = __webpack_require__("yt8O");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.keys.js
+var es6_object_keys = __webpack_require__("RW0V");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.for-each.js
+var es6_array_for_each = __webpack_require__("8+KV");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.assign.js
+var es6_object_assign = __webpack_require__("91GP");
+
 // CONCATENATED MODULE: ./src/graph/layout/Size.ts
-class Size {
-    constructor() {
-        this.height = 0;
-        this.width = 0;
+
+
+
+var Size_Size =
+/*#__PURE__*/
+function () {
+  function Size() {
+    _classCallCheck(this, Size);
+
+    this.height = 0;
+    this.width = 0;
+  }
+
+  _createClass(Size, [{
+    key: "setSize",
+    value: function setSize(width, height) {
+      this.width = width;
+      this.height = height;
     }
-    setSize(width, height) {
-        this.width = width;
-        this.height = height;
-    }
-}
+  }]);
+
+  return Size;
+}();
+
 
 // CONCATENATED MODULE: ./src/graph/layout/Position.ts
-class Position {
-    constructor() {
-        this.x = 0;
-        this.y = 0;
-    }
-}
+
+
+var Position_Position = function Position() {
+  _classCallCheck(this, Position);
+
+  this.x = 0;
+  this.y = 0;
+};
+
 
 // CONCATENATED MODULE: ./src/graph/layout/Style.ts
-class Style {
-    constructor() {
-        this.shape = 'rect';
+
+
+
+var Style_Style =
+/*#__PURE__*/
+function () {
+  function Style() {
+    _classCallCheck(this, Style);
+
+    this.shape = 'rect';
+  }
+
+  _createClass(Style, [{
+    key: "setPadding",
+    value: function setPadding(_ref) {
+      var _ref$left = _ref.left,
+          left = _ref$left === void 0 ? 10 : _ref$left,
+          _ref$top = _ref.top,
+          top = _ref$top === void 0 ? 10 : _ref$top,
+          _ref$right = _ref.right,
+          right = _ref$right === void 0 ? 10 : _ref$right,
+          _ref$bottom = _ref.bottom,
+          bottom = _ref$bottom === void 0 ? 10 : _ref$bottom;
+      this.padding = {
+        left: left,
+        top: top,
+        right: right,
+        bottom: bottom
+      };
     }
-    setPadding({ left = 10, top = 10, right = 10, bottom = 10 }) {
-        this.padding = { left, top, right, bottom };
+  }, {
+    key: "setBorderRadius",
+    value: function setBorderRadius() {
+      var radius = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+        rx: 0,
+        ry: 0
+      };
+      this.radius = radius;
     }
-    setBorderRadius(radius = { rx: 0, ry: 0 }) {
-        this.radius = radius;
+  }, {
+    key: "setShape",
+    value: function setShape(shapeType) {
+      this.shape = shapeType;
     }
-    setShape(shapeType) {
-        this.shape = shapeType;
+  }, {
+    key: "setBorder",
+    value: function setBorder(_ref2) {
+      var _ref2$left = _ref2.left,
+          left = _ref2$left === void 0 ? 0 : _ref2$left,
+          _ref2$top = _ref2.top,
+          top = _ref2$top === void 0 ? 0 : _ref2$top,
+          _ref2$right = _ref2.right,
+          right = _ref2$right === void 0 ? 0 : _ref2$right,
+          _ref2$bottom = _ref2.bottom,
+          bottom = _ref2$bottom === void 0 ? 0 : _ref2$bottom;
+      this.border = {
+        left: left,
+        top: top,
+        right: right,
+        bottom: bottom
+      };
     }
-    setBorder({ left = 0, top = 0, right = 0, bottom = 0 }) {
-        this.border = { left, top, right, bottom };
-    }
-}
+  }]);
+
+  return Style;
+}();
+
 
 // CONCATENATED MODULE: ./src/graph/Node.ts
 
 
 
-class Node_GraphNode {
-    constructor(id, options = {}) {
-        this.label = '';
-        this.parent = null;
-        this.children = {};
-        this.position = new Position();
-        this.size = new Size();
-        this.style = new Style();
-        this.rank = 0;
-        this.order = 0;
-        this.inEdges = {};
-        this.outEdges = {};
-        this.successors = {};
-        this.predecessors = {};
-        this.borders = {};
-        this.id = id;
-        this.setOptions(options);
-    }
-    setOptions(options) {
-        if (!options.label) {
-            options.label = this.id;
-        }
-        Object.assign(this, options);
-    }
-}
 
+
+
+
+var Node_GraphNode =
+/*#__PURE__*/
+function () {
+  function GraphNode(id) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, GraphNode);
+
+    this.label = '';
+    this.parent = null;
+    this.children = {};
+    this.position = new Position_Position();
+    this.size = new Size_Size();
+    this.style = new Style_Style();
+    this.rank = 0;
+    this.order = 0;
+    this.inEdges = {};
+    this.outEdges = {};
+    this.successors = {};
+    this.predecessors = {};
+    this.borders = {};
+    this.id = id;
+    this.setOptions(options);
+  }
+
+  _createClass(GraphNode, [{
+    key: "setOptions",
+    value: function setOptions(options) {
+      if (!options.label) {
+        options.label = this.id;
+      }
+
+      Object.assign(this, options);
+    }
+  }]);
+
+  return GraphNode;
+}();
+
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/defineProperty.js
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.sort.js
+var es6_array_sort = __webpack_require__("Vd3H");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.map.js
+var es6_array_map = __webpack_require__("bWfx");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.reduce.js
+var es6_array_reduce = __webpack_require__("DNiP");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/arrayWithoutHoles.js
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  }
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/iterableToArray.js
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/builtin/es6/toConsumableArray.js
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+}
 // EXTERNAL MODULE: ./node_modules/debug/src/browser.js
 var browser = __webpack_require__("NOtv");
 var browser_default = /*#__PURE__*/__webpack_require__.n(browser);
@@ -496,789 +752,1120 @@ var browser_default = /*#__PURE__*/__webpack_require__.n(browser);
 // CONCATENATED MODULE: ./src/graph/layout/Layering.ts
 
 
-const log = browser_default()('layering');
-class Layering_Layering {
-    /**
-     *
-     * @param {Graph} graph
-     */
-    constructor(graph) {
-        this.graph = graph;
-        log('creating matrix once');
-        this.matrix = this.buildLayerMatrix();
-    }
-    buildLayerMatrix() {
-        const layering = [];
-        log('NODES FOR MATRIX is', Object.assign({}, this.graph.nodes));
-        this.graph.nodes.forEach(node => {
-            if (!layering[node.rank]) {
-                layering[node.rank] = [];
-            }
-            layering[node.rank][node.order] = node;
-        });
-        return layering;
-    }
-    calculatePositions() {
-        this._calculateYPositions();
-        this._calculateXPositions();
-    }
-    _calculateYPositions() {
-        let prevY = 0;
-        this.matrix.forEach(layer => {
-            const maxHeight = Math.max(...layer.map(node => {
-                return node.size.height;
-            }));
-            layer.forEach(node => {
-                log('assigning y', node.id, prevY, maxHeight / 2, prevY + maxHeight / 2);
-                node.position.y = prevY + maxHeight / 2;
-            });
-            prevY += maxHeight + this.graph.rankSep;
-        });
-    }
-    _calculateXPositions() {
-        if (!this.graph.layout) {
-            throw new Error('Layout is not set yet!');
+
+
+
+
+
+
+
+
+
+
+
+var log = browser_default()('layering');
+
+var Layering_Layering =
+/*#__PURE__*/
+function () {
+  function Layering(graph) {
+    _classCallCheck(this, Layering);
+
+    this.graph = graph;
+    log('creating matrix once');
+    this.matrix = this.buildLayerMatrix();
+  }
+
+  _createClass(Layering, [{
+    key: "buildLayerMatrix",
+    value: function buildLayerMatrix() {
+      var layering = [];
+      log('NODES FOR MATRIX is', Object.assign({}, this.graph.nodes));
+      this.graph.nodes.forEach(function (node) {
+        if (!layering[node.rank]) {
+          layering[node.rank] = [];
         }
-        log('is', this.buildLayerMatrix());
-        const xPositions = {};
-        let adjustedLayering;
-        const verticals = ['u', 'd'];
-        const horizontals = ['l', 'r'];
-        verticals.forEach(vert => {
-            adjustedLayering =
-                vert === 'u' ? this.matrix : Object.values(this.matrix).reverse();
-            horizontals.forEach(horiz => {
-                if (horiz === 'r') {
-                    adjustedLayering = adjustedLayering.map(inner => Object.values(inner).reverse());
-                }
-                log('adjusted layering is', adjustedLayering);
-                const align = this._verticalAlignment(adjustedLayering, vert, horiz);
-                // log('align is', align)
-                let xs = this._horizontalCompaction(adjustedLayering, align, horiz === 'r');
-                log(vert + horiz, xs);
-                if (horiz === 'r') {
-                    for (const key in xs) {
-                        xs[key] = -xs[key];
-                    }
-                }
-                xPositions[vert + horiz] = xs;
-            });
-        });
-        log('xPositions finish', xPositions);
-        const smallestWidthAlignment = this._findSmallestWidthAlignment(xPositions);
-        log('smallestWidth is', smallestWidthAlignment);
-        this._alignCoordinates(xPositions, smallestWidthAlignment);
-        return this.graph.layout.balance(xPositions);
+
+        layering[node.rank][node.order] = node;
+      });
+      return layering;
     }
-    _alignCoordinates(xPositions, smallestWidthAlignment) {
-        const alignToVals = Object.values(smallestWidthAlignment);
-        const alignToMin = Math.min(...alignToVals);
-        const alignToMax = Math.max(...alignToVals);
-        const verticals = ['u', 'd'];
-        const horizontals = ['l', 'r'];
-        verticals.forEach(vert => {
-            horizontals.forEach(horiz => {
-                const alignment = vert + horiz;
-                const xs = xPositions[alignment];
-                if (xs === smallestWidthAlignment) {
-                    return;
-                }
-                const xsVals = Object.values(xs);
-                const delta = horiz === 'l'
-                    ? alignToMin - Math.min(...xsVals)
-                    : alignToMax - Math.max(...xsVals);
-                if (delta) {
-                    for (const i in xs) {
-                        xs[i] += delta;
-                    }
-                    xPositions[alignment] = xs;
-                }
-            });
-        });
+  }, {
+    key: "calculatePositions",
+    value: function calculatePositions() {
+      this._calculateYPositions();
+
+      this._calculateXPositions();
     }
-    _findSmallestWidthAlignment(xPositions) {
-        let minWidth = Infinity;
-        let minXs = {};
-        Object.values(xPositions).forEach(xs => {
-            // log('XS is', x)
-            let minVal = Infinity;
-            let maxVal = -Infinity;
-            Object.keys(xs).forEach(nodeId => {
-                const no = xs[nodeId];
-                const check = no - this.graph.getNode(nodeId).size.width / 2;
-                if (check < minVal) {
-                    minVal = check;
-                }
-                if (check > maxVal) {
-                    maxVal = check;
-                }
+  }, {
+    key: "_calculateYPositions",
+    value: function _calculateYPositions() {
+      var _this = this;
+
+      var prevY = 0;
+      this.matrix.forEach(function (layer) {
+        var maxHeight = Math.max.apply(Math, _toConsumableArray(layer.map(function (node) {
+          return node.size.height;
+        })));
+        layer.forEach(function (node) {
+          log('assigning y', node.id, prevY, maxHeight / 2, prevY + maxHeight / 2);
+          node.position.y = prevY + maxHeight / 2;
+        });
+        prevY += maxHeight + _this.graph.rankSep;
+      });
+    }
+  }, {
+    key: "_calculateXPositions",
+    value: function _calculateXPositions() {
+      var _this2 = this;
+
+      if (!this.graph.layout) {
+        throw new Error('Layout is not set yet!');
+      }
+
+      log('is', this.buildLayerMatrix());
+      var xPositions = {};
+      var adjustedLayering;
+      var verticals = ['u', 'd'];
+      var horizontals = ['l', 'r'];
+      verticals.forEach(function (vert) {
+        adjustedLayering = vert === 'u' ? _this2.matrix : Object.values(_this2.matrix).reverse();
+        horizontals.forEach(function (horiz) {
+          if (horiz === 'r') {
+            adjustedLayering = adjustedLayering.map(function (inner) {
+              return Object.values(inner).reverse();
             });
-            const minCheck = maxVal - minVal;
-            if (minCheck < minWidth) {
-                minWidth = minCheck;
-                minXs = xs;
+          }
+
+          log('adjusted layering is', adjustedLayering);
+
+          var align = _this2._verticalAlignment(adjustedLayering, vert, horiz); // log('align is', align)
+
+
+          var xs = _this2._horizontalCompaction(adjustedLayering, align, horiz === 'r');
+
+          log(vert + horiz, xs);
+
+          if (horiz === 'r') {
+            for (var key in xs) {
+              if (xs.hasOwnProperty(key)) {
+                xs[key] = -xs[key];
+              }
             }
+          }
+
+          xPositions[vert + horiz] = xs;
         });
-        return minXs;
+      });
+      log('xPositions finish', xPositions);
+
+      var smallestWidthAlignment = this._findSmallestWidthAlignment(xPositions);
+
+      log('smallestWidth is', smallestWidthAlignment);
+
+      this._alignCoordinates(xPositions, smallestWidthAlignment);
+
+      return this.graph.layout.balance(xPositions);
     }
-    _horizontalCompaction(layering, align, reverseSep) {
-        log('horizontalCompaction', layering, align, reverseSep);
-        const xs = {};
-        const blockGraph = Graph_Graph.buildBlockGraph(layering, align.root, reverseSep);
-        const visited = {};
-        function pass1(node) {
-            if (visited[node.id]) {
-                return;
+  }, {
+    key: "_alignCoordinates",
+    value: function _alignCoordinates(xPositions, smallestWidthAlignment) {
+      var alignToVals = Object.values(smallestWidthAlignment);
+      var alignToMin = Math.min.apply(Math, _toConsumableArray(alignToVals));
+      var alignToMax = Math.max.apply(Math, _toConsumableArray(alignToVals));
+      var verticals = ['u', 'd'];
+      var horizontals = ['l', 'r'];
+      verticals.forEach(function (vert) {
+        horizontals.forEach(function (horiz) {
+          var alignment = vert + horiz;
+          var xs = xPositions[alignment];
+
+          if (xs === smallestWidthAlignment) {
+            return;
+          }
+
+          var xsVals = Object.values(xs);
+          var delta = horiz === 'l' ? alignToMin - Math.min.apply(Math, _toConsumableArray(xsVals)) : alignToMax - Math.max.apply(Math, _toConsumableArray(xsVals));
+
+          if (delta) {
+            for (var i in xs) {
+              if (xs.hasOwnProperty(i)) {
+                xs[i] += delta;
+              }
             }
-            visited[node.id] = true;
-            xs[node.id] = blockGraph.inEdges(node).reduce((max, edge) => {
-                pass1(edge.from);
-                // log('pass1', blockGraph, edge)
-                return Math.max(max, xs[edge.from.id] + (edge.maxSep || 0));
-            }, 0);
+
+            xPositions[alignment] = xs;
+          }
+        });
+      });
+    }
+  }, {
+    key: "_findSmallestWidthAlignment",
+    value: function _findSmallestWidthAlignment(xPositions) {
+      var _this3 = this;
+
+      var minWidth = Infinity;
+      var minXs = {};
+      Object.values(xPositions).forEach(function (xs) {
+        // log('XS is', x)
+        var minVal = Infinity;
+        var maxVal = -Infinity;
+        Object.keys(xs).forEach(function (nodeId) {
+          var no = xs[nodeId];
+          var check = no - _this3.graph.getNode(nodeId).size.width / 2;
+
+          if (check < minVal) {
+            minVal = check;
+          }
+
+          if (check > maxVal) {
+            maxVal = check;
+          }
+        });
+        var minCheck = maxVal - minVal;
+
+        if (minCheck < minWidth) {
+          minWidth = minCheck;
+          minXs = xs;
         }
-        blockGraph.nodes.forEach(pass1);
-        Object.keys(align.align).forEach(nodeId => {
-            xs[nodeId] = xs[align.root[nodeId].id];
-        });
-        return xs;
+      });
+      return minXs;
     }
-    _verticalAlignment(layering, vert, horiz) {
-        const root = {};
-        const align = {};
-        const pos = {};
-        layering.forEach(layer => {
-            layer.forEach((node, order) => {
-                root[node.id] = node;
-                align[node.id] = node;
-                pos[node.id] = order;
-            });
-        });
-        log('objects after first step is', root, align, pos);
-        layering.forEach(layer => {
-            let prevIdx = -1;
-            layer.forEach(node => {
-                let ws = vert === 'u'
-                    ? this.graph.getPredecessors(node)
-                    : this.graph.getSuccessors(node);
-                if (!ws.length) {
-                    return;
-                }
-                if (!this.graph.layout) {
-                    throw new Error('Layout for graph is not set!');
-                }
-                ws = this.graph.layout.sortByFunction(ws, w => pos[w]);
-                const mp = (ws.length - 1) / 2;
-                for (let i = Math.floor(mp), il = Math.ceil(mp); i <= il; i++) {
-                    const w = ws[i];
-                    if (align[node.id].id === node.id && prevIdx < pos[w]) {
-                        align[w] = node;
-                        align[node.id] = root[node.id] = root[w];
-                        prevIdx = pos[w];
-                    }
-                }
-            });
-        });
-        return { root, align };
+  }, {
+    key: "_horizontalCompaction",
+    value: function _horizontalCompaction(layering, align, reverseSep) {
+      log('horizontalCompaction', layering, align, reverseSep);
+      var xs = {};
+      var blockGraph = Graph_Graph.buildBlockGraph(layering, align.root, reverseSep);
+      var visited = {};
+
+      function pass1(node) {
+        if (visited[node.id]) {
+          return;
+        }
+
+        visited[node.id] = true;
+        xs[node.id] = blockGraph.inEdges(node).reduce(function (max, edge) {
+          pass1(edge.from); // log('pass1', blockGraph, edge)
+
+          return Math.max(max, xs[edge.from.id] + (edge.maxSep || 0));
+        }, 0);
+      }
+
+      blockGraph.nodes.forEach(pass1);
+      Object.keys(align.align).forEach(function (nodeId) {
+        xs[nodeId] = xs[align.root[nodeId].id];
+      });
+      return xs;
     }
-}
+  }, {
+    key: "_verticalAlignment",
+    value: function _verticalAlignment(layering, vert, horiz) {
+      var _this4 = this;
+
+      var root = {};
+      var align = {};
+      var pos = {};
+      layering.forEach(function (layer) {
+        layer.forEach(function (node, order) {
+          root[node.id] = node;
+          align[node.id] = node;
+          pos[node.id] = order;
+        });
+      });
+      log('objects after first step is', root, align, pos);
+      layering.forEach(function (layer) {
+        var prevIdx = -1;
+        layer.forEach(function (node) {
+          var ws = vert === 'u' ? _this4.graph.getPredecessors(node) : _this4.graph.getSuccessors(node);
+
+          if (!ws.length) {
+            return;
+          }
+
+          if (!_this4.graph.layout) {
+            throw new Error('Layout for graph is not set!');
+          }
+
+          ws = _this4.graph.layout.sortByFunction(ws, function (w) {
+            return pos[w];
+          });
+          var mp = (ws.length - 1) / 2;
+
+          for (var i = Math.floor(mp), il = Math.ceil(mp); i <= il; i++) {
+            var w = ws[i];
+
+            if (align[node.id].id === node.id && prevIdx < pos[w]) {
+              align[w] = node;
+              align[node.id] = root[node.id] = root[w];
+              prevIdx = pos[w];
+            }
+          }
+        });
+      });
+      return {
+        root: root,
+        align: align
+      };
+    }
+  }]);
+
+  return Layering;
+}();
+
 
 // CONCATENATED MODULE: ./src/graph/layout/Normalizer.ts
 
-const Normalizer_log = browser_default()('normalizer');
-class Normalizer {
-    constructor(graph) {
-        this.graph = graph;
+
+
+
+
+var Normalizer_log = browser_default()('normalizer');
+
+var Normalizer_Normalizer =
+/*#__PURE__*/
+function () {
+  function Normalizer(graph) {
+    _classCallCheck(this, Normalizer);
+
+    this.graph = graph;
+  }
+
+  _createClass(Normalizer, [{
+    key: "normalize",
+    value: function normalize() {
+      this.graph.dummyChain = [];
+      Normalizer_log('EDGES', this.graph.edges);
+      this.graph.edges.forEach(this._normalizeEdge, this);
     }
-    normalize() {
-        this.graph.dummyChain = [];
-        Normalizer_log('EDGES', this.graph.edges);
-        this.graph.edges.forEach(this._normalizeEdge, this);
-    }
-    _normalizeEdge(edge) {
-        if (edge.to.rank === edge.from.rank + 1) {
-            return;
+  }, {
+    key: "_normalizeEdge",
+    value: function _normalizeEdge(edge) {
+      if (edge.to.rank === edge.from.rank + 1) {
+        return;
+      }
+
+      for (var i = edge.from.rank + 1; i < edge.to.rank; i++) {
+        edge.points = [];
+        var dummy = this.graph.addDummyNode('edge', {
+          rank: edge.from.rank
+        }, '_d');
+        this.graph.setEdge(edge.from.id, dummy.id, {
+          weight: edge.weight
+        });
+
+        if (i === edge.from.rank + 1) {
+          this.graph.dummyChain.push(dummy);
         }
-        for (let i = edge.from.rank + 1; i < edge.to.rank; i++) {
-            edge.points = [];
-            let dummy = this.graph.addDummyNode('edge', { rank: edge.from.rank }, '_d');
-            this.graph.setEdge(edge.from.id, dummy.id, {
-                weight: edge.weight /*, name: edge.name*/
-            });
-            if (i === edge.from.rank + 1) {
-                this.graph.dummyChain.push(dummy);
-            }
-        }
+      }
     }
-}
+  }]);
+
+  return Normalizer;
+}();
+
 
 // CONCATENATED MODULE: ./src/graph/Layout.ts
 
 
 
 
-const ldb = browser_default()('layout');
-class Layout_Layout {
-    constructor(graph) {
-        this.graph = graph;
-        this.normalizer = new Normalizer(this.graph);
-        ldb('creating layering once');
-        this.layering = new Layering_Layering(this.graph);
-        this.runLayout();
+
+
+
+
+
+
+
+
+
+
+
+
+
+var ldb = browser_default()('layout');
+
+var Layout_Layout =
+/*#__PURE__*/
+function () {
+  function Layout(graph) {
+    _classCallCheck(this, Layout);
+
+    this.graph = graph;
+    this.normalizer = new Normalizer_Normalizer(this.graph);
+    ldb('creating layering once');
+    this.layering = new Layering_Layering(this.graph);
+    this.runLayout();
+  }
+
+  _createClass(Layout, [{
+    key: "runLayout",
+    value: function runLayout() {
+      this.makeSpaceForEdgeLabels();
+      this.createNestingGraph();
+      this.rank();
+      this.cleanupNestingGraph();
+      this.normalizeRanks();
+      this.assignRankMinMax();
+      this.normalizer.normalize();
+      this.order();
+      this.adjustCoordinateSystem();
+      this.layering.calculatePositions();
+      this.undoCoordinateSystem();
+      this.translateGraph();
     }
-    runLayout() {
-        this.makeSpaceForEdgeLabels();
-        this.createNestingGraph();
-        this.rank();
-        this.cleanupNestingGraph();
-        this.normalizeRanks();
-        this.assignRankMinMax();
-        this.normalizer.normalize();
-        this.order();
-        this.adjustCoordinateSystem();
-        this.layering.calculatePositions();
-        this.undoCoordinateSystem();
-        this.translateGraph();
+  }, {
+    key: "makeSpaceForEdgeLabels",
+    value: function makeSpaceForEdgeLabels() {
+      var _this = this;
+
+      this.graph.rankSep /= 2;
+      ldb(this.graph);
+      this.graph.edges.forEach(function (edge) {
+        ldb('making space for edge', edge);
+        edge.minLen *= 2;
+
+        if (edge.labelPos.toLowerCase() === 'c') {
+          return;
+        }
+
+        if (_this.graph.rankDir === 'tb' || _this.graph.rankDir === 'bt') {
+          edge.size.width += edge.labelOffset;
+        } else {
+          edge.size.height += edge.labelOffset;
+        }
+      });
     }
-    makeSpaceForEdgeLabels() {
-        this.graph.rankSep /= 2;
-        ldb(this.graph);
-        this.graph.edges.forEach(edge => {
-            ldb('making space for edge', edge);
-            edge.minLen *= 2;
-            if (edge.labelPos.toLowerCase() === 'c') {
-                return;
-            }
-            if (this.graph.rankDir === 'tb' || this.graph.rankDir === 'bt') {
-                edge.size.width += edge.labelOffset;
-            }
-            else {
-                edge.size.height += edge.labelOffset;
-            }
+  }, {
+    key: "createNestingGraph",
+    value: function createNestingGraph() {
+      var _this2 = this;
+
+      ldb('creating nesting graph');
+      this.graph.rootNode = this.graph.setNode('_root', {
+        dummy: 'root'
+      });
+      var depths = this.treeDepths();
+      ldb('depths', depths);
+      var height = Math.max.apply(Math, _toConsumableArray(Object.values(depths))) - 1;
+      this.graph.nodeRankFactor = 2 * height + 1; // multiply minLen by nodeSep to align nodes on non-border ranks
+
+      this.graph.edges.forEach(function (edge) {
+        edge.minLen *= _this2.graph.nodeRankFactor;
+      }); // calculate a weight that is sufficient to keep subgraphs vertically compact
+
+      var weight = this.graph.edges.reduce(function (prevVal, edge) {
+        return prevVal + edge.weight;
+      }, 0); // create border nodes and link them up
+
+      this.graph.getChildren().forEach(function (child) {
+        ldb('calling dfs with', _this2.graph.rootNode, _this2.graph.nodeRankFactor, weight, height, depths, child);
+
+        _this2.dfs(_this2.graph.rootNode, weight, height, depths, child);
+      });
+      ldb('edges after nesting graph', this.graph.edges.length);
+    }
+  }, {
+    key: "cleanupNestingGraph",
+    value: function cleanupNestingGraph() {
+      var _this3 = this;
+
+      if (this.graph.rootNode) {
+        this.graph.removeNode(this.graph.rootNode.id);
+      }
+
+      delete this.graph.rootNode;
+      this.graph.edges.forEach(function (edge) {
+        if (edge.nestingEdge) {
+          _this3.graph.removeEdge(edge.id);
+        }
+      });
+      ldb('edges after cleanup nesting graph', this.graph.edges.length, this.graph.edges);
+    }
+  }, {
+    key: "normalizeRanks",
+    value: function normalizeRanks() {
+      var minRank = this.minRank();
+      this.graph.nodes.forEach(function (node) {
+        return node.rank -= minRank;
+      });
+    }
+  }, {
+    key: "assignRankMinMax",
+    value: function assignRankMinMax() {
+      var maxRank = 0;
+      this.graph.nodes.forEach(function (node) {
+        if (!node.borders.top || !node.borders.bottom) {
+          return;
+        }
+
+        node.minRank = node.borders.top.rank;
+        node.maxRank = node.borders.bottom.rank;
+        maxRank = Math.max(maxRank, node.maxRank);
+      });
+      this.graph.maxRank = maxRank;
+    }
+  }, {
+    key: "treeDepths",
+    value: function treeDepths() {
+      var depths = {};
+      var layout = this;
+
+      function dfs(node) {
+        var depth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+        var children = Object.values(node.children);
+        ldb('children of', node, 'are', children, '. depth:', depth);
+        children.forEach(function (child) {
+          ldb('child', child);
+          dfs(child, depth + 1);
         });
+        depths[node.id] = depth;
+      }
+
+      this.graph.getChildren().forEach(function (child) {
+        dfs(child);
+      });
+      return depths;
     }
-    createNestingGraph() {
-        ldb('creating nesting graph');
-        this.graph.rootNode = this.graph.setNode('_root', { dummy: 'root' });
-        const depths = this.treeDepths();
-        ldb('depths', depths);
-        const height = Math.max(...Object.values(depths)) - 1;
-        this.graph.nodeRankFactor = 2 * height + 1;
-        // multiply minLen by nodeSep to align nodes on non-border ranks
-        this.graph.edges.forEach(edge => {
-            edge.minLen *= this.graph.nodeRankFactor;
+  }, {
+    key: "dfs",
+    value: function dfs(rootNode, weight, height, depths, node) {
+      var _this4 = this;
+
+      var children = Object.values(node.children);
+      ldb('DFS:', children.length, 'children of', node, children);
+
+      if (!children.length) {
+        if (node.id !== rootNode.id) {
+          this.graph.setEdge(rootNode.id, node.id, {
+            weight: 0,
+            minLen: this.graph.nodeRankFactor
+          });
+        }
+
+        ldb('returning!');
+        return;
+      }
+
+      ldb('not returning');
+      var top = this.addBorderNode('_bt');
+      var bottom = this.addBorderNode('_bb');
+      node.borders = {
+        top: top,
+        bottom: bottom
+      };
+      this.graph.setParent(top.id, node.id);
+      this.graph.setParent(bottom.id, node.id);
+      children.forEach(function (child) {
+        _this4.dfs(rootNode, weight, height, depths, child);
+
+        var childTop = child.borders.top ? child.borders.top : child;
+        var childBottom = child.borders.bottom ? child.borders.bottom : child;
+        var thisWeight = Object.keys(child.borders).length ? weight : 2 * weight;
+        var minLen = childTop !== childBottom ? 1 : height - depths[node.id] + 1;
+
+        _this4.graph.setEdge(top.id, childTop.id, {
+          weight: thisWeight,
+          minLen: minLen,
+          nestingEdge: true
         });
-        // calculate a weight that is sufficient to keep subgraphs vertically compact
-        const weight = this.graph.edges.reduce((prevVal, edge) => prevVal + edge.weight, 0);
-        // create border nodes and link them up
-        this.graph.getChildren().forEach(child => {
-            ldb('calling dfs with', this.graph.rootNode, this.graph.nodeRankFactor, weight, height, depths, child);
-            this.dfs(this.graph.rootNode, weight, height, depths, child);
+
+        _this4.graph.setEdge(childBottom.id, bottom.id, {
+          weight: thisWeight,
+          minLen: minLen,
+          nestingEdge: true
         });
-        ldb('edges after nesting graph', this.graph.edges.length);
-    }
-    cleanupNestingGraph() {
-        if (this.graph.rootNode) {
-            this.graph.removeNode(this.graph.rootNode.id);
-        }
-        delete this.graph['rootNode'];
-        this.graph.edges.forEach(edge => {
-            if (edge.nestingEdge) {
-                this.graph.removeEdge(edge.id);
-            }
+      });
+
+      if (!this.graph.getParent(node.id)) {
+        this.graph.setEdge(rootNode.id, top.id, {
+          weight: 0,
+          minLen: height + depths[node.id]
         });
-        ldb('edges after cleanup nesting graph', this.graph.edges.length, this.graph.edges);
+      }
     }
-    normalizeRanks() {
-        const minRank = this.minRank();
-        this.graph.nodes.forEach(node => (node.rank -= minRank));
+  }, {
+    key: "addBorderNode",
+    value: function addBorderNode(prefix, rank, order) {
+      var node = {
+        width: 0,
+        height: 0
+      };
+
+      if (rank && order) {
+        node.rank = rank;
+        node.order = order;
+      }
+
+      return this.graph.addDummyNode('border', node, prefix);
     }
-    assignRankMinMax() {
-        let maxRank = 0;
-        this.graph.nodes.forEach(node => {
-            if (!node.borders.top || !node.borders.bottom) {
-                return;
-            }
-            node.minRank = node.borders.top.rank;
-            node.maxRank = node.borders.bottom.rank;
-            maxRank = Math.max(maxRank, node.maxRank);
+  }, {
+    key: "rank",
+    value: function rank() {
+      switch (this.graph.ranker) {
+        case 'network-simplex':
+          this.networkSimplexRanker();
+          break;
+
+        case 'tight-tree':
+          // this.tightTreeRanker()
+          break;
+
+        case 'longest-path':
+          // this.longestPathRanker()
+          break;
+
+        default:
+          this.networkSimplexRanker();
+          break;
+      }
+    }
+  }, {
+    key: "position",
+    value: function position() {
+      // const position = new Position(graph)
+      this.positionY(); // this.positionX()
+    }
+  }, {
+    key: "positionX",
+    value: function positionX() {
+      ldb('creating matrix in positionX');
+      var matrix = this.layering.buildLayerMatrix(); // const xss = {}
+      // let adjustedLayering
+      // ['u', 'd'].forEach(vert => {
+      //   adjustedLayering = vert === 'u' ? layering : Object.values(layering).reverse()
+      //   ['l', 'r'].forEach(horiz => {
+      //     if (horiz === 'r') {
+      //       adjustedLayering = adjustedLayering.map(inner => Object.values(inner).reverse())
+      //     }
+      //     const align = this.verticalAlignment(adjustedLayering)
+      //     xss[vert + horiz] = xs
+      //   })
+      // })
+    }
+  }, {
+    key: "positionY",
+    value: function positionY() {
+      var _this5 = this;
+
+      var prevY = 0;
+      this.layering.matrix.forEach(function (layer) {
+        var maxHeight = Math.max.apply(Math, _toConsumableArray(layer.map(function (node) {
+          return node.size.height;
+        })));
+        layer.forEach(function (node) {
+          ldb('assigning y', node.id, prevY, maxHeight / 2, prevY + maxHeight / 2);
+          node.position.y = prevY + maxHeight / 2;
         });
-        this.graph.maxRank = maxRank;
+        prevY += maxHeight + _this5.graph.rankSep;
+      });
     }
-    treeDepths() {
-        const depths = {};
-        const layout = this;
-        function dfs(node, depth = 1) {
-            const children = Object.values(node.children);
-            ldb('children of', node, 'are', children, '. depth:', depth);
-            children.forEach(child => {
-                ldb('child', child);
-                dfs(child, depth + 1);
-            });
-            depths[node.id] = depth;
+  }, {
+    key: "balance",
+    value: function balance(xPositions) {
+      var _loop = function _loop(nodeId) {
+        if (xPositions.ul.hasOwnProperty(nodeId)) {
+          var mappedXs = Object.values(Object.values(xPositions)).map(function (xs) {
+            return xs[nodeId];
+          }).sort();
+          xPositions.ul[nodeId] = mappedXs[1] + mappedXs[2] / 2;
         }
-        this.graph.getChildren().forEach(child => {
-            dfs(child);
-        });
-        return depths;
+      };
+
+      for (var nodeId in xPositions.ul) {
+        _loop(nodeId);
+      }
+
+      return xPositions;
     }
-    dfs(rootNode, weight, height, depths, node) {
-        const children = Object.values(node.children);
-        ldb('DFS:', children.length, 'children of', node, children);
-        if (!children.length) {
-            if (node.id !== rootNode.id) {
-                this.graph.setEdge(rootNode.id, node.id, { weight: 0, minLen: this.graph.nodeRankFactor });
-            }
-            ldb('returning!');
-            return;
+  }, {
+    key: "networkSimplexRanker",
+    value: function networkSimplexRanker() {
+      this.longestPath();
+      this.feasibleTree();
+    }
+  }, {
+    key: "longestPath",
+    value: function longestPath() {
+      var layout = this;
+      var visited = {};
+
+      function _longestPath(node) {
+        if (visited[node.id]) {
+          return node.rank;
         }
-        ldb('not returning');
-        const top = this.addBorderNode('_bt');
-        const bottom = this.addBorderNode('_bb');
-        node.borders = { top, bottom };
-        this.graph.setParent(top.id, node.id);
-        this.graph.setParent(bottom.id, node.id);
-        children.forEach(child => {
-            this.dfs(rootNode, weight, height, depths, child);
-            const childTop = child.borders.top ? child.borders.top : child;
-            const childBottom = child.borders.bottom ? child.borders.bottom : child;
-            const thisWeight = Object.keys(child.borders).length ? weight : 2 * weight;
-            const minLen = childTop !== childBottom ? 1 : height - depths[node.id] + 1;
-            this.graph.setEdge(top.id, childTop.id, {
-                weight: thisWeight,
-                minLen: minLen,
-                nestingEdge: true
-            });
-            this.graph.setEdge(childBottom.id, bottom.id, {
-                weight: thisWeight,
-                minLen: minLen,
-                nestingEdge: true
-            });
-        });
-        if (!this.graph.getParent(node.id)) {
-            this.graph.setEdge(rootNode.id, top.id, {
-                weight: 0,
-                minLen: height + depths[node.id]
-            });
+
+        visited[node.id] = true;
+        var min = Math.min.apply(Math, _toConsumableArray(layout.graph.outEdges(node).map(function (outEdge) {
+          return _longestPath(outEdge.to) - outEdge.minLen;
+        })));
+        var rank = min === Infinity ? 0 : min;
+        return node.rank = rank;
+      }
+
+      this.graph.sources.forEach(_longestPath);
+    }
+  }, {
+    key: "feasibleTree",
+    value: function feasibleTree() {
+      this.treeGraph = new Graph_Graph({
+        directed: false
+      });
+      var start = this.graph.nodeIds[0];
+      var size = this.graph.nodeIds.length;
+      this.treeGraph.setNode(start);
+      ldb('start is', start, 'size is', size);
+      var edge;
+      var delta;
+      var doneTimes = 0;
+
+      while (this.tightTree() < size) {
+        edge = this.findMinSlackEdge();
+
+        if (edge === null) {
+          throw new Error('min slack edge is null!');
         }
-    }
-    addBorderNode(prefix, rank, order) {
-        const node = {
-            width: 0,
-            height: 0
-        };
-        if (rank && order) {
-            node.rank = rank;
-            node.order = order;
+
+        delta = this.treeGraph.hasNode(edge.from.id) ? this.slack(edge) : -this.slack(edge);
+        this.shiftRanks(delta);
+        doneTimes++;
+
+        if (doneTimes > 200) {
+          throw new Error('too many loops, breaking now!');
         }
-        return this.graph.addDummyNode('border', node, prefix);
-    }
-    rank() {
-        switch (this.graph.ranker) {
-            case 'network-simplex':
-                this.networkSimplexRanker();
-                break;
-            case 'tight-tree':
-                // this.tightTreeRanker()
-                break;
-            case 'longest-path':
-                // this.longestPathRanker()
-                break;
-            default:
-                this.networkSimplexRanker();
-                break;
-        }
-    }
-    position() {
-        // const position = new Position(graph)
-        this.positionY();
-        // this.positionX()
-    }
-    positionX() {
-        ldb('creating matrix in positionX');
-        const matrix = this.layering.buildLayerMatrix();
-        // const xss = {}
-        // let adjustedLayering
-        // ['u', 'd'].forEach(vert => {
-        //   adjustedLayering = vert === 'u' ? layering : Object.values(layering).reverse()
-        //   ['l', 'r'].forEach(horiz => {
-        //     if (horiz === 'r') {
-        //       adjustedLayering = adjustedLayering.map(inner => Object.values(inner).reverse())
-        //     }
-        //     const align = this.verticalAlignment(adjustedLayering)
-        //     xss[vert + horiz] = xs
-        //   })
-        // })
-    }
-    positionY() {
-        let prevY = 0;
-        this.layering.matrix.forEach(layer => {
-            const maxHeight = Math.max(...layer.map(node => node.size.height));
-            layer.forEach(node => {
-                ldb('assigning y', node.id, prevY, maxHeight / 2, prevY + maxHeight / 2);
-                node.position.y = prevY + maxHeight / 2;
-            });
-            prevY += maxHeight + this.graph.rankSep;
-        });
-    }
-    balance(xPositions) {
-        for (const nodeId in xPositions.ul) {
-            const xs = Object.values(Object.values(xPositions)).map(xs => xs[nodeId]).sort();
-            xPositions.ul[nodeId] = xs[1] + xs[2] / 2;
-        }
-        return xPositions;
-    }
-    networkSimplexRanker() {
-        this.longestPath();
-        this.feasibleTree();
-    }
-    longestPath() {
-        const layout = this;
-        const visited = {};
-        function _longestPath(node) {
-            if (visited[node.id]) {
-                return node.rank;
-            }
-            visited[node.id] = true;
-            const min = Math.min(...layout.graph.outEdges(node).map(outEdge => {
-                return _longestPath(outEdge.to) - outEdge.minLen;
-            }));
-            const rank = min === Infinity ? 0 : min;
-            return (node.rank = rank);
-        }
-        this.graph.sources.forEach(_longestPath);
-    }
-    feasibleTree() {
-        this.treeGraph = new Graph_Graph({ directed: false });
-        const start = this.graph.nodeIds[0];
-        const size = this.graph.nodeIds.length;
-        this.treeGraph.setNode(start);
-        ldb('start is', start, 'size is', size);
-        let edge;
-        let delta;
-        let doneTimes = 0;
-        while (this.tightTree() < size) {
-            edge = this.findMinSlackEdge();
-            if (edge === null) {
-                throw new Error('min slack edge is null!');
-            }
-            delta = this.treeGraph.hasNode(edge.from.id)
-                ? this.slack(edge)
-                : -this.slack(edge);
-            this.shiftRanks(delta);
-            doneTimes++;
-            if (doneTimes > 200) {
-                throw new Error('too many loops, breaking now!');
-            }
-        }
+      }
     }
     /**
      * Finds a maximal tree of tight edges and returns the number of nodes in the tree
      */
-    tightTree() {
-        const layout = this;
-        const treeGraph = this.treeGraph;
-        function dfs(node) {
-            ldb('nodeEdges', layout.graph.nodeEdges(node));
-            layout.graph.nodeEdges(node).forEach(edge => {
-                ldb('nodeEdge for', node.id, edge);
-                const to = node.id === edge.from.id ? edge.to : edge.from;
-                ldb('not hasNode', !treeGraph.hasNode(to.id), 'not slack', !layout.slack(edge));
-                if (!treeGraph.hasNode(to.id) && !layout.slack(edge)) {
-                    ldb('adding node to tighttree', to);
-                    treeGraph.setNode(to.id);
-                    treeGraph.setEdge(node.id, to.id);
-                    dfs(to);
-                }
+
+  }, {
+    key: "tightTree",
+    value: function tightTree() {
+      var layout = this;
+      var treeGraph = this.treeGraph;
+
+      function dfs(node) {
+        ldb('nodeEdges', layout.graph.nodeEdges(node));
+        layout.graph.nodeEdges(node).forEach(function (edge) {
+          ldb('nodeEdge for', node.id, edge);
+          var to = node.id === edge.from.id ? edge.to : edge.from;
+          ldb('not hasNode', !treeGraph.hasNode(to.id), 'not slack', !layout.slack(edge));
+
+          if (!treeGraph.hasNode(to.id) && !layout.slack(edge)) {
+            ldb('adding node to tighttree', to);
+            treeGraph.setNode(to.id);
+            treeGraph.setEdge(node.id, to.id);
+            dfs(to);
+          }
+        });
+      }
+
+      treeGraph.nodes.forEach(dfs);
+      ldb('tightTree size is', treeGraph.nodeIds.length);
+      return treeGraph.nodeIds.length;
+    }
+  }, {
+    key: "findMinSlackEdge",
+    value: function findMinSlackEdge() {
+      var _this6 = this;
+
+      var minSlackEdge = null;
+      var minSlack = Infinity;
+      ldb('finding min slack edge');
+      this.graph.edges.forEach(function (edge) {
+        if (_this6.treeGraph.hasNode(edge.from.id) !== _this6.treeGraph.hasNode(edge.to.id)) {
+          var slack = _this6.slack(edge);
+
+          if (slack < minSlack) {
+            minSlackEdge = edge;
+            minSlack = slack;
+          }
+        }
+      });
+      return minSlackEdge;
+    }
+  }, {
+    key: "slack",
+    value: function slack(edge) {
+      ldb('calculating slack of', edge, edge.to.rank, edge.from.rank, edge.minLen);
+      return edge.to.rank - edge.from.rank - edge.minLen;
+    }
+  }, {
+    key: "order",
+    value: function order() {
+      var maxRank = this.maxRank();
+      var layering = this.initOrder();
+      ldb('LAYERING', layering);
+      this.assignOrder(layering); // ldb('order', layering, this.graph.nodes)
+      // ldb('STOPPED HERE, code further!')
+      // const downLayerGraphs = buildLayerGraphs(g, _.range(1, maxRank + 1), 'inEdges')
+      // const upLayerGraphs = buildLayerGraphs(g, _.range(maxRank - 1, -1, -1), 'outEdges')
+      // let layering = initOrder(g)
+      // assignOrder(g, layering)
+      // let bestCC = Number.POSITIVE_INFINITY
+      // let best
+      // for (let i = 0, lastBest = 0; lastBest < 4; ++i, ++lastBest) {
+      //   sweepLayerGraphs(i % 2 ? downLayerGraphs : upLayerGraphs, i % 4 >= 2)
+      //   layering = util.buildLayerMatrix(g)
+      //   const cc = crossCount(g, layering)
+      //   if (cc < bestCC) {
+      //     lastBest = 0
+      //     best = _.cloneDeep(layering)
+      //     bestCC = cc
+      //   }
+      // }
+      // assignOrder(g, best)
+    }
+  }, {
+    key: "buildLayerGraph",
+    value: function buildLayerGraph(rank, relationship) {
+      var _this7 = this;
+
+      var graph = new Graph_Graph({
+        compound: true
+      });
+      graph.rootNode = graph.setNode('_root', {
+        dummy: 'root'
+      });
+      this.graph.nodes.forEach(function (node) {
+        var parent = node.parent;
+
+        if (!node.minRank || !node.maxRank) {
+          throw new Error('minRank or maxRank not defined!');
+        }
+
+        if (node.rank === rank || node.minRank <= rank && rank <= node.maxRank) {
+          var newNode = graph.setNode(node.id);
+          graph.setParent(node.id, parent ? parent.id : graph.rootNode ? graph.rootNode.id : '');
+          var edges = [];
+
+          if (relationship === 'in') {
+            edges = _this7.graph.inEdges(node);
+          } else if (relationship === 'out') {
+            edges = _this7.graph.outEdges(node);
+          }
+
+          edges.forEach(function (edge) {
+            var to = edge.from.id === node.id ? edge.to : edge.from;
+            var newEdge = graph.getEdge(to.id, node.id);
+            var weight = edge ? newEdge.weight : 0;
+            graph.setEdge(to.id, node.id, {
+              weight: edge.weight + weight
             });
-        }
-        treeGraph.nodes.forEach(dfs);
-        ldb('tightTree size is', treeGraph.nodeIds.length);
-        return treeGraph.nodeIds.length;
-    }
-    findMinSlackEdge() {
-        let minSlackEdge = null;
-        let minSlack = Infinity;
-        ldb('finding min slack edge');
-        this.graph.edges.forEach(edge => {
-            if (this.treeGraph.hasNode(edge.from.id) !==
-                this.treeGraph.hasNode(edge.to.id)) {
-                const slack = this.slack(edge);
-                if (slack < minSlack) {
-                    minSlackEdge = edge;
-                    minSlack = slack;
-                }
-            }
-        });
-        return minSlackEdge;
-    }
-    slack(edge) {
-        ldb('calculating slack of', edge, edge.to.rank, edge.from.rank, edge.minLen);
-        return edge.to.rank - edge.from.rank - edge.minLen;
-    }
-    order() {
-        const maxRank = this.maxRank();
-        const layering = this.initOrder();
-        ldb('LAYERING', layering);
-        this.assignOrder(layering);
-        // ldb('order', layering, this.graph.nodes)
-        // ldb('STOPPED HERE, code further!')
-        // const downLayerGraphs = buildLayerGraphs(g, _.range(1, maxRank + 1), 'inEdges')
-        // const upLayerGraphs = buildLayerGraphs(g, _.range(maxRank - 1, -1, -1), 'outEdges')
-        // let layering = initOrder(g)
-        // assignOrder(g, layering)
-        // let bestCC = Number.POSITIVE_INFINITY
-        // let best
-        // for (let i = 0, lastBest = 0; lastBest < 4; ++i, ++lastBest) {
-        //   sweepLayerGraphs(i % 2 ? downLayerGraphs : upLayerGraphs, i % 4 >= 2)
-        //   layering = util.buildLayerMatrix(g)
-        //   const cc = crossCount(g, layering)
-        //   if (cc < bestCC) {
-        //     lastBest = 0
-        //     best = _.cloneDeep(layering)
-        //     bestCC = cc
-        //   }
-        // }
-        // assignOrder(g, best)
-    }
-    buildLayerGraph(rank, relationship) {
-        const graph = new Graph_Graph({ compound: true });
-        graph.rootNode = graph.setNode('_root', { dummy: 'root' });
-        this.graph.nodes.forEach(node => {
-            const parent = node.parent;
-            if (!node.minRank || !node.maxRank) {
-                throw new Error('minRank or maxRank not defined!');
-            }
-            if (node.rank === rank || (node.minRank <= rank && rank <= node.maxRank)) {
-                const newNode = graph.setNode(node.id);
-                graph.setParent(node.id, parent ? parent.id : graph.rootNode ? graph.rootNode.id : '');
-                let edges = [];
-                if (relationship === 'in') {
-                    edges = this.graph.inEdges(node);
-                }
-                else if (relationship === 'out') {
-                    edges = this.graph.outEdges(node);
-                }
-                edges.forEach(edge => {
-                    const to = edge.from.id === node.id ? edge.to : edge.from;
-                    const newEdge = graph.getEdge(to.id, node.id);
-                    const weight = edge ? newEdge.weight : 0;
-                    graph.setEdge(to.id, node.id, { weight: edge.weight + weight });
-                });
-                if (node.minRank && node.borders.left && node.borders.right) {
-                    graph.setNode(node.id, { borders: { left: { [rank]: node.borders.left[rank] }, right: { [rank]: node.borders.right[rank] } } });
-                }
-            }
-        });
-    }
-    buildLayerGraphs(ranks, relationship) {
-        return ranks.map(rank => this.buildLayerGraph(rank, relationship));
-    }
-    initOrder() {
-        const layout = this;
-        const visited = {};
-        const simpleNodes = this.graph.nodes.filter(node => !this.graph.getChildren(node.id).length);
-        const maxRank = this.maxRank(simpleNodes);
-        const layers = [];
-        function dfs(node) {
-            if (visited[node.id]) {
-                return;
-            }
-            visited[node.id] = true;
-            if (!layers[node.rank]) {
-                layers[node.rank] = [];
-            }
-            layers[node.rank].push(node);
-            layout.graph.getSuccessors(node).forEach(nodeId => {
-                dfs(layout.graph.getNode(nodeId));
+          });
+
+          if (node.minRank && node.borders.left && node.borders.right) {
+            graph.setNode(node.id, {
+              borders: {
+                left: _defineProperty({}, rank, node.borders.left[rank]),
+                right: _defineProperty({}, rank, node.borders.right[rank])
+              }
             });
+          }
         }
-        function compare(a, b) {
-            if (a.rank < b.rank) {
-                return -1;
-            }
-            if (a.rank > b.rank) {
-                return 1;
-            }
-            return 0;
-        }
-        const orderedNodeIds = simpleNodes.sort(compare);
-        orderedNodeIds.forEach(dfs, this);
-        return layers;
+      });
     }
-    assignOrder(layering) {
-        layering.forEach(layer => {
-            layer.forEach((node, index) => {
-                node.order = index;
-            });
+  }, {
+    key: "buildLayerGraphs",
+    value: function buildLayerGraphs(ranks, relationship) {
+      var _this8 = this;
+
+      return ranks.map(function (rank) {
+        return _this8.buildLayerGraph(rank, relationship);
+      });
+    }
+  }, {
+    key: "initOrder",
+    value: function initOrder() {
+      var _this9 = this;
+
+      var layout = this;
+      var visited = {};
+      var simpleNodes = this.graph.nodes.filter(function (node) {
+        return !_this9.graph.getChildren(node.id).length;
+      });
+      var maxRank = this.maxRank(simpleNodes);
+      var layers = [];
+
+      function dfs(node) {
+        if (visited[node.id]) {
+          return;
+        }
+
+        visited[node.id] = true;
+
+        if (!layers[node.rank]) {
+          layers[node.rank] = [];
+        }
+
+        layers[node.rank].push(node);
+        layout.graph.getSuccessors(node).forEach(function (nodeId) {
+          dfs(layout.graph.getNode(nodeId));
         });
-    }
-    adjustCoordinateSystem() {
-        if (this.graph.rankDir === 'lr' || this.graph.rankDir === 'rl') {
-            this.swapWidthHeight();
+      }
+
+      function compare(a, b) {
+        if (a.rank < b.rank) {
+          return -1;
         }
-    }
-    undoCoordinateSystem() {
-        if (this.graph.rankDir === 'bt' || this.graph.rankDir === 'rl') {
-            // this.reverseY()
+
+        if (a.rank > b.rank) {
+          return 1;
         }
-        if (this.graph.rankDir === 'lr' || this.graph.rankDir === 'rl') {
-            this.swapXY();
-            this.swapWidthHeight();
+
+        return 0;
+      }
+
+      var orderedNodeIds = simpleNodes.sort(compare);
+      orderedNodeIds.forEach(dfs, this);
+      return layers;
+    }
+  }, {
+    key: "assignOrder",
+    value: function assignOrder(layering) {
+      layering.forEach(function (layer) {
+        layer.forEach(function (node, index) {
+          node.order = index;
+        });
+      });
+    }
+  }, {
+    key: "adjustCoordinateSystem",
+    value: function adjustCoordinateSystem() {
+      if (this.graph.rankDir === 'lr' || this.graph.rankDir === 'rl') {
+        this.swapWidthHeight();
+      }
+    }
+  }, {
+    key: "undoCoordinateSystem",
+    value: function undoCoordinateSystem() {
+      if (this.graph.rankDir === 'bt' || this.graph.rankDir === 'rl') {// this.reverseY()
+      }
+
+      if (this.graph.rankDir === 'lr' || this.graph.rankDir === 'rl') {
+        this.swapXY();
+        this.swapWidthHeight();
+      }
+    }
+  }, {
+    key: "_swapWidthHeightOne",
+    value: function _swapWidthHeightOne(o) {
+      var w = o.size.width;
+      o.size.width = o.size.height;
+      o.size.height = w;
+    }
+  }, {
+    key: "swapWidthHeight",
+    value: function swapWidthHeight() {
+      this.graph.nodes.forEach(this._swapWidthHeightOne);
+      this.graph.edges.forEach(this._swapWidthHeightOne);
+    }
+  }, {
+    key: "_swapXYOne",
+    value: function _swapXYOne(o) {
+      var x = o.position.x;
+      o.position.x = o.position.y;
+      ldb('y before', o.position.y, 'after', x);
+      o.position.y = x;
+      ldb('now', {
+        x: o.position.x,
+        y: o.position.y
+      });
+    }
+  }, {
+    key: "swapXY",
+    value: function swapXY() {
+      var _this10 = this;
+
+      this.graph.nodes.forEach(this._swapXYOne);
+      this.graph.edges.forEach(function (edge) {
+        edge.points.forEach(_this10._swapXYOne);
+
+        if (edge.position.x) {
+          _this10._swapXYOne(edge);
         }
+      });
     }
-    _swapWidthHeightOne(o) {
-        const w = o.size.width;
-        o.size.width = o.size.height;
-        o.size.height = w;
+  }, {
+    key: "maxRank",
+    value: function maxRank() {
+      var nodes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.graph.nodes;
+      return nodes.reduce(function (prevV, node) {
+        return node.rank > prevV ? node.rank : prevV;
+      }, -Infinity);
     }
-    swapWidthHeight() {
-        this.graph.nodes.forEach(this._swapWidthHeightOne);
-        this.graph.edges.forEach(this._swapWidthHeightOne);
+  }, {
+    key: "minRank",
+    value: function minRank() {
+      var nodes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.graph.nodes;
+      return nodes.reduce(function (prevV, node) {
+        return node.rank < prevV ? node.rank : prevV;
+      }, Infinity);
     }
-    _swapXYOne(o) {
-        const x = o.position.x;
-        o.position.x = o.position.y;
-        ldb('y before', o.position.y, 'after', x);
-        o.position.y = x;
-        ldb('now', { x: o.position.x, y: o.position.y });
+  }, {
+    key: "shiftRanks",
+    value: function shiftRanks(delta) {
+      if (!this.treeGraph) {
+        throw new Error('treeGraph is not defined!');
+      }
+
+      this.treeGraph.nodes.forEach(function (node) {
+        node.rank += delta;
+      });
     }
-    swapXY() {
-        this.graph.nodes.forEach(this._swapXYOne);
-        this.graph.edges.forEach(edge => {
-            edge.points.forEach(this._swapXYOne);
-            if (edge.position.x) {
-                this._swapXYOne(edge);
-            }
-        });
-    }
-    maxRank(nodes = this.graph.nodes) {
-        return nodes.reduce((prevV, node) => {
-            return node.rank > prevV ? node.rank : prevV;
-        }, -Infinity);
-    }
-    minRank(nodes = this.graph.nodes) {
-        return nodes.reduce((prevV, node) => {
-            return node.rank < prevV ? node.rank : prevV;
-        }, Infinity);
-    }
-    shiftRanks(delta) {
-        if (!this.treeGraph) {
-            throw new Error('treeGraph is not defined!');
+  }, {
+    key: "translateGraph",
+    value: function translateGraph() {
+      var minX = Infinity;
+      var maxX = 0;
+      var minY = Infinity;
+      var maxY = 0;
+      var marginX = this.graph.marginX || 0;
+      var marginY = this.graph.marginY || 0;
+
+      function getExtremes(o) {
+        var x = o.position.x || 0;
+        var y = o.position.y || 0;
+        var w = o.size.width || 0;
+        var h = o.size.height || 0;
+        minX = Math.min(minX, x - w / 2);
+        maxX = Math.max(maxX, x + w / 2);
+        minY = Math.min(minY, y - h / 2);
+        maxY = Math.max(maxY, y + h / 2);
+      }
+
+      this.graph.nodes.forEach(getExtremes);
+      this.graph.edges.forEach(function (edge) {
+        if (edge.position.x) {
+          getExtremes(edge);
         }
-        this.treeGraph.nodes.forEach(node => {
-            node.rank += delta;
+      });
+      minX -= marginX;
+      minY -= marginY;
+      this.graph.nodes.forEach(function (node) {
+        node.position.x -= minX;
+        node.position.y -= minY;
+      });
+      this.graph.edges.forEach(function (edge) {
+        edge.points.forEach(function (point) {
+          point.position.x -= minX;
+          point.position.y -= minY;
         });
-    }
-    translateGraph() {
-        let minX = Infinity;
-        let maxX = 0;
-        let minY = Infinity;
-        let maxY = 0;
-        const marginX = this.graph.marginX || 0;
-        const marginY = this.graph.marginY || 0;
-        function getExtremes(o) {
-            const x = o.position.x || 0;
-            const y = o.position.y || 0;
-            const w = o.size.width || 0;
-            const h = o.size.height || 0;
-            minX = Math.min(minX, x - w / 2);
-            maxX = Math.max(maxX, x + w / 2);
-            minY = Math.min(minY, y - h / 2);
-            maxY = Math.max(maxY, y + h / 2);
+
+        if (edge.position.x) {
+          edge.position.x -= minX;
         }
-        this.graph.nodes.forEach(getExtremes);
-        this.graph.edges.forEach(edge => {
-            if (edge.position.x) {
-                getExtremes(edge);
-            }
-        });
-        minX -= marginX;
-        minY -= marginY;
-        this.graph.nodes.forEach(node => {
-            node.position.x -= minX;
-            node.position.y -= minY;
-        });
-        this.graph.edges.forEach(edge => {
-            edge.points.forEach(point => {
-                point.position.x -= minX;
-                point.position.y -= minY;
-            });
-            if (edge.position.x) {
-                edge.position.x -= minX;
-            }
-            if (edge.position.y) {
-                edge.position.y -= minY;
-            }
-        });
-        this.graph.size.width = maxX - minX + marginX;
-        this.graph.size.height = maxY - minY + marginY;
+
+        if (edge.position.y) {
+          edge.position.y -= minY;
+        }
+      });
+      this.graph.size.width = maxX - minX + marginX;
+      this.graph.size.height = maxY - minY + marginY;
     }
     /**
      *
      * @param {[{}]} arr
      * @param {string} key
      */
-    sortBy(arr, key) {
-        function compare(a, b) {
-            if (a[key] < b[key]) {
-                return -1;
-            }
-            if (a[key] > b[key]) {
-                return 1;
-            }
-            return 0;
+
+  }, {
+    key: "sortBy",
+    value: function sortBy(arr, key) {
+      function compare(a, b) {
+        if (a[key] < b[key]) {
+          return -1;
         }
-        return arr.sort(compare);
-    }
-    sortByFunction(arr, fn) {
-        function compare(a, b) {
-            if (fn(a) < fn(b)) {
-                return -1;
-            }
-            if (fn(a) > fn(b)) {
-                return 1;
-            }
-            return 0;
+
+        if (a[key] > b[key]) {
+          return 1;
         }
-        return arr.sort(compare);
+
+        return 0;
+      }
+
+      return arr.sort(compare);
     }
-}
+  }, {
+    key: "sortByFunction",
+    value: function sortByFunction(arr, fn) {
+      function compare(a, b) {
+        if (fn(a) < fn(b)) {
+          return -1;
+        }
+
+        if (fn(a) > fn(b)) {
+          return 1;
+        }
+
+        return 0;
+      }
+
+      return arr.sort(compare);
+    }
+  }]);
+
+  return Layout;
+}();
+
 
 // CONCATENATED MODULE: ./src/graph/Edge.ts
 
 
-const DEFAULT_EDGE_NAME = '\x00';
-const EDGE_KEY_DELIM = '\x01';
-class Edge_Edge {
-    constructor(id, from, to, options) {
-        this.order = 0;
-        this.points = [];
-        this.data = {};
-        this.position = new Position();
-        this.size = new Size();
-        this.minLen = 1;
-        this.weight = 1;
-        this.labelOffset = 10;
-        this.labelPos = 'r';
-        this.nestingEdge = false;
-        this.id = id;
-        this.from = from;
-        this.to = to;
-        this.setOptions(options);
+
+
+
+var DEFAULT_EDGE_NAME = '\x00';
+var EDGE_KEY_DELIM = '\x01';
+
+var Edge_Edge =
+/*#__PURE__*/
+function () {
+  function Edge(id, from, to, options) {
+    _classCallCheck(this, Edge);
+
+    this.order = 0;
+    this.points = [];
+    this.data = {};
+    this.position = new Position_Position();
+    this.size = new Size_Size();
+    this.minLen = 1;
+    this.weight = 1;
+    this.labelOffset = 10;
+    this.labelPos = 'r';
+    this.nestingEdge = false;
+    this.id = id;
+    this.from = from;
+    this.to = to;
+    this.setOptions(options);
+  }
+
+  _createClass(Edge, [{
+    key: "setOptions",
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      Object.assign(this, options);
     }
-    static generateId(fromId, toId, directed = false, name) {
-        if (!directed && fromId > toId) {
-            const tmp = fromId;
-            fromId = toId;
-            toId = tmp;
-        }
-        return fromId + EDGE_KEY_DELIM + toId + EDGE_KEY_DELIM + (name ? name : DEFAULT_EDGE_NAME);
+  }], [{
+    key: "generateId",
+    value: function generateId(fromId, toId) {
+      var directed = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var name = arguments.length > 3 ? arguments[3] : undefined;
+
+      if (!directed && fromId > toId) {
+        var tmp = fromId;
+        fromId = toId;
+        toId = tmp;
+      }
+
+      return fromId + EDGE_KEY_DELIM + toId + EDGE_KEY_DELIM + (name ? name : DEFAULT_EDGE_NAME);
     }
-    setOptions(options = {}) {
-        Object.assign(this, options);
-    }
-}
+  }]);
+
+  return Edge;
+}();
+
 
 // CONCATENATED MODULE: ./src/Graph.ts
 
@@ -1287,568 +1874,901 @@ class Edge_Edge {
 
 
 
-const gdb = browser_default()('graph');
-const GRAPH_NODE = '\x00';
-class Graph_Graph {
-    constructor(options = {}) {
-        this._nodes = {};
-        this._edges = {};
-        this.size = new Size();
-        this.style = new Style();
-        this.nodeRankFactor = 0;
-        this.compound = false;
-        this.multiGraph = false;
-        this.directed = true;
-        this.rankDir = 'tb';
-        this.minX = 0;
-        this.minY = 0;
-        this.maxX = 0;
-        this.maxY = 0;
-        this.marginX = 20;
-        this.marginY = 20;
-        this.randomId = 1;
-        this.dummyChain = [];
-        this.rankSep = 50;
-        this.edgeSep = 20;
-        this.nodeSep = 50;
-        this.ranker = 'network-simplex';
-        Object.assign(this, options);
-        this.rankDir = this.rankDir.toLowerCase();
-        // v -> edgeObj
-        // this.in = {}
-        // u -> v -> Number
-        // this.preds = {}
-        // v -> edgeObj
-        // this.out = {}
-        // v -> w -> Number
-        // this.sucs = {}
-    }
-    setNode(id, options = {}) {
-        if (this._nodes[id]) {
-            if (options) {
-                this._nodes[id].setOptions(options);
-            }
-            return this._nodes[id];
+
+
+
+
+
+
+
+
+
+
+var gdb = browser_default()('graph');
+var GRAPH_NODE = '\x00';
+
+var Graph_Graph =
+/*#__PURE__*/
+function () {
+  function Graph() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Graph);
+
+    this.size = new Size_Size();
+    this.style = new Style_Style();
+    this.nodeRankFactor = 0;
+    this.compound = false;
+    this.multiGraph = false;
+    this.directed = true;
+    this.rankDir = 'tb';
+    this.minX = 0;
+    this.minY = 0;
+    this.maxX = 0;
+    this.maxY = 0;
+    this.marginX = 20;
+    this.marginY = 20;
+    this.randomId = 1;
+    this.dummyChain = [];
+    this.rankSep = 50;
+    this.edgeSep = 20;
+    this.nodeSep = 50;
+    this.ranker = 'network-simplex';
+    this.NODES = {};
+    this.EDGES = {};
+    Object.assign(this, options);
+    this.rankDir = this.rankDir.toLowerCase(); // v -> edgeObj
+    // this.in = {}
+    // u -> v -> Number
+    // this.preds = {}
+    // v -> edgeObj
+    // this.out = {}
+    // v -> w -> Number
+    // this.sucs = {}
+  }
+
+  _createClass(Graph, [{
+    key: "setNode",
+    value: function setNode(id) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      if (this.NODES[id]) {
+        if (options) {
+          this.NODES[id].setOptions(options);
         }
-        gdb('creating node', id, options);
-        this._nodes[id] = new Node_GraphNode(id, options);
-        return this._nodes[id];
+
+        return this.NODES[id];
+      }
+
+      gdb('creating node', id, options);
+      this.NODES[id] = new Node_GraphNode(id, options);
+      return this.NODES[id];
     }
-    removeNode(id) {
-        gdb('removing node id', id);
-        const node = this._nodes[id];
-        if (!node) {
-            return;
-        }
-        Object.keys(node.inEdges).forEach(this.removeEdge, this);
-        Object.keys(node.outEdges[id]).forEach(this.removeEdge, this);
-        delete this._nodes[id];
+  }, {
+    key: "removeNode",
+    value: function removeNode(id) {
+      gdb('removing node id', id);
+      var node = this.NODES[id];
+
+      if (!node) {
+        return;
+      }
+
+      Object.keys(node.inEdges).forEach(this.removeEdge, this);
+      Object.keys(node.outEdges[id]).forEach(this.removeEdge, this);
+      delete this.NODES[id];
     }
-    setEdge(fromId, toId, options = {}) {
-        gdb('setting edge', fromId, toId, options);
-        const edgeId = Edge_Edge.generateId(fromId, toId, this.directed, options.name);
-        if (this._edges[edgeId]) {
-            if (options) {
-                this._edges[edgeId].setOptions(options);
-            }
-            return this;
+  }, {
+    key: "setEdge",
+    value: function setEdge(fromId, toId) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      gdb('setting edge', fromId, toId, options);
+      var edgeId = Edge_Edge.generateId(fromId, toId, this.directed, options.name);
+
+      if (this.EDGES[edgeId]) {
+        if (options) {
+          this.EDGES[edgeId].setOptions(options);
         }
-        // first ensure the nodes exist
-        const fromNode = this.setNode(fromId);
-        const toNode = this.setNode(toId);
-        const edge = new Edge_Edge(edgeId, fromNode, toNode, options);
-        this._edges[edgeId] = edge;
-        fromNode.outEdges[edgeId] = edge;
-        toNode.inEdges[edgeId] = edge;
+
         return this;
+      } // first ensure the nodes exist
+
+
+      var fromNode = this.setNode(fromId);
+      var toNode = this.setNode(toId);
+      var edge = new Edge_Edge(edgeId, fromNode, toNode, options);
+      this.EDGES[edgeId] = edge;
+      fromNode.outEdges[edgeId] = edge;
+      toNode.inEdges[edgeId] = edge;
+      return this;
     }
-    removeEdge(id) {
-        gdb('removing edge', id);
-        if (!this._edges[id]) {
-            gdb('edge', id, 'does not exist. returning...');
-            return;
-        }
-        const edge = this._edges[id];
-        delete this._edges[id];
+  }, {
+    key: "removeEdge",
+    value: function removeEdge(id) {
+      gdb('removing edge', id);
+
+      if (!this.EDGES[id]) {
+        gdb('edge', id, 'does not exist. returning...');
+        return;
+      }
+
+      var edge = this.EDGES[id];
+      delete this.EDGES[id];
     }
-    addDummyNode(type, attrs, name) {
-        name = name + this.randomId++;
-        attrs.dummy = type;
-        return this.setNode(name, attrs);
+  }, {
+    key: "addDummyNode",
+    value: function addDummyNode(type, attrs, name) {
+      name = name + this.randomId++;
+      attrs.dummy = type;
+      return this.setNode(name, attrs);
     }
-    getNode(id) {
-        return this._nodes[id];
+  }, {
+    key: "getNode",
+    value: function getNode(id) {
+      return this.NODES[id];
     }
-    getEdge(fromId, toId) {
-        return this._edges[Edge_Edge.generateId(fromId, toId, this.directed)];
+  }, {
+    key: "getEdge",
+    value: function getEdge(fromId, toId) {
+      return this.EDGES[Edge_Edge.generateId(fromId, toId, this.directed)];
     }
-    getChildren(id) {
-        if (!id) {
-            return this.nodes;
-        }
-        if (this.compound) {
-            return Object.values(this._nodes[id].children);
-        }
-        else {
-            return [];
-        }
-    }
-    getParent(id) {
-        if (!this.compound) {
-            return null;
-        }
-        const parent = this._nodes[id].parent;
-        if (parent !== null && parent.id !== GRAPH_NODE) {
-            return parent;
-        }
-        return null;
-    }
-    getPredecessors(node) {
-        return node.predecessors ? Object.keys(node.predecessors) : [];
-    }
-    getSuccessors(node) {
-        return node.successors ? Object.keys(node.successors) : [];
-    }
-    setParent(id, parentId) {
-        if (!this.compound) {
-            throw new Error('Cannot set parent in a non-compound graph');
-        }
-        if (parentId === '') {
-            throw new Error('Cannot set parent id to an empty id! (parentId is an empty string)');
-        }
-        let ancestor = parentId;
-        while (ancestor) {
-            const parent = this.getParent(ancestor);
-            if (!parent) {
-                ancestor = null;
-                continue;
-            }
-            if (ancestor === id) {
-                throw new Error('Setting ' +
-                    parentId +
-                    ' as parent of ' +
-                    id +
-                    ' would create a cycle');
-            }
-            ancestor = parent.id;
-        }
-        let parentNode = this.setNode(parentId);
-        let childNode = this.setNode(id);
-        // delete parentNode.children[id]
-        this._nodes[id].parent = parentNode;
-        parentNode.children[id] = childNode;
-    }
-    nodeEdges(from, to) {
-        const inEdges = this.inEdges(from, to);
-        if (inEdges) {
-            return inEdges.concat(this.outEdges(from, to));
-        }
+  }, {
+    key: "getChildren",
+    value: function getChildren(id) {
+      if (!id) {
+        return this.nodes;
+      }
+
+      if (this.compound) {
+        return Object.values(this.NODES[id].children);
+      } else {
         return [];
+      }
     }
-    isSubgraph(id) {
-        return this.getChildren(id).length !== 0;
+  }, {
+    key: "getParent",
+    value: function getParent(id) {
+      if (!this.compound) {
+        return null;
+      }
+
+      var parent = this.NODES[id].parent;
+
+      if (parent !== null && parent.id !== GRAPH_NODE) {
+        return parent;
+      }
+
+      return null;
     }
-    doLayout() {
-        gdb('layouting graph');
-        this.layout = new Layout_Layout(this);
+  }, {
+    key: "getPredecessors",
+    value: function getPredecessors(node) {
+      return node.predecessors ? Object.keys(node.predecessors) : [];
     }
-    hasNode(id) {
-        return this._nodes[id];
+  }, {
+    key: "getSuccessors",
+    value: function getSuccessors(node) {
+      return node.successors ? Object.keys(node.successors) : [];
     }
-    get nodes() {
-        return Object.values(this._nodes);
+  }, {
+    key: "setParent",
+    value: function setParent(id, parentId) {
+      if (!this.compound) {
+        throw new Error('Cannot set parent in a non-compound graph');
+      }
+
+      if (parentId === '') {
+        throw new Error('Cannot set parent id to an empty id! (parentId is an empty string)');
+      }
+
+      var ancestor = parentId;
+
+      while (ancestor) {
+        var parent = this.getParent(ancestor);
+
+        if (!parent) {
+          ancestor = null;
+          continue;
+        }
+
+        if (ancestor === id) {
+          throw new Error('Setting ' + parentId + ' as parent of ' + id + ' would create a cycle');
+        }
+
+        ancestor = parent.id;
+      }
+
+      var parentNode = this.setNode(parentId);
+      var childNode = this.setNode(id); // delete parentNode.children[id]
+
+      this.NODES[id].parent = parentNode;
+      parentNode.children[id] = childNode;
     }
-    get edges() {
-        return Object.values(this._edges);
+  }, {
+    key: "nodeEdges",
+    value: function nodeEdges(from, to) {
+      var inEdges = this.inEdges(from, to);
+
+      if (inEdges) {
+        return inEdges.concat(this.outEdges(from, to));
+      }
+
+      return [];
     }
-    get sources() {
-        return this.nodes.filter(node => {
-            return Object.keys(node.inEdges).length === 0;
+  }, {
+    key: "isSubgraph",
+    value: function isSubgraph(id) {
+      return this.getChildren(id).length !== 0;
+    }
+  }, {
+    key: "doLayout",
+    value: function doLayout() {
+      gdb('layouting graph');
+      this.layout = new Layout_Layout(this);
+    }
+  }, {
+    key: "hasNode",
+    value: function hasNode(id) {
+      return this.NODES[id];
+    }
+  }, {
+    key: "inEdges",
+    value: function inEdges(from, to) {
+      // gdb('ins', this.in)
+      // gdb('in from', from, 'to', to, inFrom)
+      if (!from.inEdges) {
+        return [];
+      }
+
+      var edges = Object.values(from.inEdges);
+
+      if (!to) {
+        return edges;
+      }
+
+      return edges.filter(function (edge) {
+        return edge.from.id === to.id;
+      });
+    }
+  }, {
+    key: "outEdges",
+    value: function outEdges(from, to) {
+      // gdb('out from', from, 'to', to, outFrom)
+      if (!from.outEdges) {
+        return [];
+      }
+
+      var edges = Object.values(from.outEdges);
+
+      if (!to) {
+        return edges;
+      }
+
+      return edges.filter(function (edge) {
+        return edge.to.id === to.id;
+      });
+    }
+  }, {
+    key: "sep",
+    value: function sep(reverseSep, from, to) {
+      var sum = 0;
+      var delta;
+      sum += from.size.width / 2;
+      gdb('CHECK LABEL POS'); // if (from.labelPos) {
+      //   switch (from.labelPos.toLowerCase()) {
+      //     case 'l':
+      //       delta = -from.size.width / 2
+      //       break
+      //     case 'r':
+      //       delta = from.size.width / 2
+      //       break
+      //   }
+      // }
+
+      if (delta) {
+        sum += reverseSep ? delta : -delta;
+      }
+
+      delta = 0;
+      sum += (from.dummy ? this.edgeSep : this.nodeSep) / 2;
+      sum += (to.dummy ? this.edgeSep : this.nodeSep) / 2;
+      sum += to.size.width / 2; // if (to.labelPos) {
+      //   switch (to.labelPos.toLowerCase()) {
+      //     case 'l':
+      //       delta = to.size.width / 2
+      //       break
+      //     case 'r':
+      //       delta = -to.size.width / 2
+      //       break
+      //   }
+      // }
+
+      if (delta) {
+        sum += reverseSep ? delta : -delta;
+      }
+
+      delta = 0;
+      return sum;
+    }
+  }, {
+    key: "nodes",
+    get: function get() {
+      return Object.values(this.NODES);
+    }
+  }, {
+    key: "edges",
+    get: function get() {
+      return Object.values(this.EDGES);
+    }
+  }, {
+    key: "sources",
+    get: function get() {
+      return this.nodes.filter(function (node) {
+        return Object.keys(node.inEdges).length === 0;
+      });
+    }
+  }, {
+    key: "nodeIds",
+    get: function get() {
+      return Object.keys(this.NODES);
+    }
+  }], [{
+    key: "buildBlockGraph",
+    value: function buildBlockGraph(layering, root, reverseSep) {
+      var blockGraph = new Graph();
+      layering.forEach(function (layer) {
+        var to;
+        layer.forEach(function (node) {
+          blockGraph.setNode(root[node.id].id);
+
+          if (!to) {
+            to = node;
+            return;
+          }
+
+          var prevMax = blockGraph.getEdge(root[to.id].id, root[node.id].id);
+          gdb('CHECK PREVMAX FROM STABLE');
+          blockGraph.setEdge(root[to.id].id, root[node.id].id, {
+            maxSep: Math.max(blockGraph.sep(reverseSep, node, to),
+            /*prevMax || */
+            0)
+          });
+          to = node;
         });
+      });
+      return blockGraph;
     }
-    inEdges(from, to) {
-        // gdb('ins', this.in)
-        // gdb('in from', from, 'to', to, inFrom)
-        if (!from.inEdges) {
-            return [];
-        }
-        const edges = Object.values(from.inEdges);
-        if (!to) {
-            return edges;
-        }
-        return edges.filter(edge => edge.from.id === to.id);
-    }
-    outEdges(from, to) {
-        // gdb('out from', from, 'to', to, outFrom)
-        if (!from.outEdges) {
-            return [];
-        }
-        const edges = Object.values(from.outEdges);
-        if (!to) {
-            return edges;
-        }
-        return edges.filter(edge => edge.to.id === to.id);
-    }
-    get nodeIds() {
-        return Object.keys(this._nodes);
-    }
-    static buildBlockGraph(layering, root, reverseSep) {
-        const blockGraph = new Graph_Graph();
-        layering.forEach(layer => {
-            let to;
-            layer.forEach(node => {
-                blockGraph.setNode(root[node.id].id);
-                if (!to) {
-                    to = node;
-                    return;
-                }
-                const prevMax = blockGraph.getEdge(root[to.id].id, root[node.id].id);
-                gdb('CHECK PREVMAX FROM STABLE');
-                blockGraph.setEdge(root[to.id].id, root[node.id].id, {
-                    maxSep: Math.max(blockGraph.sep(reverseSep, node, to), /*prevMax || */ 0)
-                });
-                to = node;
-            });
-        });
-        return blockGraph;
-    }
-    sep(reverseSep, from, to) {
-        let sum = 0;
-        let delta;
-        sum += from.size.width / 2;
-        gdb('CHECK LABEL POS');
-        // if (from.labelPos) {
-        //   switch (from.labelPos.toLowerCase()) {
-        //     case 'l':
-        //       delta = -from.size.width / 2
-        //       break
-        //     case 'r':
-        //       delta = from.size.width / 2
-        //       break
-        //   }
-        // }
-        if (delta) {
-            sum += reverseSep ? delta : -delta;
-        }
-        delta = 0;
-        sum += (from.dummy ? this.edgeSep : this.nodeSep) / 2;
-        sum += (to.dummy ? this.edgeSep : this.nodeSep) / 2;
-        sum += to.size.width / 2;
-        // if (to.labelPos) {
-        //   switch (to.labelPos.toLowerCase()) {
-        //     case 'l':
-        //       delta = to.size.width / 2
-        //       break
-        //     case 'r':
-        //       delta = -to.size.width / 2
-        //       break
-        //   }
-        // }
-        if (delta) {
-            sum += reverseSep ? delta : -delta;
-        }
-        delta = 0;
-        return sum;
-    }
-}
+  }]);
+
+  return Graph;
+}();
+
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.to-string.js
+var es6_regexp_to_string = __webpack_require__("a1Th");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.date.to-string.js
+var es6_date_to_string = __webpack_require__("h7Nl");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.string.iterator.js
+var es6_string_iterator = __webpack_require__("XfO3");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.from.js
+var es6_array_from = __webpack_require__("HEwt");
 
 // CONCATENATED MODULE: ./src/graph/Svg.ts
-class GraphSvg {
-    constructor(el) {
-        if (el instanceof SVGGraphicsElement) {
-            this.node = el;
-        }
-        else {
-            this.node = document.createElementNS('http://www.w3.org/2000/svg', el);
-        }
+
+
+
+
+
+
+
+var Svg_GraphSvg =
+/*#__PURE__*/
+function () {
+  function GraphSvg(el) {
+    _classCallCheck(this, GraphSvg);
+
+    if (el instanceof SVGGraphicsElement) {
+      this.node = el;
+    } else {
+      this.node = document.createElementNS('http://www.w3.org/2000/svg', el);
     }
-    append(el) {
-        if (!(el instanceof GraphSvg)) {
-            el = new GraphSvg(el);
-        }
-        this.node.appendChild(el.node);
-        return el;
+  }
+
+  _createClass(GraphSvg, [{
+    key: "append",
+    value: function append(el) {
+      if (!(el instanceof GraphSvg)) {
+        el = new GraphSvg(el);
+      }
+
+      this.node.appendChild(el.node);
+      return el;
     }
-    attr(attribute, value) {
-        this.node.setAttribute(attribute, value);
-        return this;
+  }, {
+    key: "attr",
+    value: function attr(attribute, value) {
+      this.node.setAttribute(attribute, value);
+      return this;
     }
-    select(selector) {
-        const res = this.node.querySelector(selector);
-        if (res instanceof SVGGraphicsElement) {
-            return new GraphSvg(res);
-        }
-        else if (res) {
-            throw new TypeError('The selected element is not of type "SVGGraphicsElement"');
-        }
-        return null;
+  }, {
+    key: "select",
+    value: function select(selector) {
+      var res = this.node.querySelector(selector);
+
+      if (res instanceof SVGGraphicsElement) {
+        return new GraphSvg(res);
+      } else if (res) {
+        throw new TypeError('The selected element is not of type "SVGGraphicsElement"');
+      }
+
+      return null;
     }
-    selectAll(selector) {
-        const res = this.node.querySelectorAll(selector);
-        return Array.from(res).filter(node => node instanceof SVGGraphicsElement).map(node => new GraphSvg(node));
-        // return null
+  }, {
+    key: "selectAll",
+    value: function selectAll(selector) {
+      var res = this.node.querySelectorAll(selector);
+      return Array.from(res).filter(function (node) {
+        return node instanceof SVGGraphicsElement;
+      }).map(function (node) {
+        return new GraphSvg(node);
+      }); // return null
     }
-    text(s) {
-        const el = document.createTextNode(s);
-        this.node.appendChild(el);
-        return this;
+  }, {
+    key: "text",
+    value: function text(s) {
+      var el = document.createTextNode(s);
+      this.node.appendChild(el);
+      return this;
     }
-    addClass(c) {
-        this.node.classList.add(c);
-        return this;
+  }, {
+    key: "addClass",
+    value: function addClass(c) {
+      this.node.classList.add(c);
+      return this;
     }
-}
+  }]);
+
+  return GraphSvg;
+}();
+
 
 // CONCATENATED MODULE: ./src/graph/Shape.ts
 
-class Shape_Shape {
-    constructor(shapeType, bbox, options) {
-        this.shape = this[shapeType](bbox, options);
+
+
+
+
+
+var Shape_Shape =
+/*#__PURE__*/
+function () {
+  function Shape(shapeType, bbox, options) {
+    _classCallCheck(this, Shape);
+
+    this.shape = this[shapeType](bbox, options);
+  }
+
+  _createClass(Shape, [{
+    key: "rect",
+    value: function rect(bbox, _ref) {
+      var _ref$rx = _ref.rx,
+          rx = _ref$rx === void 0 ? '0' : _ref$rx,
+          _ref$ry = _ref.ry,
+          ry = _ref$ry === void 0 ? '0' : _ref$ry;
+      return new Svg_GraphSvg('rect').attr('rx', rx).attr('ry', ry).attr('x', (-bbox.width / 2).toString()).attr('y', (-bbox.height / 2).toString()).attr('width', bbox.width.toString()).attr('height', bbox.height.toString());
     }
-    rect(bbox, { rx = '0', ry = '0' }) {
-        return new GraphSvg('rect')
-            .attr('rx', rx)
-            .attr('ry', ry)
-            .attr('x', (-bbox.width / 2).toString())
-            .attr('y', (-bbox.height / 2).toString())
-            .attr('width', bbox.width.toString())
-            .attr('height', bbox.height.toString());
-    }
-}
+  }]);
+
+  return Shape;
+}();
+
 
 // CONCATENATED MODULE: ./src/graph/Label.ts
 
-class Label_GraphLabel {
-    constructor(options) {
-        this.group = new GraphSvg('g');
-        this.labelData = options;
-        this.textLabel();
+
+
+
+var Label_GraphLabel =
+/*#__PURE__*/
+function () {
+  function GraphLabel(options) {
+    _classCallCheck(this, GraphLabel);
+
+    this.group = new Svg_GraphSvg('g');
+    this.labelData = options;
+    this.textLabel();
+  }
+
+  _createClass(GraphLabel, [{
+    key: "textLabel",
+    value: function textLabel() {
+      var text = this.group.append('text').text(this.labelData.label);
     }
-    textLabel() {
-        const text = this.group.append('text').text(this.labelData.label);
-    }
-}
+  }]);
+
+  return GraphLabel;
+}();
+
 
 // CONCATENATED MODULE: ./src/Renderer.ts
 
 
-class Renderer_Renderer {
-    /**
-     *
-     * @param {Graph} graph
-     */
-    constructor(graph) {
-        this.graph = graph;
-    }
-    render(svg) {
-        console.log('rendering', svg, this.graph);
-        // TODO: remove all children of svg
-        const edgePathsGroup = this.createOrSelectGroup(svg, 'edgePaths');
-        const edgeLabels = this.createEdgeLabels(this.createOrSelectGroup(svg, 'edgeLabels'));
-        this.createNodes(this.createOrSelectGroup(svg, 'nodes'));
-        this.graph.doLayout();
-        let minX = 1000;
-        let minY = 1000;
-        let maxX = -1000;
-        let maxY = -1000;
-        this.graph.nodes.forEach(node => {
-            minX = Math.min(minX, node.position.x - node.size.width / 2);
-            minY = Math.min(minY, node.position.y - node.size.height / 2);
-            maxX = Math.max(maxX, node.position.x + node.size.width / 2);
-            maxY = Math.max(maxY, node.position.y + node.size.height / 2);
-        });
-        this.graph.edges.forEach(edge => {
-            if (edge.position.x && edge.position.y) {
-                minX = Math.min(minX, edge.position.x - edge.size.width / 2);
-                minY = Math.min(minY, edge.position.y - edge.size.height / 2);
-                maxX = Math.max(maxX, edge.position.x + edge.size.width / 2);
-                maxY = Math.max(maxY, edge.position.y + edge.size.height / 2);
+
+
+
+
+
+
+
+
+var Renderer_Renderer =
+/*#__PURE__*/
+function () {
+  function Renderer(graph) {
+    _classCallCheck(this, Renderer);
+
+    this.graph = graph;
+  }
+
+  _createClass(Renderer, [{
+    key: "render",
+    value: function render(svg) {
+      // TODO: remove all children of svg
+      var edgePathsGroup = this.createOrSelectGroup(svg, 'edgePaths');
+      var edgeLabels = this.createEdgeLabels(this.createOrSelectGroup(svg, 'edgeLabels'));
+      this.createNodes(this.createOrSelectGroup(svg, 'nodes'));
+      this.graph.doLayout();
+      var minX = 1000;
+      var minY = 1000;
+      var maxX = -1000;
+      var maxY = -1000;
+      this.graph.nodes.forEach(function (node) {
+        minX = Math.min(minX, node.position.x - node.size.width / 2);
+        minY = Math.min(minY, node.position.y - node.size.height / 2);
+        maxX = Math.max(maxX, node.position.x + node.size.width / 2);
+        maxY = Math.max(maxY, node.position.y + node.size.height / 2);
+      });
+      this.graph.edges.forEach(function (edge) {
+        if (edge.position.x && edge.position.y) {
+          minX = Math.min(minX, edge.position.x - edge.size.width / 2);
+          minY = Math.min(minY, edge.position.y - edge.size.height / 2);
+          maxX = Math.max(maxX, edge.position.x + edge.size.width / 2);
+          maxY = Math.max(maxY, edge.position.y + edge.size.height / 2);
+        }
+
+        var points = edge.points.slice(1, edge.points.length - 1); // intersetion points don't matter
+
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = points[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var point = _step.value;
+            minX = Math.min(minX, point.x);
+            minY = Math.min(minY, point.y);
+            maxX = Math.max(maxX, point.x);
+            maxY = Math.max(maxY, point.y);
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return != null) {
+              _iterator.return();
             }
-            const points = edge.points.slice(1, edge.points.length - 1); // intersetion points don't matter
-            for (let i = 0; i < points.length; i++) {
-                const point = points[i];
-                minX = Math.min(minX, point.x);
-                minY = Math.min(minY, point.y);
-                maxX = Math.max(maxX, point.x);
-                maxY = Math.max(maxY, point.y);
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
             }
-        });
-        this.graph.minX = minX;
-        this.graph.minY = minY;
-        this.graph.maxX = maxX;
-        this.graph.maxY = maxY;
-        console.log('GRAPH', this.graph);
-        this.positionNodes();
+          }
+        }
+      });
+      this.graph.minX = minX;
+      this.graph.minY = minY;
+      this.graph.maxX = maxX;
+      this.graph.maxY = maxY;
+      this.positionNodes();
     }
-    createNodes(selection) {
-        const simpleNodes = this.graph.nodeIds.filter(id => {
-            return !this.graph.isSubgraph(id);
-        });
-        // we have to append all simpleNodes to the graph now
-        this.graph.nodes.forEach(graphNode => {
-            const nodeGroup = selection.append('g').addClass('node');
-            const labelGroup = nodeGroup.append('g').addClass('label');
-            const label = labelGroup.append(new Label_GraphLabel({ label: graphNode.label }).group);
-            const labelBBox = label.node.getBBox();
-            if (graphNode.style.padding) {
-                // set width and height
-                labelBBox.width +=
-                    graphNode.style.padding.left + graphNode.style.padding.right;
-                labelBBox.height +=
-                    graphNode.style.padding.top + graphNode.style.padding.bottom;
-                // transform label with padding
-                labelGroup.attr('transform', 'translate(' +
-                    (graphNode.style.padding.left - graphNode.style.padding.right) / 2 +
-                    ',' +
-                    (graphNode.style.padding.top - graphNode.style.padding.bottom) / 2 +
-                    ')');
-            }
-            // nodeGroup.node.style.opacity = 0
-            if (!graphNode.style.shape) {
-                throw new Error('no shape is defined!');
-            }
-            const shape = nodeGroup.append(new Shape_Shape(graphNode.style.shape, labelBBox, { width: graphNode.size.width, height: graphNode.size.height }).shape);
-            const shapeBBox = shape.node.getBBox();
-            graphNode.size.setSize(shapeBBox.width, shapeBBox.height);
-            nodeGroup.append(labelGroup);
-            graphNode.svgGroup = nodeGroup;
-        });
-        // let svgNodes = selection.querySelectorAll('g.node')
-        // svgNodes.forEach((svgNode) => {
-        //   svgNode.classList.add('update')
-        // })
-        // for (const node of nodes) {
-        //   const shape = shapes[node.shape]
-        // }
+  }, {
+    key: "createNodes",
+    value: function createNodes(selection) {
+      var _this = this;
+
+      var simpleNodes = this.graph.nodeIds.filter(function (id) {
+        return !_this.graph.isSubgraph(id);
+      }); // we have to append all simpleNodes to the graph now
+
+      this.graph.nodes.forEach(function (graphNode) {
+        var nodeGroup = selection.append('g').addClass('node');
+        var labelGroup = nodeGroup.append('g').addClass('label');
+        var label = labelGroup.append(new Label_GraphLabel({
+          label: graphNode.label
+        }).group);
+        var labelBBox = label.node.getBBox();
+
+        if (graphNode.style.padding) {
+          // set width and height
+          labelBBox.width += graphNode.style.padding.left + graphNode.style.padding.right;
+          labelBBox.height += graphNode.style.padding.top + graphNode.style.padding.bottom; // transform label with padding
+
+          labelGroup.attr('transform', 'translate(' + (graphNode.style.padding.left - graphNode.style.padding.right) / 2 + ',' + (graphNode.style.padding.top - graphNode.style.padding.bottom) / 2 + ')');
+        } // nodeGroup.node.style.opacity = 0
+
+
+        if (!graphNode.style.shape) {
+          throw new Error('no shape is defined!');
+        }
+
+        var shape = nodeGroup.append(new Shape_Shape(graphNode.style.shape, labelBBox, {
+          width: graphNode.size.width,
+          height: graphNode.size.height
+        }).shape);
+        var shapeBBox = shape.node.getBBox();
+        graphNode.size.setSize(shapeBBox.width, shapeBBox.height);
+        nodeGroup.append(labelGroup);
+        graphNode.svgGroup = nodeGroup;
+      }); // let svgNodes = selection.querySelectorAll('g.node')
+      // svgNodes.forEach((svgNode) => {
+      //   svgNode.classList.add('update')
+      // })
+      // for (const node of nodes) {
+      //   const shape = shapes[node.shape]
+      // }
     }
-    createEdgeLabels(selection) {
-        let svgEdgeLabels = selection.selectAll('g.edgeLabel');
-        this.graph.edges.forEach(edge => {
-            const edgeLabelGroup = selection.append('g').addClass('edgeLabel');
-            const labelGroup = edgeLabelGroup.append('g').addClass('label');
-            const label = labelGroup.append(new Label_GraphLabel({ label: edge.label || '' }).group);
-            const labelBBox = label.node.getBBox();
-            edge.size.width = edge.size.width || labelBBox.width;
-            edge.size.height = edge.size.height || labelBBox.height;
-        });
+  }, {
+    key: "createEdgeLabels",
+    value: function createEdgeLabels(selection) {
+      var svgEdgeLabels = selection.selectAll('g.edgeLabel');
+      this.graph.edges.forEach(function (edge) {
+        var edgeLabelGroup = selection.append('g').addClass('edgeLabel');
+        var labelGroup = edgeLabelGroup.append('g').addClass('label');
+        var label = labelGroup.append(new Label_GraphLabel({
+          label: edge.label || ''
+        }).group);
+        var labelBBox = label.node.getBBox();
+        edge.size.width = edge.size.width || labelBBox.width;
+        edge.size.height = edge.size.height || labelBBox.height;
+      });
     }
-    positionNodes() {
-        console.log('position nodes', this.graph.nodes, 'with edges', this.graph.edges);
-        this.graph.nodes.forEach(node => {
-            if (!node.svgGroup) {
-                return;
-            }
-            node.svgGroup.attr('transform', 'translate(' +
-                (node.position.x || 0) +
-                ',' +
-                (node.position.y || 0) +
-                ')');
-        });
+  }, {
+    key: "positionNodes",
+    value: function positionNodes() {
+      this.graph.nodes.forEach(function (node) {
+        if (!node.svgGroup) {
+          return;
+        }
+
+        node.svgGroup.attr('transform', 'translate(' + (node.position.x || 0) + ',' + (node.position.y || 0) + ')');
+      });
     }
-    createOrSelectGroup(root, name) {
-        return root.select('g.' + name) || root.append('g').addClass(name);
+  }, {
+    key: "createOrSelectGroup",
+    value: function createOrSelectGroup(root, name) {
+      return root.select('g.' + name) || root.append('g').addClass(name);
     }
-}
+  }]);
+
+  return Renderer;
+}();
+
 
 // CONCATENATED MODULE: ./src/FlowElement.ts
-class FlowElement {
-    constructor(id, options) {
-        this.edges = [];
-        this.id = id;
-        this.options = options;
+
+
+
+var FlowElement_FlowElement =
+/*#__PURE__*/
+function () {
+  function FlowElement(id, options) {
+    _classCallCheck(this, FlowElement);
+
+    this.edges = [];
+    this.id = id;
+    this.options = options;
+  }
+
+  _createClass(FlowElement, [{
+    key: "leadsTo",
+    value: function leadsTo(destinationElement, options) {
+      this.edges.push({
+        otherId: destinationElement.id,
+        options: options
+      });
+      return destinationElement;
     }
-    leadsTo(destinationElement, options) {
-        this.edges.push({ otherId: destinationElement.id, options });
-        return destinationElement;
-    }
-}
+  }]);
+
+  return FlowElement;
+}();
+
 
 // CONCATENATED MODULE: ./src/FlowChart.ts
 
 
 
 
-class FlowChart_FlowChart {
-    constructor(options = {}) {
-        this.elements = [];
-        localStorage.debug = 'graph,layout,normalizer,layering';
-    }
-    addElement(id, options) {
-        const el = new FlowElement(id, options);
-        this.elements.push(el);
-        return el;
-    }
-    render(element) {
-        const svg = new GraphSvg('svg');
-        svg.node.id = 'f' + element.id;
-        element.appendChild(svg.node);
-        const group = svg.append('g');
-        // Create the input graph
-        const graph = new Graph_Graph({
-            multiGraph: true,
-            compound: true,
-            rankDir: 'LR',
-            marginX: 20,
-            marginY: 20
-        });
-        // first create all nodes
-        for (const i in this.elements) {
-            const el = this.elements[i];
-            graph.setNode(el.id, el.options);
-        }
-        // now apply some styles to all nodes
-        for (const node of graph.nodes) {
-            node.style.radius = { rx: 5, ry: 5 };
-        }
-        // now create all edges
-        for (const i in this.elements) {
-            const el = this.elements[i];
-            for (const k in el.edges) {
-                const edge = el.edges[k];
-                graph.setEdge(el.id, edge.otherId, edge.options);
-            }
-        }
-        const renderer = new Renderer_Renderer(graph);
-        renderer.render(group);
-        // const svgElement = document.getElementById('f' + element.id)
-        // const groupElement = svgElement.querySelector('g')
-        // svgElement.style.width = groupElement.getBoundingClientRect().width + 40
-        // svgElement.style.height = groupElement.getBoundingClientRect().height + 40
-    }
-}
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/ts-loader??ref--13-2!./node_modules/vue-loader/lib??vue-loader-options!./src/components/VueFlowy.vue?vue&type=script&lang=ts
+
+
+
+
+
+var FlowChart_FlowChart =
+/*#__PURE__*/
+function () {
+  function FlowChart() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, FlowChart);
+
+    this.elements = [];
+    localStorage.debug = 'graph,layout,normalizer,layering';
+  }
+
+  _createClass(FlowChart, [{
+    key: "addElement",
+    value: function addElement(id, options) {
+      var el = new FlowElement_FlowElement(id, options);
+      this.elements.push(el);
+      return el;
+    }
+  }, {
+    key: "render",
+    value: function render(element) {
+      var svg = new Svg_GraphSvg('svg');
+      svg.node.id = 'f' + element.id;
+      element.appendChild(svg.node);
+      var group = svg.append('g'); // Create the input graph
+
+      var graph = new Graph_Graph({
+        multiGraph: true,
+        compound: true,
+        rankDir: 'LR',
+        marginX: 20,
+        marginY: 20
+      }); // first create all nodes
+
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = this.elements[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var el = _step.value;
+          var node = graph.setNode(el.id, el.options);
+          node.style.radius = {
+            rx: 5,
+            ry: 5
+          };
+        } // now create all edges
+
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return != null) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = this.elements[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var _el = _step2.value;
+          var _iteratorNormalCompletion3 = true;
+          var _didIteratorError3 = false;
+          var _iteratorError3 = undefined;
+
+          try {
+            for (var _iterator3 = _el.edges[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+              var edge = _step3.value;
+              graph.setEdge(_el.id, edge.otherId, edge.options);
+            }
+          } catch (err) {
+            _didIteratorError3 = true;
+            _iteratorError3 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
+                _iterator3.return();
+              }
+            } finally {
+              if (_didIteratorError3) {
+                throw _iteratorError3;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
+      var renderer = new Renderer_Renderer(graph);
+      renderer.render(group); // const svgElement = document.getElementById('f' + element.id)
+      // const groupElement = svgElement.querySelector('g')
+      // svgElement.style.width = groupElement.getBoundingClientRect().width + 40
+      // svgElement.style.height = groupElement.getBoundingClientRect().height + 40
+    }
+  }]);
+
+  return FlowChart;
+}();
+
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--13-3!./node_modules/vue-loader/lib??vue-loader-options!./src/components/VueFlowy.vue?vue&type=script&lang=ts
+
+
+
+
+
+
 
 var VueFlowyvue_type_script_lang_ts_a;
 
 
-let VueFlowyvue_type_script_lang_ts_VueFlowy = class VueFlowy extends external_commonjs_vue_commonjs2_vue_root_Vue_default.a {
-    onChartElementsChanged(val, oldVal) {
-        if (!this.chartElement) {
-            return;
-        }
-        this.chart.render(this.chartElement);
-    }
-    mounted() {
-        this.chartElement = this.$refs.vueflowyElement;
-    }
-};
-__decorate([
-    Prop(),
-    __metadata("design:type", typeof (VueFlowyvue_type_script_lang_ts_a = typeof FlowChart_FlowChart !== "undefined" && FlowChart_FlowChart) === "function" && VueFlowyvue_type_script_lang_ts_a || Object)
-], VueFlowyvue_type_script_lang_ts_VueFlowy.prototype, "chart", void 0);
-__decorate([
-    Watch('chart.elements', {}),
-    Watch('chart.elements'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array, Array]),
-    __metadata("design:returntype", void 0)
-], VueFlowyvue_type_script_lang_ts_VueFlowy.prototype, "onChartElementsChanged", null);
-VueFlowyvue_type_script_lang_ts_VueFlowy = __decorate([
-    vue_class_component_common_default.a
-], VueFlowyvue_type_script_lang_ts_VueFlowy);
-/* harmony default export */ var VueFlowyvue_type_script_lang_ts = (VueFlowyvue_type_script_lang_ts_VueFlowy);
 
+
+var VueFlowyvue_type_script_lang_ts_VueFlowy =
+/*#__PURE__*/
+function (_Vue) {
+  function VueFlowy() {
+    _classCallCheck(this, VueFlowy);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(VueFlowy).apply(this, arguments));
+  }
+
+  _createClass(VueFlowy, [{
+    key: "onChartElementsChanged",
+    value: function onChartElementsChanged(val, oldVal) {
+      if (!this.chartElement) {
+        return;
+      }
+
+      this.chart.render(this.chartElement);
+    }
+  }, {
+    key: "mounted",
+    value: function mounted() {
+      this.chartElement = this.$refs.vueflowyElement;
+    }
+  }]);
+
+  _inherits(VueFlowy, _Vue);
+
+  return VueFlowy;
+}(external_commonjs_vue_commonjs2_vue_root_Vue_default.a);
+
+__decorate([Prop(), __metadata("design:type", typeof (VueFlowyvue_type_script_lang_ts_a = typeof FlowChart_FlowChart !== "undefined" && FlowChart_FlowChart) === "function" && VueFlowyvue_type_script_lang_ts_a || Object)], VueFlowyvue_type_script_lang_ts_VueFlowy.prototype, "chart", void 0);
+
+__decorate([Watch('chart.elements', {}), Watch('chart.elements'), __metadata("design:type", Function), __metadata("design:paramtypes", [Array, Array]), __metadata("design:returntype", void 0)], VueFlowyvue_type_script_lang_ts_VueFlowy.prototype, "onChartElementsChanged", null);
+
+VueFlowyvue_type_script_lang_ts_VueFlowy = __decorate([vue_class_component_common_default.a], VueFlowyvue_type_script_lang_ts_VueFlowy);
+/* harmony default export */ var VueFlowyvue_type_script_lang_ts = (VueFlowyvue_type_script_lang_ts_VueFlowy);
 // CONCATENATED MODULE: ./src/components/VueFlowy.vue?vue&type=script&lang=ts
  /* harmony default export */ var components_VueFlowyvue_type_script_lang_ts = (VueFlowyvue_type_script_lang_ts); 
 // EXTERNAL MODULE: ./src/components/VueFlowy.vue?vue&type=style&index=0&lang=scss
@@ -1960,7 +2880,7 @@ function normalizeComponent (
 
 var component = normalizeComponent(
   components_VueFlowyvue_type_script_lang_ts,
-  render,
+  VueFlowyvue_type_template_id_530d6ff0_render,
   staticRenderFns,
   false,
   null,
@@ -1973,15 +2893,15 @@ var component = normalizeComponent(
 // CONCATENATED MODULE: ./src/main.ts
 
 
-const Plugin = {
-    VueFlowy: components_VueFlowy,
-    FlowChart: FlowChart_FlowChart,
-    install(Vue) {
-        Vue.component(components_VueFlowy.name, components_VueFlowy);
-    }
+
+var Plugin = {
+  VueFlowy: components_VueFlowy,
+  FlowChart: FlowChart_FlowChart,
+  install: function install(Vue) {
+    Vue.component(components_VueFlowy.name, components_VueFlowy);
+  }
 };
 /* harmony default export */ var main = (Plugin);
-
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "VueFlowy", function() { return components_VueFlowy; });
@@ -1990,6 +2910,77 @@ const Plugin = {
 
 /* harmony default export */ var entry_lib = __webpack_exports__["default"] = (main);
 
+
+
+/***/ }),
+
+/***/ "0/R4":
+/***/ (function(module, exports) {
+
+module.exports = function (it) {
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+
+/***/ }),
+
+/***/ "0l/t":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $export = __webpack_require__("XKFU");
+var $filter = __webpack_require__("CkkT")(2);
+
+$export($export.P + $export.F * !__webpack_require__("LyE8")([].filter, true), 'Array', {
+  // 22.1.3.7 / 15.4.4.20 Array.prototype.filter(callbackfn [, thisArg])
+  filter: function filter(callbackfn /* , thisArg */) {
+    return $filter(this, callbackfn, arguments[1]);
+  }
+});
+
+
+/***/ }),
+
+/***/ "1MBn":
+/***/ (function(module, exports, __webpack_require__) {
+
+// all enumerable object keys, includes symbols
+var getKeys = __webpack_require__("DVgA");
+var gOPS = __webpack_require__("JiEa");
+var pIE = __webpack_require__("UqcF");
+module.exports = function (it) {
+  var result = getKeys(it);
+  var getSymbols = gOPS.f;
+  if (getSymbols) {
+    var symbols = getSymbols(it);
+    var isEnum = pIE.f;
+    var i = 0;
+    var key;
+    while (symbols.length > i) if (isEnum.call(it, key = symbols[i++])) result.push(key);
+  } return result;
+};
+
+
+/***/ }),
+
+/***/ "1TsA":
+/***/ (function(module, exports) {
+
+module.exports = function (done, value) {
+  return { value: value, done: !!done };
+};
+
+
+/***/ }),
+
+/***/ "2OiF":
+/***/ (function(module, exports) {
+
+module.exports = function (it) {
+  if (typeof it != 'function') throw TypeError(it + ' is not a function!');
+  return it;
+};
 
 
 /***/ }),
@@ -2226,6 +3217,326 @@ var substr = 'ab'.substr(-1) === 'b'
 
 /***/ }),
 
+/***/ "4R4u":
+/***/ (function(module, exports) {
+
+// IE 8- don't enum bug keys
+module.exports = (
+  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+).split(',');
+
+
+/***/ }),
+
+/***/ "6FMO":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__("0/R4");
+var isArray = __webpack_require__("EWmC");
+var SPECIES = __webpack_require__("K0xU")('species');
+
+module.exports = function (original) {
+  var C;
+  if (isArray(original)) {
+    C = original.constructor;
+    // cross-realm fallback
+    if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
+    if (isObject(C)) {
+      C = C[SPECIES];
+      if (C === null) C = undefined;
+    }
+  } return C === undefined ? Array : C;
+};
+
+
+/***/ }),
+
+/***/ "8+KV":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $export = __webpack_require__("XKFU");
+var $forEach = __webpack_require__("CkkT")(0);
+var STRICT = __webpack_require__("LyE8")([].forEach, true);
+
+$export($export.P + $export.F * !STRICT, 'Array', {
+  // 22.1.3.10 / 15.4.4.18 Array.prototype.forEach(callbackfn [, thisArg])
+  forEach: function forEach(callbackfn /* , thisArg */) {
+    return $forEach(this, callbackfn, arguments[1]);
+  }
+});
+
+
+/***/ }),
+
+/***/ "8a7r":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $defineProperty = __webpack_require__("hswa");
+var createDesc = __webpack_require__("RjD/");
+
+module.exports = function (object, index, value) {
+  if (index in object) $defineProperty.f(object, index, createDesc(0, value));
+  else object[index] = value;
+};
+
+
+/***/ }),
+
+/***/ "91GP":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.3.1 Object.assign(target, source)
+var $export = __webpack_require__("XKFU");
+
+$export($export.S + $export.F, 'Object', { assign: __webpack_require__("czNK") });
+
+
+/***/ }),
+
+/***/ "Afnz":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var LIBRARY = __webpack_require__("LQAc");
+var $export = __webpack_require__("XKFU");
+var redefine = __webpack_require__("KroJ");
+var hide = __webpack_require__("Mukb");
+var Iterators = __webpack_require__("hPIQ");
+var $iterCreate = __webpack_require__("QaDb");
+var setToStringTag = __webpack_require__("fyDq");
+var getPrototypeOf = __webpack_require__("OP3Y");
+var ITERATOR = __webpack_require__("K0xU")('iterator');
+var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
+var FF_ITERATOR = '@@iterator';
+var KEYS = 'keys';
+var VALUES = 'values';
+
+var returnThis = function () { return this; };
+
+module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED) {
+  $iterCreate(Constructor, NAME, next);
+  var getMethod = function (kind) {
+    if (!BUGGY && kind in proto) return proto[kind];
+    switch (kind) {
+      case KEYS: return function keys() { return new Constructor(this, kind); };
+      case VALUES: return function values() { return new Constructor(this, kind); };
+    } return function entries() { return new Constructor(this, kind); };
+  };
+  var TAG = NAME + ' Iterator';
+  var DEF_VALUES = DEFAULT == VALUES;
+  var VALUES_BUG = false;
+  var proto = Base.prototype;
+  var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
+  var $default = $native || getMethod(DEFAULT);
+  var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
+  var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
+  var methods, key, IteratorPrototype;
+  // Fix native
+  if ($anyNative) {
+    IteratorPrototype = getPrototypeOf($anyNative.call(new Base()));
+    if (IteratorPrototype !== Object.prototype && IteratorPrototype.next) {
+      // Set @@toStringTag to native iterators
+      setToStringTag(IteratorPrototype, TAG, true);
+      // fix for some old engines
+      if (!LIBRARY && typeof IteratorPrototype[ITERATOR] != 'function') hide(IteratorPrototype, ITERATOR, returnThis);
+    }
+  }
+  // fix Array#{values, @@iterator}.name in V8 / FF
+  if (DEF_VALUES && $native && $native.name !== VALUES) {
+    VALUES_BUG = true;
+    $default = function values() { return $native.call(this); };
+  }
+  // Define iterator
+  if ((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])) {
+    hide(proto, ITERATOR, $default);
+  }
+  // Plug for library
+  Iterators[NAME] = $default;
+  Iterators[TAG] = returnThis;
+  if (DEFAULT) {
+    methods = {
+      values: DEF_VALUES ? $default : getMethod(VALUES),
+      keys: IS_SET ? $default : getMethod(KEYS),
+      entries: $entries
+    };
+    if (FORCED) for (key in methods) {
+      if (!(key in proto)) redefine(proto, key, methods[key]);
+    } else $export($export.P + $export.F * (BUGGY || VALUES_BUG), NAME, methods);
+  }
+  return methods;
+};
+
+
+/***/ }),
+
+/***/ "AvRE":
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__("RYi7");
+var defined = __webpack_require__("vhPU");
+// true  -> String#at
+// false -> String#codePointAt
+module.exports = function (TO_STRING) {
+  return function (that, pos) {
+    var s = String(defined(that));
+    var i = toInteger(pos);
+    var l = s.length;
+    var a, b;
+    if (i < 0 || i >= l) return TO_STRING ? '' : undefined;
+    a = s.charCodeAt(i);
+    return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
+      ? TO_STRING ? s.charAt(i) : a
+      : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
+  };
+};
+
+
+/***/ }),
+
+/***/ "C/va":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// 21.2.5.3 get RegExp.prototype.flags
+var anObject = __webpack_require__("y3w9");
+module.exports = function () {
+  var that = anObject(this);
+  var result = '';
+  if (that.global) result += 'g';
+  if (that.ignoreCase) result += 'i';
+  if (that.multiline) result += 'm';
+  if (that.unicode) result += 'u';
+  if (that.sticky) result += 'y';
+  return result;
+};
+
+
+/***/ }),
+
+/***/ "CkkT":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 0 -> Array#forEach
+// 1 -> Array#map
+// 2 -> Array#filter
+// 3 -> Array#some
+// 4 -> Array#every
+// 5 -> Array#find
+// 6 -> Array#findIndex
+var ctx = __webpack_require__("m0Pp");
+var IObject = __webpack_require__("Ymqv");
+var toObject = __webpack_require__("S/j/");
+var toLength = __webpack_require__("ne8i");
+var asc = __webpack_require__("zRwo");
+module.exports = function (TYPE, $create) {
+  var IS_MAP = TYPE == 1;
+  var IS_FILTER = TYPE == 2;
+  var IS_SOME = TYPE == 3;
+  var IS_EVERY = TYPE == 4;
+  var IS_FIND_INDEX = TYPE == 6;
+  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+  var create = $create || asc;
+  return function ($this, callbackfn, that) {
+    var O = toObject($this);
+    var self = IObject(O);
+    var f = ctx(callbackfn, that, 3);
+    var length = toLength(self.length);
+    var index = 0;
+    var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
+    var val, res;
+    for (;length > index; index++) if (NO_HOLES || index in self) {
+      val = self[index];
+      res = f(val, index, O);
+      if (TYPE) {
+        if (IS_MAP) result[index] = res;   // map
+        else if (res) switch (TYPE) {
+          case 3: return true;             // some
+          case 5: return val;              // find
+          case 6: return index;            // findIndex
+          case 2: result.push(val);        // filter
+        } else if (IS_EVERY) return false; // every
+      }
+    }
+    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
+  };
+};
+
+
+/***/ }),
+
+/***/ "DNiP":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $export = __webpack_require__("XKFU");
+var $reduce = __webpack_require__("eyMr");
+
+$export($export.P + $export.F * !__webpack_require__("LyE8")([].reduce, true), 'Array', {
+  // 22.1.3.18 / 15.4.4.21 Array.prototype.reduce(callbackfn [, initialValue])
+  reduce: function reduce(callbackfn /* , initialValue */) {
+    return $reduce(this, callbackfn, arguments.length, arguments[1], false);
+  }
+});
+
+
+/***/ }),
+
+/***/ "DVgA":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys = __webpack_require__("zhAb");
+var enumBugKeys = __webpack_require__("4R4u");
+
+module.exports = Object.keys || function keys(O) {
+  return $keys(O, enumBugKeys);
+};
+
+
+/***/ }),
+
+/***/ "EWmC":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.2.2 IsArray(argument)
+var cof = __webpack_require__("LZWt");
+module.exports = Array.isArray || function isArray(arg) {
+  return cof(arg) == 'Array';
+};
+
+
+/***/ }),
+
+/***/ "EemH":
+/***/ (function(module, exports, __webpack_require__) {
+
+var pIE = __webpack_require__("UqcF");
+var createDesc = __webpack_require__("RjD/");
+var toIObject = __webpack_require__("aCFj");
+var toPrimitive = __webpack_require__("apmT");
+var has = __webpack_require__("aagx");
+var IE8_DOM_DEFINE = __webpack_require__("xpql");
+var gOPD = Object.getOwnPropertyDescriptor;
+
+exports.f = __webpack_require__("nh4g") ? gOPD : function getOwnPropertyDescriptor(O, P) {
+  O = toIObject(O);
+  P = toPrimitive(P, true);
+  if (IE8_DOM_DEFINE) try {
+    return gOPD(O, P);
+  } catch (e) { /* empty */ }
+  if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
+};
+
+
+/***/ }),
+
 /***/ "FGiv":
 /***/ (function(module, exports) {
 
@@ -2385,6 +3696,90 @@ function plural(ms, n, name) {
 
 /***/ }),
 
+/***/ "FJW5":
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__("hswa");
+var anObject = __webpack_require__("y3w9");
+var getKeys = __webpack_require__("DVgA");
+
+module.exports = __webpack_require__("nh4g") ? Object.defineProperties : function defineProperties(O, Properties) {
+  anObject(O);
+  var keys = getKeys(Properties);
+  var length = keys.length;
+  var i = 0;
+  var P;
+  while (length > i) dP.f(O, P = keys[i++], Properties[P]);
+  return O;
+};
+
+
+/***/ }),
+
+/***/ "H6hf":
+/***/ (function(module, exports, __webpack_require__) {
+
+// call something on iterator step with safe closing on error
+var anObject = __webpack_require__("y3w9");
+module.exports = function (iterator, fn, value, entries) {
+  try {
+    return entries ? fn(anObject(value)[0], value[1]) : fn(value);
+  // 7.4.6 IteratorClose(iterator, completion)
+  } catch (e) {
+    var ret = iterator['return'];
+    if (ret !== undefined) anObject(ret.call(iterator));
+    throw e;
+  }
+};
+
+
+/***/ }),
+
+/***/ "HEwt":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var ctx = __webpack_require__("m0Pp");
+var $export = __webpack_require__("XKFU");
+var toObject = __webpack_require__("S/j/");
+var call = __webpack_require__("H6hf");
+var isArrayIter = __webpack_require__("M6Qj");
+var toLength = __webpack_require__("ne8i");
+var createProperty = __webpack_require__("8a7r");
+var getIterFn = __webpack_require__("J+6e");
+
+$export($export.S + $export.F * !__webpack_require__("XMVh")(function (iter) { Array.from(iter); }), 'Array', {
+  // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
+  from: function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
+    var O = toObject(arrayLike);
+    var C = typeof this == 'function' ? this : Array;
+    var aLen = arguments.length;
+    var mapfn = aLen > 1 ? arguments[1] : undefined;
+    var mapping = mapfn !== undefined;
+    var index = 0;
+    var iterFn = getIterFn(O);
+    var length, result, step, iterator;
+    if (mapping) mapfn = ctx(mapfn, aLen > 2 ? arguments[2] : undefined, 2);
+    // if object isn't iterable or it's array with default iterator - use simple case
+    if (iterFn != undefined && !(C == Array && isArrayIter(iterFn))) {
+      for (iterator = iterFn.call(O), result = new C(); !(step = iterator.next()).done; index++) {
+        createProperty(result, index, mapping ? call(iterator, mapfn, [step.value, index], true) : step.value);
+      }
+    } else {
+      length = toLength(O.length);
+      for (result = new C(length); length > index; index++) {
+        createProperty(result, index, mapping ? mapfn(O[index], index) : O[index]);
+      }
+    }
+    result.length = index;
+    return result;
+  }
+});
+
+
+/***/ }),
+
 /***/ "HrLf":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2400,85 +3795,248 @@ if (typeof window !== 'undefined') {
 
 /***/ }),
 
-/***/ "I1BE":
-/***/ (function(module, exports) {
+/***/ "I8a+":
+/***/ (function(module, exports, __webpack_require__) {
 
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
+// getting tag from 19.1.3.6 Object.prototype.toString()
+var cof = __webpack_require__("LZWt");
+var TAG = __webpack_require__("K0xU")('toStringTag');
+// ES3 wrong here
+var ARG = cof(function () { return arguments; }()) == 'Arguments';
 
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
+// fallback for IE11 Script Access Denied error
+var tryGet = function (it, key) {
+  try {
+    return it[key];
+  } catch (e) { /* empty */ }
 };
 
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
+module.exports = function (it) {
+  var O, T, B;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+    // @@toStringTag case
+    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
+    // builtinTag case
+    : ARG ? cof(O)
+    // ES3 arguments fallback
+    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+};
 
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
 
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
+/***/ }),
 
-	return [content].join('\n');
-}
+/***/ "Iw71":
+/***/ (function(module, exports, __webpack_require__) {
 
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+var isObject = __webpack_require__("0/R4");
+var document = __webpack_require__("dyZX").document;
+// typeof document.createElement is 'object' in old IE
+var is = isObject(document) && isObject(document.createElement);
+module.exports = function (it) {
+  return is ? document.createElement(it) : {};
+};
 
-	return '/*# ' + data + ' */';
-}
+
+/***/ }),
+
+/***/ "J+6e":
+/***/ (function(module, exports, __webpack_require__) {
+
+var classof = __webpack_require__("I8a+");
+var ITERATOR = __webpack_require__("K0xU")('iterator');
+var Iterators = __webpack_require__("hPIQ");
+module.exports = __webpack_require__("g3g5").getIteratorMethod = function (it) {
+  if (it != undefined) return it[ITERATOR]
+    || it['@@iterator']
+    || Iterators[classof(it)];
+};
+
+
+/***/ }),
+
+/***/ "JiEa":
+/***/ (function(module, exports) {
+
+exports.f = Object.getOwnPropertySymbols;
+
+
+/***/ }),
+
+/***/ "K0xU":
+/***/ (function(module, exports, __webpack_require__) {
+
+var store = __webpack_require__("VTer")('wks');
+var uid = __webpack_require__("ylqs");
+var Symbol = __webpack_require__("dyZX").Symbol;
+var USE_SYMBOL = typeof Symbol == 'function';
+
+var $exports = module.exports = function (name) {
+  return store[name] || (store[name] =
+    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
+};
+
+$exports.store = store;
+
+
+/***/ }),
+
+/***/ "KroJ":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("dyZX");
+var hide = __webpack_require__("Mukb");
+var has = __webpack_require__("aagx");
+var SRC = __webpack_require__("ylqs")('src');
+var TO_STRING = 'toString';
+var $toString = Function[TO_STRING];
+var TPL = ('' + $toString).split(TO_STRING);
+
+__webpack_require__("g3g5").inspectSource = function (it) {
+  return $toString.call(it);
+};
+
+(module.exports = function (O, key, val, safe) {
+  var isFunction = typeof val == 'function';
+  if (isFunction) has(val, 'name') || hide(val, 'name', key);
+  if (O[key] === val) return;
+  if (isFunction) has(val, SRC) || hide(val, SRC, O[key] ? '' + O[key] : TPL.join(String(key)));
+  if (O === global) {
+    O[key] = val;
+  } else if (!safe) {
+    delete O[key];
+    hide(O, key, val);
+  } else if (O[key]) {
+    O[key] = val;
+  } else {
+    hide(O, key, val);
+  }
+// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
+})(Function.prototype, TO_STRING, function toString() {
+  return typeof this == 'function' && this[SRC] || $toString.call(this);
+});
+
+
+/***/ }),
+
+/***/ "Kuth":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+var anObject = __webpack_require__("y3w9");
+var dPs = __webpack_require__("FJW5");
+var enumBugKeys = __webpack_require__("4R4u");
+var IE_PROTO = __webpack_require__("YTvA")('IE_PROTO');
+var Empty = function () { /* empty */ };
+var PROTOTYPE = 'prototype';
+
+// Create object with fake `null` prototype: use iframe Object with cleared prototype
+var createDict = function () {
+  // Thrash, waste and sodomy: IE GC bug
+  var iframe = __webpack_require__("Iw71")('iframe');
+  var i = enumBugKeys.length;
+  var lt = '<';
+  var gt = '>';
+  var iframeDocument;
+  iframe.style.display = 'none';
+  __webpack_require__("+rLv").appendChild(iframe);
+  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
+  // createDict = iframe.contentWindow.Object;
+  // html.removeChild(iframe);
+  iframeDocument = iframe.contentWindow.document;
+  iframeDocument.open();
+  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
+  iframeDocument.close();
+  createDict = iframeDocument.F;
+  while (i--) delete createDict[PROTOTYPE][enumBugKeys[i]];
+  return createDict();
+};
+
+module.exports = Object.create || function create(O, Properties) {
+  var result;
+  if (O !== null) {
+    Empty[PROTOTYPE] = anObject(O);
+    result = new Empty();
+    Empty[PROTOTYPE] = null;
+    // add "__proto__" for Object.getPrototypeOf polyfill
+    result[IE_PROTO] = O;
+  } else result = createDict();
+  return Properties === undefined ? result : dPs(result, Properties);
+};
+
+
+/***/ }),
+
+/***/ "LQAc":
+/***/ (function(module, exports) {
+
+module.exports = false;
+
+
+/***/ }),
+
+/***/ "LZWt":
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = function (it) {
+  return toString.call(it).slice(8, -1);
+};
+
+
+/***/ }),
+
+/***/ "LyE8":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var fails = __webpack_require__("eeVq");
+
+module.exports = function (method, arg) {
+  return !!method && fails(function () {
+    // eslint-disable-next-line no-useless-call
+    arg ? method.call(null, function () { /* empty */ }, 1) : method.call(null);
+  });
+};
+
+
+/***/ }),
+
+/***/ "M6Qj":
+/***/ (function(module, exports, __webpack_require__) {
+
+// check on default Array iterator
+var Iterators = __webpack_require__("hPIQ");
+var ITERATOR = __webpack_require__("K0xU")('iterator');
+var ArrayProto = Array.prototype;
+
+module.exports = function (it) {
+  return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
+};
+
+
+/***/ }),
+
+/***/ "Mukb":
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__("hswa");
+var createDesc = __webpack_require__("RjD/");
+module.exports = __webpack_require__("nh4g") ? function (object, key, value) {
+  return dP.f(object, key, createDesc(1, value));
+} : function (object, key, value) {
+  object[key] = value;
+  return object;
+};
+
+
+/***/ }),
+
+/***/ "N8g3":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports.f = __webpack_require__("K0xU");
 
 
 /***/ }),
@@ -2686,6 +4244,54 @@ function localstorage() {
 
 /***/ }),
 
+/***/ "OEbY":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 21.2.5.3 get RegExp.prototype.flags()
+if (__webpack_require__("nh4g") && /./g.flags != 'g') __webpack_require__("hswa").f(RegExp.prototype, 'flags', {
+  configurable: true,
+  get: __webpack_require__("C/va")
+});
+
+
+/***/ }),
+
+/***/ "OP3Y":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
+var has = __webpack_require__("aagx");
+var toObject = __webpack_require__("S/j/");
+var IE_PROTO = __webpack_require__("YTvA")('IE_PROTO');
+var ObjectProto = Object.prototype;
+
+module.exports = Object.getPrototypeOf || function (O) {
+  O = toObject(O);
+  if (has(O, IE_PROTO)) return O[IE_PROTO];
+  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
+    return O.constructor.prototype;
+  } return O instanceof Object ? ObjectProto : null;
+};
+
+
+/***/ }),
+
+/***/ "OnI7":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("dyZX");
+var core = __webpack_require__("g3g5");
+var LIBRARY = __webpack_require__("LQAc");
+var wksExt = __webpack_require__("N8g3");
+var defineProperty = __webpack_require__("hswa").f;
+module.exports = function (name) {
+  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
+  if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
+};
+
+
+/***/ }),
+
 /***/ "Q2Ig":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2723,281 +4329,374 @@ exports.features = {};
 
 /***/ }),
 
-/***/ "SZ7m":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "QaDb":
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/listToStyles.js
-/**
- * Translates the list format produced by css-loader into something
- * easier to manipulate.
- */
-function listToStyles (parentId, list) {
-  var styles = []
-  var newStyles = {}
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i]
-    var id = item[0]
-    var css = item[1]
-    var media = item[2]
-    var sourceMap = item[3]
-    var part = {
-      id: parentId + ':' + i,
-      css: css,
-      media: media,
-      sourceMap: sourceMap
-    }
-    if (!newStyles[id]) {
-      styles.push(newStyles[id] = { id: id, parts: [part] })
-    } else {
-      newStyles[id].parts.push(part)
-    }
-  }
-  return styles
-}
+var create = __webpack_require__("Kuth");
+var descriptor = __webpack_require__("RjD/");
+var setToStringTag = __webpack_require__("fyDq");
+var IteratorPrototype = {};
 
-// CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/addStylesClient.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return addStylesClient; });
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-  Modified by Evan You @yyx990803
-*/
+// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+__webpack_require__("Mukb")(IteratorPrototype, __webpack_require__("K0xU")('iterator'), function () { return this; });
 
-
-
-var hasDocument = typeof document !== 'undefined'
-
-if (typeof DEBUG !== 'undefined' && DEBUG) {
-  if (!hasDocument) {
-    throw new Error(
-    'vue-style-loader cannot be used in a non-browser environment. ' +
-    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
-  ) }
-}
-
-/*
-type StyleObject = {
-  id: number;
-  parts: Array<StyleObjectPart>
-}
-
-type StyleObjectPart = {
-  css: string;
-  media: string;
-  sourceMap: ?string
-}
-*/
-
-var stylesInDom = {/*
-  [id: number]: {
-    id: number,
-    refs: number,
-    parts: Array<(obj?: StyleObjectPart) => void>
-  }
-*/}
-
-var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
-var singletonElement = null
-var singletonCounter = 0
-var isProduction = false
-var noop = function () {}
-var options = null
-var ssrIdKey = 'data-vue-ssr-id'
-
-// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-// tags it will allow on a page
-var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
-
-function addStylesClient (parentId, list, _isProduction, _options) {
-  isProduction = _isProduction
-
-  options = _options || {}
-
-  var styles = listToStyles(parentId, list)
-  addStylesToDom(styles)
-
-  return function update (newList) {
-    var mayRemove = []
-    for (var i = 0; i < styles.length; i++) {
-      var item = styles[i]
-      var domStyle = stylesInDom[item.id]
-      domStyle.refs--
-      mayRemove.push(domStyle)
-    }
-    if (newList) {
-      styles = listToStyles(parentId, newList)
-      addStylesToDom(styles)
-    } else {
-      styles = []
-    }
-    for (var i = 0; i < mayRemove.length; i++) {
-      var domStyle = mayRemove[i]
-      if (domStyle.refs === 0) {
-        for (var j = 0; j < domStyle.parts.length; j++) {
-          domStyle.parts[j]()
-        }
-        delete stylesInDom[domStyle.id]
-      }
-    }
-  }
-}
-
-function addStylesToDom (styles /* Array<StyleObject> */) {
-  for (var i = 0; i < styles.length; i++) {
-    var item = styles[i]
-    var domStyle = stylesInDom[item.id]
-    if (domStyle) {
-      domStyle.refs++
-      for (var j = 0; j < domStyle.parts.length; j++) {
-        domStyle.parts[j](item.parts[j])
-      }
-      for (; j < item.parts.length; j++) {
-        domStyle.parts.push(addStyle(item.parts[j]))
-      }
-      if (domStyle.parts.length > item.parts.length) {
-        domStyle.parts.length = item.parts.length
-      }
-    } else {
-      var parts = []
-      for (var j = 0; j < item.parts.length; j++) {
-        parts.push(addStyle(item.parts[j]))
-      }
-      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
-    }
-  }
-}
-
-function createStyleElement () {
-  var styleElement = document.createElement('style')
-  styleElement.type = 'text/css'
-  head.appendChild(styleElement)
-  return styleElement
-}
-
-function addStyle (obj /* StyleObjectPart */) {
-  var update, remove
-  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
-
-  if (styleElement) {
-    if (isProduction) {
-      // has SSR styles and in production mode.
-      // simply do nothing.
-      return noop
-    } else {
-      // has SSR styles but in dev mode.
-      // for some reason Chrome can't handle source map in server-rendered
-      // style tags - source maps in <style> only works if the style tag is
-      // created and inserted dynamically. So we remove the server rendered
-      // styles and inject new ones.
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  if (isOldIE) {
-    // use singleton mode for IE9.
-    var styleIndex = singletonCounter++
-    styleElement = singletonElement || (singletonElement = createStyleElement())
-    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
-    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
-  } else {
-    // use multi-style-tag mode in all other cases
-    styleElement = createStyleElement()
-    update = applyToTag.bind(null, styleElement)
-    remove = function () {
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  update(obj)
-
-  return function updateStyle (newObj /* StyleObjectPart */) {
-    if (newObj) {
-      if (newObj.css === obj.css &&
-          newObj.media === obj.media &&
-          newObj.sourceMap === obj.sourceMap) {
-        return
-      }
-      update(obj = newObj)
-    } else {
-      remove()
-    }
-  }
-}
-
-var replaceText = (function () {
-  var textStore = []
-
-  return function (index, replacement) {
-    textStore[index] = replacement
-    return textStore.filter(Boolean).join('\n')
-  }
-})()
-
-function applyToSingletonTag (styleElement, index, remove, obj) {
-  var css = remove ? '' : obj.css
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = replaceText(index, css)
-  } else {
-    var cssNode = document.createTextNode(css)
-    var childNodes = styleElement.childNodes
-    if (childNodes[index]) styleElement.removeChild(childNodes[index])
-    if (childNodes.length) {
-      styleElement.insertBefore(cssNode, childNodes[index])
-    } else {
-      styleElement.appendChild(cssNode)
-    }
-  }
-}
-
-function applyToTag (styleElement, obj) {
-  var css = obj.css
-  var media = obj.media
-  var sourceMap = obj.sourceMap
-
-  if (media) {
-    styleElement.setAttribute('media', media)
-  }
-  if (options.ssrId) {
-    styleElement.setAttribute(ssrIdKey, obj.id)
-  }
-
-  if (sourceMap) {
-    // https://developer.chrome.com/devtools/docs/javascript-debugging
-    // this makes source maps inside style tags work properly in Chrome
-    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
-    // http://stackoverflow.com/a/26603875
-    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
-  }
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = css
-  } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild)
-    }
-    styleElement.appendChild(document.createTextNode(css))
-  }
-}
+module.exports = function (Constructor, NAME, next) {
+  Constructor.prototype = create(IteratorPrototype, { next: descriptor(1, next) });
+  setToStringTag(Constructor, NAME + ' Iterator');
+};
 
 
 /***/ }),
 
-/***/ "X/SR":
+/***/ "RW0V":
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
+// 19.1.2.14 Object.keys(O)
+var toObject = __webpack_require__("S/j/");
+var $keys = __webpack_require__("DVgA");
 
-// load the styles
-var content = __webpack_require__("o0gD");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("SZ7m").default
-var update = add("4ff21384", content, true, {"sourceMap":false,"shadowMode":false});
+__webpack_require__("Xtr8")('keys', function () {
+  return function keys(it) {
+    return $keys(toObject(it));
+  };
+});
+
+
+/***/ }),
+
+/***/ "RYi7":
+/***/ (function(module, exports) {
+
+// 7.1.4 ToInteger
+var ceil = Math.ceil;
+var floor = Math.floor;
+module.exports = function (it) {
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+
+/***/ }),
+
+/***/ "RjD/":
+/***/ (function(module, exports) {
+
+module.exports = function (bitmap, value) {
+  return {
+    enumerable: !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable: !(bitmap & 4),
+    value: value
+  };
+};
+
+
+/***/ }),
+
+/***/ "RlVf":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "S/j/":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.13 ToObject(argument)
+var defined = __webpack_require__("vhPU");
+module.exports = function (it) {
+  return Object(defined(it));
+};
+
+
+/***/ }),
+
+/***/ "UExd":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getKeys = __webpack_require__("DVgA");
+var toIObject = __webpack_require__("aCFj");
+var isEnum = __webpack_require__("UqcF").f;
+module.exports = function (isEntries) {
+  return function (it) {
+    var O = toIObject(it);
+    var keys = getKeys(O);
+    var length = keys.length;
+    var i = 0;
+    var result = [];
+    var key;
+    while (length > i) if (isEnum.call(O, key = keys[i++])) {
+      result.push(isEntries ? [key, O[key]] : O[key]);
+    } return result;
+  };
+};
+
+
+/***/ }),
+
+/***/ "UqcF":
+/***/ (function(module, exports) {
+
+exports.f = {}.propertyIsEnumerable;
+
+
+/***/ }),
+
+/***/ "VTer":
+/***/ (function(module, exports, __webpack_require__) {
+
+var core = __webpack_require__("g3g5");
+var global = __webpack_require__("dyZX");
+var SHARED = '__core-js_shared__';
+var store = global[SHARED] || (global[SHARED] = {});
+
+(module.exports = function (key, value) {
+  return store[key] || (store[key] = value !== undefined ? value : {});
+})('versions', []).push({
+  version: core.version,
+  mode: __webpack_require__("LQAc") ? 'pure' : 'global',
+  copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
+});
+
+
+/***/ }),
+
+/***/ "Vd3H":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $export = __webpack_require__("XKFU");
+var aFunction = __webpack_require__("2OiF");
+var toObject = __webpack_require__("S/j/");
+var fails = __webpack_require__("eeVq");
+var $sort = [].sort;
+var test = [1, 2, 3];
+
+$export($export.P + $export.F * (fails(function () {
+  // IE8-
+  test.sort(undefined);
+}) || !fails(function () {
+  // V8 bug
+  test.sort(null);
+  // Old WebKit
+}) || !__webpack_require__("LyE8")($sort)), 'Array', {
+  // 22.1.3.25 Array.prototype.sort(comparefn)
+  sort: function sort(comparefn) {
+    return comparefn === undefined
+      ? $sort.call(toObject(this))
+      : $sort.call(toObject(this), aFunction(comparefn));
+  }
+});
+
+
+/***/ }),
+
+/***/ "XKFU":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("dyZX");
+var core = __webpack_require__("g3g5");
+var hide = __webpack_require__("Mukb");
+var redefine = __webpack_require__("KroJ");
+var ctx = __webpack_require__("m0Pp");
+var PROTOTYPE = 'prototype';
+
+var $export = function (type, name, source) {
+  var IS_FORCED = type & $export.F;
+  var IS_GLOBAL = type & $export.G;
+  var IS_STATIC = type & $export.S;
+  var IS_PROTO = type & $export.P;
+  var IS_BIND = type & $export.B;
+  var target = IS_GLOBAL ? global : IS_STATIC ? global[name] || (global[name] = {}) : (global[name] || {})[PROTOTYPE];
+  var exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
+  var expProto = exports[PROTOTYPE] || (exports[PROTOTYPE] = {});
+  var key, own, out, exp;
+  if (IS_GLOBAL) source = name;
+  for (key in source) {
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    // export native or passed
+    out = (own ? target : source)[key];
+    // bind timers to global for call from export context
+    exp = IS_BIND && own ? ctx(out, global) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    // extend global
+    if (target) redefine(target, key, out, type & $export.U);
+    // export
+    if (exports[key] != out) hide(exports, key, exp);
+    if (IS_PROTO && expProto[key] != out) expProto[key] = out;
+  }
+};
+global.core = core;
+// type bitmap
+$export.F = 1;   // forced
+$export.G = 2;   // global
+$export.S = 4;   // static
+$export.P = 8;   // proto
+$export.B = 16;  // bind
+$export.W = 32;  // wrap
+$export.U = 64;  // safe
+$export.R = 128; // real proto method for `library`
+module.exports = $export;
+
+
+/***/ }),
+
+/***/ "XMVh":
+/***/ (function(module, exports, __webpack_require__) {
+
+var ITERATOR = __webpack_require__("K0xU")('iterator');
+var SAFE_CLOSING = false;
+
+try {
+  var riter = [7][ITERATOR]();
+  riter['return'] = function () { SAFE_CLOSING = true; };
+  // eslint-disable-next-line no-throw-literal
+  Array.from(riter, function () { throw 2; });
+} catch (e) { /* empty */ }
+
+module.exports = function (exec, skipClosing) {
+  if (!skipClosing && !SAFE_CLOSING) return false;
+  var safe = false;
+  try {
+    var arr = [7];
+    var iter = arr[ITERATOR]();
+    iter.next = function () { return { done: safe = true }; };
+    arr[ITERATOR] = function () { return iter; };
+    exec(arr);
+  } catch (e) { /* empty */ }
+  return safe;
+};
+
+
+/***/ }),
+
+/***/ "XfO3":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $at = __webpack_require__("AvRE")(true);
+
+// 21.1.3.27 String.prototype[@@iterator]()
+__webpack_require__("Afnz")(String, 'String', function (iterated) {
+  this._t = String(iterated); // target
+  this._i = 0;                // next index
+// 21.1.5.2.1 %StringIteratorPrototype%.next()
+}, function () {
+  var O = this._t;
+  var index = this._i;
+  var point;
+  if (index >= O.length) return { value: undefined, done: true };
+  point = $at(O, index);
+  this._i += point.length;
+  return { value: point, done: false };
+});
+
+
+/***/ }),
+
+/***/ "Xtr8":
+/***/ (function(module, exports, __webpack_require__) {
+
+// most Object methods by ES6 should accept primitives
+var $export = __webpack_require__("XKFU");
+var core = __webpack_require__("g3g5");
+var fails = __webpack_require__("eeVq");
+module.exports = function (KEY, exec) {
+  var fn = (core.Object || {})[KEY] || Object[KEY];
+  var exp = {};
+  exp[KEY] = exec(fn);
+  $export($export.S + $export.F * fails(function () { fn(1); }), 'Object', exp);
+};
+
+
+/***/ }),
+
+/***/ "YTvA":
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__("VTer")('keys');
+var uid = __webpack_require__("ylqs");
+module.exports = function (key) {
+  return shared[key] || (shared[key] = uid(key));
+};
+
+
+/***/ }),
+
+/***/ "Ymqv":
+/***/ (function(module, exports, __webpack_require__) {
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+var cof = __webpack_require__("LZWt");
+// eslint-disable-next-line no-prototype-builtins
+module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
+  return cof(it) == 'String' ? it.split('') : Object(it);
+};
+
+
+/***/ }),
+
+/***/ "Z6vF":
+/***/ (function(module, exports, __webpack_require__) {
+
+var META = __webpack_require__("ylqs")('meta');
+var isObject = __webpack_require__("0/R4");
+var has = __webpack_require__("aagx");
+var setDesc = __webpack_require__("hswa").f;
+var id = 0;
+var isExtensible = Object.isExtensible || function () {
+  return true;
+};
+var FREEZE = !__webpack_require__("eeVq")(function () {
+  return isExtensible(Object.preventExtensions({}));
+});
+var setMeta = function (it) {
+  setDesc(it, META, { value: {
+    i: 'O' + ++id, // object ID
+    w: {}          // weak collections IDs
+  } });
+};
+var fastKey = function (it, create) {
+  // return primitive with prefix
+  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+  if (!has(it, META)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return 'F';
+    // not necessary to add metadata
+    if (!create) return 'E';
+    // add missing metadata
+    setMeta(it);
+  // return object ID
+  } return it[META].i;
+};
+var getWeak = function (it, create) {
+  if (!has(it, META)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return true;
+    // not necessary to add metadata
+    if (!create) return false;
+    // add missing metadata
+    setMeta(it);
+  // return hash weak collections IDs
+  } return it[META].w;
+};
+// add metadata on freeze-family methods calling
+var onFreeze = function (it) {
+  if (FREEZE && meta.NEED && isExtensible(it) && !has(it, META)) setMeta(it);
+  return it;
+};
+var meta = module.exports = {
+  KEY: META,
+  NEED: false,
+  fastKey: fastKey,
+  getWeak: getWeak,
+  onFreeze: onFreeze
+};
+
 
 /***/ }),
 
@@ -3230,10 +4929,616 @@ exports.mixins = mixins;
 
 /***/ }),
 
+/***/ "a1Th":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+__webpack_require__("OEbY");
+var anObject = __webpack_require__("y3w9");
+var $flags = __webpack_require__("C/va");
+var DESCRIPTORS = __webpack_require__("nh4g");
+var TO_STRING = 'toString';
+var $toString = /./[TO_STRING];
+
+var define = function (fn) {
+  __webpack_require__("KroJ")(RegExp.prototype, TO_STRING, fn, true);
+};
+
+// 21.2.5.14 RegExp.prototype.toString()
+if (__webpack_require__("eeVq")(function () { return $toString.call({ source: 'a', flags: 'b' }) != '/a/b'; })) {
+  define(function toString() {
+    var R = anObject(this);
+    return '/'.concat(R.source, '/',
+      'flags' in R ? R.flags : !DESCRIPTORS && R instanceof RegExp ? $flags.call(R) : undefined);
+  });
+// FF44- RegExp#toString has a wrong name
+} else if ($toString.name != TO_STRING) {
+  define(function toString() {
+    return $toString.call(this);
+  });
+}
+
+
+/***/ }),
+
+/***/ "aCFj":
+/***/ (function(module, exports, __webpack_require__) {
+
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = __webpack_require__("Ymqv");
+var defined = __webpack_require__("vhPU");
+module.exports = function (it) {
+  return IObject(defined(it));
+};
+
+
+/***/ }),
+
+/***/ "aagx":
+/***/ (function(module, exports) {
+
+var hasOwnProperty = {}.hasOwnProperty;
+module.exports = function (it, key) {
+  return hasOwnProperty.call(it, key);
+};
+
+
+/***/ }),
+
+/***/ "apmT":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = __webpack_require__("0/R4");
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function (it, S) {
+  if (!isObject(it)) return it;
+  var fn, val;
+  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+
+/***/ }),
+
+/***/ "bWfx":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $export = __webpack_require__("XKFU");
+var $map = __webpack_require__("CkkT")(1);
+
+$export($export.P + $export.F * !__webpack_require__("LyE8")([].map, true), 'Array', {
+  // 22.1.3.15 / 15.4.4.19 Array.prototype.map(callbackfn [, thisArg])
+  map: function map(callbackfn /* , thisArg */) {
+    return $map(this, callbackfn, arguments[1]);
+  }
+});
+
+
+/***/ }),
+
+/***/ "czNK":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// 19.1.2.1 Object.assign(target, source, ...)
+var getKeys = __webpack_require__("DVgA");
+var gOPS = __webpack_require__("JiEa");
+var pIE = __webpack_require__("UqcF");
+var toObject = __webpack_require__("S/j/");
+var IObject = __webpack_require__("Ymqv");
+var $assign = Object.assign;
+
+// should work with symbols and should have deterministic property order (V8 bug)
+module.exports = !$assign || __webpack_require__("eeVq")(function () {
+  var A = {};
+  var B = {};
+  // eslint-disable-next-line no-undef
+  var S = Symbol();
+  var K = 'abcdefghijklmnopqrst';
+  A[S] = 7;
+  K.split('').forEach(function (k) { B[k] = k; });
+  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
+}) ? function assign(target, source) { // eslint-disable-line no-unused-vars
+  var T = toObject(target);
+  var aLen = arguments.length;
+  var index = 1;
+  var getSymbols = gOPS.f;
+  var isEnum = pIE.f;
+  while (aLen > index) {
+    var S = IObject(arguments[index++]);
+    var keys = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S);
+    var length = keys.length;
+    var j = 0;
+    var key;
+    while (length > j) if (isEnum.call(S, key = keys[j++])) T[key] = S[key];
+  } return T;
+} : $assign;
+
+
+/***/ }),
+
+/***/ "d/Gc":
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__("RYi7");
+var max = Math.max;
+var min = Math.min;
+module.exports = function (index, length) {
+  index = toInteger(index);
+  return index < 0 ? max(index + length, 0) : min(index, length);
+};
+
+
+/***/ }),
+
+/***/ "dyZX":
+/***/ (function(module, exports) {
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self
+  // eslint-disable-next-line no-new-func
+  : Function('return this')();
+if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
+
+
+/***/ }),
+
+/***/ "e7yV":
+/***/ (function(module, exports, __webpack_require__) {
+
+// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
+var toIObject = __webpack_require__("aCFj");
+var gOPN = __webpack_require__("kJMx").f;
+var toString = {}.toString;
+
+var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
+  ? Object.getOwnPropertyNames(window) : [];
+
+var getWindowNames = function (it) {
+  try {
+    return gOPN(it);
+  } catch (e) {
+    return windowNames.slice();
+  }
+};
+
+module.exports.f = function getOwnPropertyNames(it) {
+  return windowNames && toString.call(it) == '[object Window]' ? getWindowNames(it) : gOPN(toIObject(it));
+};
+
+
+/***/ }),
+
+/***/ "eeVq":
+/***/ (function(module, exports) {
+
+module.exports = function (exec) {
+  try {
+    return !!exec();
+  } catch (e) {
+    return true;
+  }
+};
+
+
+/***/ }),
+
+/***/ "eyMr":
+/***/ (function(module, exports, __webpack_require__) {
+
+var aFunction = __webpack_require__("2OiF");
+var toObject = __webpack_require__("S/j/");
+var IObject = __webpack_require__("Ymqv");
+var toLength = __webpack_require__("ne8i");
+
+module.exports = function (that, callbackfn, aLen, memo, isRight) {
+  aFunction(callbackfn);
+  var O = toObject(that);
+  var self = IObject(O);
+  var length = toLength(O.length);
+  var index = isRight ? length - 1 : 0;
+  var i = isRight ? -1 : 1;
+  if (aLen < 2) for (;;) {
+    if (index in self) {
+      memo = self[index];
+      index += i;
+      break;
+    }
+    index += i;
+    if (isRight ? index < 0 : length <= index) {
+      throw TypeError('Reduce of empty array with no initial value');
+    }
+  }
+  for (;isRight ? index >= 0 : length > index; index += i) if (index in self) {
+    memo = callbackfn(memo, self[index], index, O);
+  }
+  return memo;
+};
+
+
+/***/ }),
+
+/***/ "f3/d":
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__("hswa").f;
+var FProto = Function.prototype;
+var nameRE = /^\s*function ([^ (]*)/;
+var NAME = 'name';
+
+// 19.2.4.2 name
+NAME in FProto || __webpack_require__("nh4g") && dP(FProto, NAME, {
+  configurable: true,
+  get: function () {
+    try {
+      return ('' + this).match(nameRE)[1];
+    } catch (e) {
+      return '';
+    }
+  }
+});
+
+
+/***/ }),
+
+/***/ "fyDq":
+/***/ (function(module, exports, __webpack_require__) {
+
+var def = __webpack_require__("hswa").f;
+var has = __webpack_require__("aagx");
+var TAG = __webpack_require__("K0xU")('toStringTag');
+
+module.exports = function (it, tag, stat) {
+  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
+};
+
+
+/***/ }),
+
+/***/ "g3g5":
+/***/ (function(module, exports) {
+
+var core = module.exports = { version: '2.5.6' };
+if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
+
+
+/***/ }),
+
+/***/ "h7Nl":
+/***/ (function(module, exports, __webpack_require__) {
+
+var DateProto = Date.prototype;
+var INVALID_DATE = 'Invalid Date';
+var TO_STRING = 'toString';
+var $toString = DateProto[TO_STRING];
+var getTime = DateProto.getTime;
+if (new Date(NaN) + '' != INVALID_DATE) {
+  __webpack_require__("KroJ")(DateProto, TO_STRING, function toString() {
+    var value = getTime.call(this);
+    // eslint-disable-next-line no-self-compare
+    return value === value ? $toString.call(this) : INVALID_DATE;
+  });
+}
+
+
+/***/ }),
+
+/***/ "hPIQ":
+/***/ (function(module, exports) {
+
+module.exports = {};
+
+
+/***/ }),
+
+/***/ "hhXQ":
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://github.com/tc39/proposal-object-values-entries
+var $export = __webpack_require__("XKFU");
+var $values = __webpack_require__("UExd")(false);
+
+$export($export.S, 'Object', {
+  values: function values(it) {
+    return $values(it);
+  }
+});
+
+
+/***/ }),
+
+/***/ "hswa":
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__("y3w9");
+var IE8_DOM_DEFINE = __webpack_require__("xpql");
+var toPrimitive = __webpack_require__("apmT");
+var dP = Object.defineProperty;
+
+exports.f = __webpack_require__("nh4g") ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if (IE8_DOM_DEFINE) try {
+    return dP(O, P, Attributes);
+  } catch (e) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
+};
+
+
+/***/ }),
+
 /***/ "i7/w":
 /***/ (function(module, exports) {
 
 module.exports = __WEBPACK_EXTERNAL_MODULE_i7_w__;
+
+/***/ }),
+
+/***/ "ioFf":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// ECMAScript 6 symbols shim
+var global = __webpack_require__("dyZX");
+var has = __webpack_require__("aagx");
+var DESCRIPTORS = __webpack_require__("nh4g");
+var $export = __webpack_require__("XKFU");
+var redefine = __webpack_require__("KroJ");
+var META = __webpack_require__("Z6vF").KEY;
+var $fails = __webpack_require__("eeVq");
+var shared = __webpack_require__("VTer");
+var setToStringTag = __webpack_require__("fyDq");
+var uid = __webpack_require__("ylqs");
+var wks = __webpack_require__("K0xU");
+var wksExt = __webpack_require__("N8g3");
+var wksDefine = __webpack_require__("OnI7");
+var enumKeys = __webpack_require__("1MBn");
+var isArray = __webpack_require__("EWmC");
+var anObject = __webpack_require__("y3w9");
+var isObject = __webpack_require__("0/R4");
+var toIObject = __webpack_require__("aCFj");
+var toPrimitive = __webpack_require__("apmT");
+var createDesc = __webpack_require__("RjD/");
+var _create = __webpack_require__("Kuth");
+var gOPNExt = __webpack_require__("e7yV");
+var $GOPD = __webpack_require__("EemH");
+var $DP = __webpack_require__("hswa");
+var $keys = __webpack_require__("DVgA");
+var gOPD = $GOPD.f;
+var dP = $DP.f;
+var gOPN = gOPNExt.f;
+var $Symbol = global.Symbol;
+var $JSON = global.JSON;
+var _stringify = $JSON && $JSON.stringify;
+var PROTOTYPE = 'prototype';
+var HIDDEN = wks('_hidden');
+var TO_PRIMITIVE = wks('toPrimitive');
+var isEnum = {}.propertyIsEnumerable;
+var SymbolRegistry = shared('symbol-registry');
+var AllSymbols = shared('symbols');
+var OPSymbols = shared('op-symbols');
+var ObjectProto = Object[PROTOTYPE];
+var USE_NATIVE = typeof $Symbol == 'function';
+var QObject = global.QObject;
+// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
+var setter = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
+
+// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
+var setSymbolDesc = DESCRIPTORS && $fails(function () {
+  return _create(dP({}, 'a', {
+    get: function () { return dP(this, 'a', { value: 7 }).a; }
+  })).a != 7;
+}) ? function (it, key, D) {
+  var protoDesc = gOPD(ObjectProto, key);
+  if (protoDesc) delete ObjectProto[key];
+  dP(it, key, D);
+  if (protoDesc && it !== ObjectProto) dP(ObjectProto, key, protoDesc);
+} : dP;
+
+var wrap = function (tag) {
+  var sym = AllSymbols[tag] = _create($Symbol[PROTOTYPE]);
+  sym._k = tag;
+  return sym;
+};
+
+var isSymbol = USE_NATIVE && typeof $Symbol.iterator == 'symbol' ? function (it) {
+  return typeof it == 'symbol';
+} : function (it) {
+  return it instanceof $Symbol;
+};
+
+var $defineProperty = function defineProperty(it, key, D) {
+  if (it === ObjectProto) $defineProperty(OPSymbols, key, D);
+  anObject(it);
+  key = toPrimitive(key, true);
+  anObject(D);
+  if (has(AllSymbols, key)) {
+    if (!D.enumerable) {
+      if (!has(it, HIDDEN)) dP(it, HIDDEN, createDesc(1, {}));
+      it[HIDDEN][key] = true;
+    } else {
+      if (has(it, HIDDEN) && it[HIDDEN][key]) it[HIDDEN][key] = false;
+      D = _create(D, { enumerable: createDesc(0, false) });
+    } return setSymbolDesc(it, key, D);
+  } return dP(it, key, D);
+};
+var $defineProperties = function defineProperties(it, P) {
+  anObject(it);
+  var keys = enumKeys(P = toIObject(P));
+  var i = 0;
+  var l = keys.length;
+  var key;
+  while (l > i) $defineProperty(it, key = keys[i++], P[key]);
+  return it;
+};
+var $create = function create(it, P) {
+  return P === undefined ? _create(it) : $defineProperties(_create(it), P);
+};
+var $propertyIsEnumerable = function propertyIsEnumerable(key) {
+  var E = isEnum.call(this, key = toPrimitive(key, true));
+  if (this === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key)) return false;
+  return E || !has(this, key) || !has(AllSymbols, key) || has(this, HIDDEN) && this[HIDDEN][key] ? E : true;
+};
+var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key) {
+  it = toIObject(it);
+  key = toPrimitive(key, true);
+  if (it === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key)) return;
+  var D = gOPD(it, key);
+  if (D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key])) D.enumerable = true;
+  return D;
+};
+var $getOwnPropertyNames = function getOwnPropertyNames(it) {
+  var names = gOPN(toIObject(it));
+  var result = [];
+  var i = 0;
+  var key;
+  while (names.length > i) {
+    if (!has(AllSymbols, key = names[i++]) && key != HIDDEN && key != META) result.push(key);
+  } return result;
+};
+var $getOwnPropertySymbols = function getOwnPropertySymbols(it) {
+  var IS_OP = it === ObjectProto;
+  var names = gOPN(IS_OP ? OPSymbols : toIObject(it));
+  var result = [];
+  var i = 0;
+  var key;
+  while (names.length > i) {
+    if (has(AllSymbols, key = names[i++]) && (IS_OP ? has(ObjectProto, key) : true)) result.push(AllSymbols[key]);
+  } return result;
+};
+
+// 19.4.1.1 Symbol([description])
+if (!USE_NATIVE) {
+  $Symbol = function Symbol() {
+    if (this instanceof $Symbol) throw TypeError('Symbol is not a constructor!');
+    var tag = uid(arguments.length > 0 ? arguments[0] : undefined);
+    var $set = function (value) {
+      if (this === ObjectProto) $set.call(OPSymbols, value);
+      if (has(this, HIDDEN) && has(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
+      setSymbolDesc(this, tag, createDesc(1, value));
+    };
+    if (DESCRIPTORS && setter) setSymbolDesc(ObjectProto, tag, { configurable: true, set: $set });
+    return wrap(tag);
+  };
+  redefine($Symbol[PROTOTYPE], 'toString', function toString() {
+    return this._k;
+  });
+
+  $GOPD.f = $getOwnPropertyDescriptor;
+  $DP.f = $defineProperty;
+  __webpack_require__("kJMx").f = gOPNExt.f = $getOwnPropertyNames;
+  __webpack_require__("UqcF").f = $propertyIsEnumerable;
+  __webpack_require__("JiEa").f = $getOwnPropertySymbols;
+
+  if (DESCRIPTORS && !__webpack_require__("LQAc")) {
+    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
+  }
+
+  wksExt.f = function (name) {
+    return wrap(wks(name));
+  };
+}
+
+$export($export.G + $export.W + $export.F * !USE_NATIVE, { Symbol: $Symbol });
+
+for (var es6Symbols = (
+  // 19.4.2.2, 19.4.2.3, 19.4.2.4, 19.4.2.6, 19.4.2.8, 19.4.2.9, 19.4.2.10, 19.4.2.11, 19.4.2.12, 19.4.2.13, 19.4.2.14
+  'hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables'
+).split(','), j = 0; es6Symbols.length > j;)wks(es6Symbols[j++]);
+
+for (var wellKnownSymbols = $keys(wks.store), k = 0; wellKnownSymbols.length > k;) wksDefine(wellKnownSymbols[k++]);
+
+$export($export.S + $export.F * !USE_NATIVE, 'Symbol', {
+  // 19.4.2.1 Symbol.for(key)
+  'for': function (key) {
+    return has(SymbolRegistry, key += '')
+      ? SymbolRegistry[key]
+      : SymbolRegistry[key] = $Symbol(key);
+  },
+  // 19.4.2.5 Symbol.keyFor(sym)
+  keyFor: function keyFor(sym) {
+    if (!isSymbol(sym)) throw TypeError(sym + ' is not a symbol!');
+    for (var key in SymbolRegistry) if (SymbolRegistry[key] === sym) return key;
+  },
+  useSetter: function () { setter = true; },
+  useSimple: function () { setter = false; }
+});
+
+$export($export.S + $export.F * !USE_NATIVE, 'Object', {
+  // 19.1.2.2 Object.create(O [, Properties])
+  create: $create,
+  // 19.1.2.4 Object.defineProperty(O, P, Attributes)
+  defineProperty: $defineProperty,
+  // 19.1.2.3 Object.defineProperties(O, Properties)
+  defineProperties: $defineProperties,
+  // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
+  getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
+  // 19.1.2.7 Object.getOwnPropertyNames(O)
+  getOwnPropertyNames: $getOwnPropertyNames,
+  // 19.1.2.8 Object.getOwnPropertySymbols(O)
+  getOwnPropertySymbols: $getOwnPropertySymbols
+});
+
+// 24.3.2 JSON.stringify(value [, replacer [, space]])
+$JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function () {
+  var S = $Symbol();
+  // MS Edge converts symbol values to JSON as {}
+  // WebKit converts symbol values to JSON as null
+  // V8 throws on boxed symbols
+  return _stringify([S]) != '[null]' || _stringify({ a: S }) != '{}' || _stringify(Object(S)) != '{}';
+})), 'JSON', {
+  stringify: function stringify(it) {
+    var args = [it];
+    var i = 1;
+    var replacer, $replacer;
+    while (arguments.length > i) args.push(arguments[i++]);
+    $replacer = replacer = args[1];
+    if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
+    if (!isArray(replacer)) replacer = function (key, value) {
+      if (typeof $replacer == 'function') value = $replacer.call(this, key, value);
+      if (!isSymbol(value)) return value;
+    };
+    args[1] = replacer;
+    return _stringify.apply($JSON, args);
+  }
+});
+
+// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
+$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__("Mukb")($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
+// 19.4.3.5 Symbol.prototype[@@toStringTag]
+setToStringTag($Symbol, 'Symbol');
+// 20.2.1.9 Math[@@toStringTag]
+setToStringTag(Math, 'Math', true);
+// 24.3.3 JSON[@@toStringTag]
+setToStringTag(global.JSON, 'JSON', true);
+
+
+/***/ }),
+
+/***/ "kJMx":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+var $keys = __webpack_require__("zhAb");
+var hiddenKeys = __webpack_require__("4R4u").concat('length', 'prototype');
+
+exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+  return $keys(O, hiddenKeys);
+};
+
 
 /***/ }),
 
@@ -3465,6 +5770,33 @@ function coerce(val) {
   if (val instanceof Error) return val.stack || val.message;
   return val;
 }
+
+
+/***/ }),
+
+/***/ "m0Pp":
+/***/ (function(module, exports, __webpack_require__) {
+
+// optional / simple context binding
+var aFunction = __webpack_require__("2OiF");
+module.exports = function (fn, that, length) {
+  aFunction(fn);
+  if (that === undefined) return fn;
+  switch (length) {
+    case 1: return function (a) {
+      return fn.call(that, a);
+    };
+    case 2: return function (a, b) {
+      return fn.call(that, a, b);
+    };
+    case 3: return function (a, b, c) {
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function (/* ...args */) {
+    return fn.apply(that, arguments);
+  };
+};
 
 
 /***/ }),
@@ -4608,17 +6940,177 @@ var Reflect;
 
 /***/ }),
 
-/***/ "o0gD":
+/***/ "nGyu":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("I1BE")(false);
-// imports
+// 22.1.3.31 Array.prototype[@@unscopables]
+var UNSCOPABLES = __webpack_require__("K0xU")('unscopables');
+var ArrayProto = Array.prototype;
+if (ArrayProto[UNSCOPABLES] == undefined) __webpack_require__("Mukb")(ArrayProto, UNSCOPABLES, {});
+module.exports = function (key) {
+  ArrayProto[UNSCOPABLES][key] = true;
+};
 
 
-// module
-exports.push([module.i, ".flowyChart svg{display:block;margin:0 auto}.flowyChart .node rect{stroke:#999;fill:#fff;stroke-width:1.5px}.flowyChart .edgePath path{stroke:#333;stroke-width:1.5px}", ""]);
+/***/ }),
 
-// exports
+/***/ "ne8i":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.15 ToLength
+var toInteger = __webpack_require__("RYi7");
+var min = Math.min;
+module.exports = function (it) {
+  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+};
+
+
+/***/ }),
+
+/***/ "nh4g":
+/***/ (function(module, exports, __webpack_require__) {
+
+// Thank's IE8 for his funny defineProperty
+module.exports = !__webpack_require__("eeVq")(function () {
+  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
+
+/***/ "rE2o":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("OnI7")('asyncIterator');
+
+
+/***/ }),
+
+/***/ "rGqo":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $iterators = __webpack_require__("yt8O");
+var getKeys = __webpack_require__("DVgA");
+var redefine = __webpack_require__("KroJ");
+var global = __webpack_require__("dyZX");
+var hide = __webpack_require__("Mukb");
+var Iterators = __webpack_require__("hPIQ");
+var wks = __webpack_require__("K0xU");
+var ITERATOR = wks('iterator');
+var TO_STRING_TAG = wks('toStringTag');
+var ArrayValues = Iterators.Array;
+
+var DOMIterables = {
+  CSSRuleList: true, // TODO: Not spec compliant, should be false.
+  CSSStyleDeclaration: false,
+  CSSValueList: false,
+  ClientRectList: false,
+  DOMRectList: false,
+  DOMStringList: false,
+  DOMTokenList: true,
+  DataTransferItemList: false,
+  FileList: false,
+  HTMLAllCollection: false,
+  HTMLCollection: false,
+  HTMLFormElement: false,
+  HTMLSelectElement: false,
+  MediaList: true, // TODO: Not spec compliant, should be false.
+  MimeTypeArray: false,
+  NamedNodeMap: false,
+  NodeList: true,
+  PaintRequestList: false,
+  Plugin: false,
+  PluginArray: false,
+  SVGLengthList: false,
+  SVGNumberList: false,
+  SVGPathSegList: false,
+  SVGPointList: false,
+  SVGStringList: false,
+  SVGTransformList: false,
+  SourceBufferList: false,
+  StyleSheetList: true, // TODO: Not spec compliant, should be false.
+  TextTrackCueList: false,
+  TextTrackList: false,
+  TouchList: false
+};
+
+for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++) {
+  var NAME = collections[i];
+  var explicit = DOMIterables[NAME];
+  var Collection = global[NAME];
+  var proto = Collection && Collection.prototype;
+  var key;
+  if (proto) {
+    if (!proto[ITERATOR]) hide(proto, ITERATOR, ArrayValues);
+    if (!proto[TO_STRING_TAG]) hide(proto, TO_STRING_TAG, NAME);
+    Iterators[NAME] = ArrayValues;
+    if (explicit) for (key in $iterators) if (!proto[key]) redefine(proto, key, $iterators[key], true);
+  }
+}
+
+
+/***/ }),
+
+/***/ "vhPU":
+/***/ (function(module, exports) {
+
+// 7.2.1 RequireObjectCoercible(argument)
+module.exports = function (it) {
+  if (it == undefined) throw TypeError("Can't call method on  " + it);
+  return it;
+};
+
+
+/***/ }),
+
+/***/ "w2a5":
+/***/ (function(module, exports, __webpack_require__) {
+
+// false -> Array#indexOf
+// true  -> Array#includes
+var toIObject = __webpack_require__("aCFj");
+var toLength = __webpack_require__("ne8i");
+var toAbsoluteIndex = __webpack_require__("d/Gc");
+module.exports = function (IS_INCLUDES) {
+  return function ($this, el, fromIndex) {
+    var O = toIObject($this);
+    var length = toLength(O.length);
+    var index = toAbsoluteIndex(fromIndex, length);
+    var value;
+    // Array#includes uses SameValueZero equality algorithm
+    // eslint-disable-next-line no-self-compare
+    if (IS_INCLUDES && el != el) while (length > index) {
+      value = O[index++];
+      // eslint-disable-next-line no-self-compare
+      if (value != value) return true;
+    // Array#indexOf ignores holes, Array#includes - not
+    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
+      if (O[index] === el) return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+
+
+/***/ }),
+
+/***/ "xpql":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = !__webpack_require__("nh4g") && !__webpack_require__("eeVq")(function () {
+  return Object.defineProperty(__webpack_require__("Iw71")('div'), 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
+
+/***/ "y3w9":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__("0/R4");
+module.exports = function (it) {
+  if (!isObject(it)) throw TypeError(it + ' is not an object!');
+  return it;
+};
 
 
 /***/ }),
@@ -4627,10 +7119,10 @@ exports.push([module.i, ".flowyChart svg{display:block;margin:0 auto}.flowyChart
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("X/SR");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("RlVf");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0___default.a); 
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_lib_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_lib_loader_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VueFlowy_vue_vue_type_style_index_0_lang_scss__WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -4657,6 +7149,97 @@ try {
 // easier to handle this case. if(!global) { ...}
 
 module.exports = g;
+
+
+/***/ }),
+
+/***/ "ylqs":
+/***/ (function(module, exports) {
+
+var id = 0;
+var px = Math.random();
+module.exports = function (key) {
+  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+};
+
+
+/***/ }),
+
+/***/ "yt8O":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var addToUnscopables = __webpack_require__("nGyu");
+var step = __webpack_require__("1TsA");
+var Iterators = __webpack_require__("hPIQ");
+var toIObject = __webpack_require__("aCFj");
+
+// 22.1.3.4 Array.prototype.entries()
+// 22.1.3.13 Array.prototype.keys()
+// 22.1.3.29 Array.prototype.values()
+// 22.1.3.30 Array.prototype[@@iterator]()
+module.exports = __webpack_require__("Afnz")(Array, 'Array', function (iterated, kind) {
+  this._t = toIObject(iterated); // target
+  this._i = 0;                   // next index
+  this._k = kind;                // kind
+// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
+}, function () {
+  var O = this._t;
+  var kind = this._k;
+  var index = this._i++;
+  if (!O || index >= O.length) {
+    this._t = undefined;
+    return step(1);
+  }
+  if (kind == 'keys') return step(0, index);
+  if (kind == 'values') return step(0, O[index]);
+  return step(0, [index, O[index]]);
+}, 'values');
+
+// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
+Iterators.Arguments = Iterators.Array;
+
+addToUnscopables('keys');
+addToUnscopables('values');
+addToUnscopables('entries');
+
+
+/***/ }),
+
+/***/ "zRwo":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 9.4.2.3 ArraySpeciesCreate(originalArray, length)
+var speciesConstructor = __webpack_require__("6FMO");
+
+module.exports = function (original, length) {
+  return new (speciesConstructor(original))(length);
+};
+
+
+/***/ }),
+
+/***/ "zhAb":
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__("aagx");
+var toIObject = __webpack_require__("aCFj");
+var arrayIndexOf = __webpack_require__("w2a5")(false);
+var IE_PROTO = __webpack_require__("YTvA")('IE_PROTO');
+
+module.exports = function (object, names) {
+  var O = toIObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while (names.length > i) if (has(O, key = names[i++])) {
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
+};
 
 
 /***/ })

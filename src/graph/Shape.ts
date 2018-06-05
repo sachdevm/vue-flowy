@@ -8,13 +8,13 @@ interface ShapeOptions {
 }
 
 export default class Shape {
-  shape: GraphSvg;
+  public shape: GraphSvg
 
   constructor(shapeType: 'rect', bbox: SVGRect, options: ShapeOptions) {
     this.shape = this[shapeType](bbox, options)
   }
 
-  rect(bbox: SVGRect, {rx='0', ry='0'}: {rx?: string, ry?: string}) {
+  public rect(bbox: SVGRect, {rx= '0', ry= '0'}: {rx?: string, ry?: string}) {
     return new GraphSvg('rect')
       .attr('rx', rx)
       .attr('ry', ry)

@@ -2,26 +2,22 @@ import Graph from './Graph'
 import Shape from './graph/Shape'
 import GraphSvg from './graph/Svg'
 import GraphLabel from './graph/Label'
-import GraphNode from '@/graph/Node';
-import Edge from '@/graph/Edge';
+import GraphNode from '@/graph/Node'
+import Edge from '@/graph/Edge'
 
 export default class Renderer {
-  graph: Graph
-  /**
-   *
-   * @param {Graph} graph
-   */
+  public graph: Graph
+
   constructor(graph: Graph) {
     this.graph = graph
   }
 
-  render(svg: GraphSvg) {
-    console.log('rendering', svg, this.graph)
+  public render(svg: GraphSvg) {
     // TODO: remove all children of svg
 
     const edgePathsGroup = this.createOrSelectGroup(svg, 'edgePaths')
     const edgeLabels = this.createEdgeLabels(
-      this.createOrSelectGroup(svg, 'edgeLabels')
+      this.createOrSelectGroup(svg, 'edgeLabels'),
     )
     this.createNodes(this.createOrSelectGroup(svg, 'nodes'))
 
@@ -47,8 +43,7 @@ export default class Renderer {
         maxY = Math.max(maxY, edge.position.y + edge.size.height / 2)
       }
       const points = edge.points.slice(1, edge.points.length - 1) // intersetion points don't matter
-      for (let i = 0; i < points.length; i++) {
-        const point = points[i]
+      for (const point of points) {
         minX = Math.min(minX, point.x)
         minY = Math.min(minY, point.y)
         maxX = Math.max(maxX, point.x)
@@ -61,12 +56,10 @@ export default class Renderer {
     this.graph.maxX = maxX
     this.graph.maxY = maxY
 
-    console.log('GRAPH', this.graph)
-
     this.positionNodes()
   }
 
-  createNodes(selection: GraphSvg) {
+  public createNodes(selection: GraphSvg) {
     const simpleNodes = this.graph.nodeIds.filter(id => {
       return !this.graph.isSubgraph(id)
     })
@@ -77,7 +70,7 @@ export default class Renderer {
 
       const labelGroup = nodeGroup.append('g').addClass('label')
       const label = labelGroup.append(
-        new GraphLabel({ label: graphNode.label }).group
+        new GraphLabel({ label: graphNode.label }).group,
       )
       const labelBBox = label.node.getBBox()
 
@@ -95,7 +88,7 @@ export default class Renderer {
             (graphNode.style.padding.left - graphNode.style.padding.right) / 2 +
             ',' +
             (graphNode.style.padding.top - graphNode.style.padding.bottom) / 2 +
-            ')'
+            ')',
         )
       }
 
@@ -105,7 +98,7 @@ export default class Renderer {
       }
 
       const shape = nodeGroup.append(
-        new Shape(graphNode.style.shape, labelBBox, {width: graphNode.size.width, height: graphNode.size.height}).shape
+        new Shape(graphNode.style.shape, labelBBox, {width: graphNode.size.width, height: graphNode.size.height}).shape,
       )
       const shapeBBox = shape.node.getBBox()
       graphNode.size.setSize(shapeBBox.width, shapeBBox.height)
@@ -123,15 +116,15 @@ export default class Renderer {
     // }
   }
 
-  createEdgeLabels(selection: GraphSvg) {
-    let svgEdgeLabels = selection.selectAll('g.edgeLabel')
+  public createEdgeLabels(selection: GraphSvg) {
+    const svgEdgeLabels = selection.selectAll('g.edgeLabel')
 
     this.graph.edges.forEach(edge => {
       const edgeLabelGroup = selection.append('g').addClass('edgeLabel')
 
       const labelGroup = edgeLabelGroup.append('g').addClass('label')
       const label = labelGroup.append(
-        new GraphLabel({ label: edge.label || '' }).group
+        new GraphLabel({ label: edge.label || '' }).group,
       )
       const labelBBox = label.node.getBBox()
 
@@ -140,13 +133,7 @@ export default class Renderer {
     })
   }
 
-  positionNodes() {
-    console.log(
-      'position nodes',
-      this.graph.nodes,
-      'with edges',
-      this.graph.edges
-    )
+  public positionNodes() {
     this.graph.nodes.forEach(node => {
       if (!node.svgGroup) {
         return
@@ -158,12 +145,12 @@ export default class Renderer {
           (node.position.x || 0) +
           ',' +
           (node.position.y || 0) +
-          ')'
+          ')',
       )
     })
   }
 
-  createOrSelectGroup(root: GraphSvg, name: string) {
+  public createOrSelectGroup(root: GraphSvg, name: string) {
     return root.select('g.' + name) || root.append('g').addClass(name)
   }
 }

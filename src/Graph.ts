@@ -2,9 +2,9 @@ import GraphNode, { NodeOptions } from './graph/Node'
 import Layout from './graph/Layout'
 import Edge, { EdgeOptions } from './graph/Edge'
 import debug from 'debug'
-import { Matrix } from '@/graph/layout/Layering';
-import Style from '@/graph/layout/Style';
-import Size from '@/graph/layout/Size';
+import { Matrix } from '@/graph/layout/Layering'
+import Style from '@/graph/layout/Style'
+import Size from '@/graph/layout/Size'
 
 const gdb = debug('graph')
 const GRAPH_NODE = '\x00'
@@ -13,14 +13,14 @@ export interface EdgeList {
   [edgeId: string]: Edge
 }
 
-export type EdgeArray = Array<Edge>
+export type EdgeArray = Edge[]
 export type EdgeKeys = string[]
 
 export interface GraphNodeList {
   [nodeId: string]: GraphNode
 }
 
-export type GraphNodeArray = Array<GraphNode>
+export type GraphNodeArray = GraphNode[]
 
 interface GraphOptions {
     directed?: boolean,
@@ -35,36 +35,60 @@ interface GraphOptions {
 }
 
 export default class Graph {
-  private _nodes: GraphNodeList = {}
-  private _edges: EdgeList = {}
+  public static buildBlockGraph(layering: Matrix, root: GraphNodeList, reverseSep: boolean) {
+    const blockGraph = new Graph()
 
-  layout: Layout | undefined
-  size: Size = new Size()
-  style: Style = new Style()
-  rootNode: GraphNode | undefined
-  nodeRankFactor: number = 0
-  compound: boolean = false
-  multiGraph: boolean = false
-  directed: boolean = true
+    layering.forEach(layer => {
+      let to: GraphNode | null
+      layer.forEach(node => {
+        blockGraph.setNode(root[node.id].id)
+        if (!to) {
+          to = node
+          return
+        }
 
-  rankDir: string = 'tb'
-  minX: number = 0
-  minY: number = 0
-  maxX: number = 0
-  maxY: number = 0
-  marginX: number = 20
-  marginY: number = 20
-  randomId: number = 1
+        const prevMax = blockGraph.getEdge(root[to.id].id, root[node.id].id)
+        gdb('CHECK PREVMAX FROM STABLE')
+        blockGraph.setEdge(root[to.id].id, root[node.id].id, {
+          maxSep: Math.max(blockGraph.sep(reverseSep, node, to), /*prevMax || */0),
+        })
+        to = node
+      })
+    })
 
-  dummyChain: GraphNodeArray = []
+    return blockGraph
+  }
 
-  rankSep: number = 50
-  edgeSep: number = 20
-  nodeSep: number = 50
+  public layout: Layout | undefined
+  public size: Size = new Size()
+  public style: Style = new Style()
+  public rootNode: GraphNode | undefined
+  public nodeRankFactor: number = 0
+  public compound: boolean = false
+  public multiGraph: boolean = false
+  public directed: boolean = true
 
-  maxRank: number | undefined
+  public rankDir: string = 'tb'
+  public minX: number = 0
+  public minY: number = 0
+  public maxX: number = 0
+  public maxY: number = 0
+  public marginX: number = 20
+  public marginY: number = 20
+  public randomId: number = 1
 
-  ranker: 'network-simplex' | 'tight-tree' | 'longest-path' = 'network-simplex'
+  public dummyChain: GraphNodeArray = []
+
+  public rankSep: number = 50
+  public edgeSep: number = 20
+  public nodeSep: number = 50
+
+  public maxRank: number | undefined
+
+  public ranker: 'network-simplex' | 'tight-tree' | 'longest-path' = 'network-simplex'
+
+  private NODES: GraphNodeList = {}
+  private EDGES: EdgeList = {}
 
   constructor(options: GraphOptions = {}) {
 
@@ -84,23 +108,23 @@ export default class Graph {
     // this.sucs = {}
   }
 
-  setNode(id: string, options: NodeOptions = {}): GraphNode {
-    if (this._nodes[id]) {
+  public setNode(id: string, options: NodeOptions = {}): GraphNode {
+    if (this.NODES[id]) {
       if (options) {
-        this._nodes[id].setOptions(options)
+        this.NODES[id].setOptions(options)
       }
-      return this._nodes[id]
+      return this.NODES[id]
     }
 
     gdb('creating node', id, options)
 
-    this._nodes[id] = new GraphNode(id, options)
-    return this._nodes[id]
+    this.NODES[id] = new GraphNode(id, options)
+    return this.NODES[id]
   }
 
-  removeNode(id: string) {
+  public removeNode(id: string) {
     gdb('removing node id', id)
-    const node = this._nodes[id]
+    const node = this.NODES[id]
     if (!node) {
       return
     }
@@ -108,17 +132,17 @@ export default class Graph {
     Object.keys(node.inEdges).forEach(this.removeEdge, this)
     Object.keys(node.outEdges[id]).forEach(this.removeEdge, this)
 
-    delete this._nodes[id]
+    delete this.NODES[id]
   }
 
-  setEdge(fromId: string, toId: string, options: EdgeOptions = {}) {
+  public setEdge(fromId: string, toId: string, options: EdgeOptions = {}) {
     gdb('setting edge', fromId, toId, options)
 
     const edgeId = Edge.generateId(fromId, toId, this.directed, options.name)
 
-    if (this._edges[edgeId]) {
+    if (this.EDGES[edgeId]) {
       if (options) {
-        this._edges[edgeId].setOptions(options)
+        this.EDGES[edgeId].setOptions(options)
       }
       return this
     }
@@ -129,56 +153,56 @@ export default class Graph {
 
     const edge = new Edge(edgeId, fromNode, toNode, options)
 
-    this._edges[edgeId] = edge
+    this.EDGES[edgeId] = edge
 
     fromNode.outEdges[edgeId] = edge
     toNode.inEdges[edgeId] = edge
     return this
   }
 
-  removeEdge(id: string) {
+  public removeEdge(id: string) {
     gdb('removing edge', id)
-    if (!this._edges[id]) {
+    if (!this.EDGES[id]) {
       gdb('edge', id, 'does not exist. returning...')
       return
     }
 
-    const edge = this._edges[id]
-    delete this._edges[id]
+    const edge = this.EDGES[id]
+    delete this.EDGES[id]
   }
 
-  addDummyNode(type: string, attrs: NodeOptions, name: string) {
+  public addDummyNode(type: string, attrs: NodeOptions, name: string) {
     name = name + this.randomId++
     attrs.dummy = type
     return this.setNode(name, attrs)
   }
 
-  getNode(id: string) {
-    return this._nodes[id]
+  public getNode(id: string) {
+    return this.NODES[id]
   }
 
-  getEdge(fromId: string, toId: string) {
-    return this._edges[Edge.generateId(fromId, toId, this.directed)]
+  public getEdge(fromId: string, toId: string) {
+    return this.EDGES[Edge.generateId(fromId, toId, this.directed)]
   }
 
-  getChildren(id?: string): GraphNodeArray {
+  public getChildren(id?: string): GraphNodeArray {
     if (!id) {
       return this.nodes
     }
 
     if (this.compound) {
-      return Object.values(this._nodes[id].children)
+      return Object.values(this.NODES[id].children)
     } else {
       return []
     }
   }
 
-  getParent(id: string) {
+  public getParent(id: string) {
     if (!this.compound) {
       return null
     }
 
-    const parent = this._nodes[id].parent
+    const parent = this.NODES[id].parent
     if (parent !== null && parent.id !== GRAPH_NODE) {
       return parent
     }
@@ -186,15 +210,15 @@ export default class Graph {
     return null
   }
 
-  getPredecessors(node: GraphNode): Array<string> {
+  public getPredecessors(node: GraphNode): string[] {
     return node.predecessors ? Object.keys(node.predecessors) : []
   }
 
-  getSuccessors(node: GraphNode): Array<string> {
+  public getSuccessors(node: GraphNode): string[] {
     return node.successors ? Object.keys(node.successors) : []
   }
 
-  setParent(id: string, parentId: string) {
+  public setParent(id: string, parentId: string) {
     if (!this.compound) {
       throw new Error('Cannot set parent in a non-compound graph')
     }
@@ -210,7 +234,7 @@ export default class Graph {
 
       if (!parent) {
         ancestor = null
-        continue;
+        continue
       }
 
       if (ancestor === id) {
@@ -219,21 +243,21 @@ export default class Graph {
             parentId +
             ' as parent of ' +
             id +
-            ' would create a cycle'
+            ' would create a cycle',
         )
       }
 
       ancestor = parent.id
     }
 
-    let parentNode = this.setNode(parentId)
-    let childNode = this.setNode(id)
+    const parentNode = this.setNode(parentId)
+    const childNode = this.setNode(id)
     // delete parentNode.children[id]
-    this._nodes[id].parent = parentNode
+    this.NODES[id].parent = parentNode
     parentNode.children[id] = childNode
   }
 
-  nodeEdges(from: GraphNode, to?: GraphNode) {
+  public nodeEdges(from: GraphNode, to?: GraphNode) {
     const inEdges =  this.inEdges(from, to)
     if (inEdges) {
       return inEdges.concat(this.outEdges(from, to))
@@ -241,25 +265,25 @@ export default class Graph {
     return []
   }
 
-  isSubgraph(id: string) {
+  public isSubgraph(id: string) {
     return this.getChildren(id).length !== 0
   }
 
-  doLayout() {
+  public doLayout() {
     gdb('layouting graph')
     this.layout = new Layout(this)
   }
 
-  hasNode(id: string) {
-    return this._nodes[id]
+  public hasNode(id: string) {
+    return this.NODES[id]
   }
 
   get nodes(): GraphNodeArray {
-    return Object.values(this._nodes)
+    return Object.values(this.NODES)
   }
 
   get edges(): EdgeArray {
-    return Object.values(this._edges)
+    return Object.values(this.EDGES)
   }
 
   get sources(): GraphNodeArray {
@@ -268,7 +292,7 @@ export default class Graph {
     })
   }
 
-  inEdges(from: GraphNode, to?: GraphNode) {
+  public inEdges(from: GraphNode, to?: GraphNode) {
     // gdb('ins', this.in)
     // gdb('in from', from, 'to', to, inFrom)
     if (!from.inEdges) {
@@ -282,7 +306,7 @@ export default class Graph {
     return edges.filter(edge => edge.from.id === to.id)
   }
 
-  outEdges(from: GraphNode, to?: GraphNode) {
+  public outEdges(from: GraphNode, to?: GraphNode) {
     // gdb('out from', from, 'to', to, outFrom)
     if (!from.outEdges) {
       return []
@@ -295,35 +319,11 @@ export default class Graph {
     return edges.filter(edge => edge.to.id === to.id)
   }
 
-  get nodeIds(): Array<string> {
-    return Object.keys(this._nodes)
+  get nodeIds(): string[] {
+    return Object.keys(this.NODES)
   }
 
-  static buildBlockGraph(layering: Matrix, root: GraphNodeList, reverseSep: boolean) {
-    const blockGraph = new Graph()
-
-    layering.forEach(layer => {
-      let to: GraphNode | null
-      layer.forEach(node => {
-        blockGraph.setNode(root[node.id].id)
-        if (!to) {
-          to = node
-          return
-        }
-
-        const prevMax = blockGraph.getEdge(root[to.id].id, root[node.id].id)
-        gdb('CHECK PREVMAX FROM STABLE')
-        blockGraph.setEdge(root[to.id].id, root[node.id].id, {
-          maxSep: Math.max(blockGraph.sep(reverseSep, node, to), /*prevMax || */0)
-        })
-        to = node
-      })
-    })
-
-    return blockGraph
-  }
-
-  sep(reverseSep: boolean, from: GraphNode, to: GraphNode) {
+  public sep(reverseSep: boolean, from: GraphNode, to: GraphNode) {
     let sum = 0
     let delta
 
