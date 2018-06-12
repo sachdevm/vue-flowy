@@ -8,7 +8,7 @@ interface FlowChartOptions {
 }
 
 export default class FlowChart {
-  public elements: FlowElement[] = []
+  private elements: FlowElement[] = []
 
   constructor(options: FlowChartOptions = {}) {
     localStorage.debug = 'graph,layout,normalizer,layering'
@@ -18,6 +18,10 @@ export default class FlowChart {
     const el = new FlowElement(id, options)
     this.elements.push(el)
     return el
+  }
+
+  public setElements(elements: FlowElement[]) {
+    this.elements = elements
   }
 
   public render(element: HTMLElement) {

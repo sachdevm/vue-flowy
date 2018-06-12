@@ -12,17 +12,15 @@ import FlowElement from '@/FlowElement'
 @Component
 export default class VueFlowy extends Vue {
   public chartElement: HTMLElement | null | undefined
-  @Prop() private chart!: FlowChart
-  @Watch('chart.elements', {})
-  @Watch('chart.elements')
-  public onChartElementsChanged(val: FlowElement[], oldVal: FlowElement[]) {
-    if (!this.chartElement) {
-      return
-    }
-    this.chart.render(this.chartElement)
-  }
+
+  @Prop() public chart!: FlowChart
+
+  private renderChart: FlowChart | undefined
+
   public mounted() {
+    this.renderChart = this.chart || new FlowChart()
     this.chartElement = this.$refs.vueflowyElement as HTMLElement
+    this.chart.render(this.chartElement)
   }
 }
 </script>
