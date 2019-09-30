@@ -1,6 +1,8 @@
 import { FlowElement } from './FlowElement';
 export interface FlowChartElementOptions {
     label?: string;
+    shape?: string;
+    class?: string;
 }
 export interface FlowChartOptions {
     direction: 'LR' | 'TB' | 'BT' | 'RL';

@@ -1,10 +1,12 @@
-import {Graph} from 'graphlibrary'
+import { Graph } from 'graphlibrary'
 import d3Renderer from 'dagre-d3-renderer'
-import {FlowElement, FlowElementEdgeOptions} from './FlowElement'
-import {select} from 'd3'
+import { FlowElement, FlowElementEdgeOptions } from './FlowElement'
+import { select } from 'd3'
 
 export interface FlowChartElementOptions {
-  label?: string
+  label?: string;
+  shape?: string;
+  class?: string;
 }
 
 export interface FlowChartOptions {
@@ -59,11 +61,23 @@ export class FlowChart {
         label: el.id
       }
 
-      if (el.options && el.options.label) {
-        elData.label = el.options.label
+      if (el.options) {
+        if (el.options.label) {
+          elData.label = el.options.label;
+        }
+        if (el.options.shape) {
+          elData.shape = el.options.shape;
+        } else {
+          elData.shape = "rect";
+        }
+
+        if (el.options.class) {
+          elData.class = el.options.class;
+        }
       }
       g.setNode(el.id, elData)
       const node = g.node(el.id)
+
 
       // apply some styles
       node.rx = node.ry = 5
@@ -89,7 +103,7 @@ export class FlowChart {
 
     // now add the listeners after render
     e.selectAll('g.node')
-      .each(function(v) {
+      .each(function (v) {
         // get the flow element from the id
         const el = FlowElement.getById(v as string)
 
