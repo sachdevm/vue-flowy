@@ -1,6 +1,6 @@
 {
   "name": "vue-flowy-msachdev",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -10,8 +10,7 @@
     "serve": "vue-cli-service serve",
     "build:ts": "tsc -p tsconfig-lib.json",
     "build:vue": "vue-cli-service build --target lib --name VueFlowy src/main.ts",
-    "build": "yarn build:vue",
-    "prepare": "yarn build"
+    "build": "yarn build:vue"
   },
   "main": "dist/VueFlowy.common.js",
   "types": "types/main.d.ts",

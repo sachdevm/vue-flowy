@@ -39997,8 +39997,8 @@ var VueFlowy_VueFlowy = /** @class */ (function (_super) {
 });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
-/* concated harmony reexport FlowChart */__webpack_require__.d(__webpack_exports__, "FlowChart", function() { return FlowChart_FlowChart; });
 /* concated harmony reexport VueFlowy */__webpack_require__.d(__webpack_exports__, "VueFlowy", function() { return VueFlowy_VueFlowy; });
+/* concated harmony reexport FlowChart */__webpack_require__.d(__webpack_exports__, "FlowChart", function() { return FlowChart_FlowChart; });
 
 
 /* harmony default export */ var entry_lib = __webpack_exports__["default"] = (main);
