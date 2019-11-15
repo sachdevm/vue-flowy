@@ -39838,6 +39838,7 @@ var FlowChart_FlowChart = /** @class */ (function () {
             direction: 'LR'
         };
         this.elements = [];
+        this.svgElement = null;
         this.options = Object.assign(this.options, options);
     }
     FlowChart.prototype.addElement = function (id, options) {
@@ -39847,6 +39848,8 @@ var FlowChart_FlowChart = /** @class */ (function () {
     };
     FlowChart.prototype.destroy = function () {
         this.elements.forEach(function (element) { element.unregister(); });
+        if (this.svgElement)
+            this.svgElement.outerHTML = "";
     };
     FlowChart.prototype.render = function (element) {
         var svg = Object(d3["select"])(element)
@@ -39905,6 +39908,7 @@ var FlowChart_FlowChart = /** @class */ (function () {
         var e = Object(d3["select"])('#f' + element.id + ' g');
         render(e, g);
         var svgElement = document.getElementById('f' + element.id);
+        this.svgElement = svgElement;
         // now add the listeners after render
         e.selectAll('g.node')
             .each(function (v) {

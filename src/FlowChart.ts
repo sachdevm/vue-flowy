@@ -18,6 +18,7 @@ export class FlowChart {
     direction: 'LR'
   }
   elements: FlowElement[] = []
+  svgElement: HTMLElement | null = null;
 
   constructor(options?: FlowChartOptions) {
     this.options = Object.assign(this.options, options)
@@ -31,6 +32,7 @@ export class FlowChart {
 
   destroy() {
     this.elements.forEach((element) => { element.unregister() })
+    if(this.svgElement) this.svgElement.outerHTML = "";
   }
 
   render(element: HTMLElement) {
@@ -39,7 +41,6 @@ export class FlowChart {
       .attr('id', 'f' + element.id)
       .attr('xmlns', 'http://www.w3.org/2000/svg')
     const svgGroup = svg.append('g')
-
     // Create the input mermaid.graph
     const g = new Graph({
       multigraph: true,
@@ -100,7 +101,7 @@ export class FlowChart {
     const e = select('#f' + element.id + ' g')
     render(e, g)
     const svgElement = document.getElementById('f' + element.id)
-
+    this.svgElement = svgElement;
     // now add the listeners after render
     e.selectAll('g.node')
       .each(function (v) {

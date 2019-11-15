@@ -10,6 +10,7 @@ export interface FlowChartOptions {
 export declare class FlowChart {
     options: FlowChartOptions;
     elements: FlowElement[];
+    svgElement: HTMLElement | null;
     constructor(options?: FlowChartOptions);
     addElement(id: string, options?: FlowChartElementOptions): FlowElement;
     destroy(): void;
